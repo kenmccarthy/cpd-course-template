@@ -17,7 +17,7 @@
       <title>Understanding Module Descriptors</title>
       <item identifier="ITEM_1" identifierref="RES_1" isvisible="true">
         <title>Understanding Module Descriptors</title>
-        <!-- Pass mark: matches the course's 75% rule -->
+        <!-- Pass mark: keep in sync with masteryScore in js/course.config.js -->
         <adlcp:masteryscore>75</adlcp:masteryscore>
       </item>
     </organization>
@@ -27,6 +27,7 @@
     <resource identifier="RES_1" type="webcontent" adlcp:scormtype="sco" href="index.html">
       <file href="index.html"/>
       <file href="css/styles.css"/>
+      <file href="js/course.config.js"/>
       <file href="js/core.js"/>
       <file href="js/scorm.js"/>
       <file href="js/analytics.js"/>

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
-Build a SCORM 1.2 package (.zip) for the Understanding Module Descriptors course.
+Build a SCORM 1.2 package (.zip) for the course, using the slug from
+js/course.config.js to name the output file.
 
 Bundles only the runtime files (course + manifest), never dev/tooling files.
 The resulting zip has imsmanifest.xml at its ROOT, as SCORM requires, and can be
@@ -8,20 +9,33 @@ imported directly into an LMS or tested on https://cloud.scorm.com.
 
 Usage:
     python3 scripts/build_scorm.py
-    -> dist/understanding-module-descriptors-scorm12.zip
+    -> dist/<courseSlug>-scorm12.zip
 """
 import os
+import re
 import zipfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT_DIR = os.path.join(ROOT, "dist")
-OUT_ZIP = os.path.join(OUT_DIR, "understanding-module-descriptors-scorm12.zip")
+CONFIG_FILE = os.path.join(ROOT, "js", "course.config.js")
+
+
+def get_course_slug():
+    """Pull courseSlug out of js/course.config.js (plain regex, not a JS parser)."""
+    with open(CONFIG_FILE, "r", encoding="utf-8") as f:
+        content = f.read()
+    m = re.search(r'courseSlug:\s*"([^"]+)"', content)
+    if not m:
+        raise SystemExit("ERROR: could not find courseSlug in js/course.config.js")
+    return m.group(1)
+
 
 # Files/dirs that make up the runtime package (relative to repo root).
 INCLUDE_FILES = [
     "imsmanifest.xml",
     "index.html",
     "css/styles.css",
+    "js/course.config.js",
     "js/core.js",
     "js/scorm.js",
     "js/analytics.js",
@@ -45,15 +59,16 @@ def main():
     if missing:
         raise SystemExit("ERROR: missing files:\n  " + "\n  ".join(missing))
 
-    if os.path.exists(OUT_ZIP):
-        os.remove(OUT_ZIP)
+    out_zip = os.path.join(OUT_DIR, "%s-scorm12.zip" % get_course_slug())
+    if os.path.exists(out_zip):
+        os.remove(out_zip)
 
-    with zipfile.ZipFile(OUT_ZIP, "w", zipfile.ZIP_DEFLATED) as z:
+    with zipfile.ZipFile(out_zip, "w", zipfile.ZIP_DEFLATED) as z:
         for rel in INCLUDE_FILES:
             z.write(os.path.join(ROOT, rel), rel)   # arcname == rel => manifest at root
 
-    size = os.path.getsize(OUT_ZIP)
-    print("Built: %s" % os.path.relpath(OUT_ZIP, ROOT))
+    size = os.path.getsize(out_zip)
+    print("Built: %s" % os.path.relpath(out_zip, ROOT))
     print("Files: %d   Size: %.1f KB" % (len(INCLUDE_FILES), size / 1024.0))
     print("Upload this zip to your LMS or to https://cloud.scorm.com to test.")
 

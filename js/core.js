@@ -1,5 +1,6 @@
 /* ==========================================================================
-   Understanding Module Descriptors — Course core
+   Course core (reusable across courses — see js/course.config.js for
+   per-course identity)
    Foundation layer: config, state store, and a small event bus.
 
    Everything else (navigation, interactions, animations, SCORM, analytics)
@@ -26,10 +27,11 @@ window.Course = (function () {
     { id: 6, label: "Summary & final quiz" }
   ];
 
+  var courseConfig = window.CourseConfig || {};
   var CONFIG = {
-    storeKey: "umd-course-v2",
+    storeKey: courseConfig.storeKey || "umd-course-v2",
     finalQuiz: ["f1", "f2", "f3", "f4"],
-    passMark: 0.75,               // final quiz >= 75% => passed
+    passMark: (courseConfig.masteryScore != null ? courseConfig.masteryScore : 75) / 100,
     sectionCount: SECTIONS.length
   };
 
