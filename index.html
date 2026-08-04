@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Understanding Module Descriptors — SETU CPD Course</title>
+  <meta name="description" content="A practical guide to reading module descriptors for part-time and industry-based lecturers. South East Technological University (SETU).">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 80'><path d='M18 6 V44 A32 32 0 0 0 82 44 V6' fill='none' stroke='%232AC5F4' stroke-width='26'/></svg>">
+</head>
+<body>
+<div class="app">
+
+  <!-- ============================ SIDEBAR ============================ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar__brand">
+      <img class="sidebar__logo" src="assets/MONO_WHITE.png" alt="SETU — South East Technological University">
+      <p class="sidebar__kicker">CPD · Self-paced</p>
+      <h1 class="sidebar__title">Understanding Module Descriptors</h1>
+      <p class="sidebar__meta">⏱ ~30 minutes · 7 sections</p>
+    </div>
+
+    <div class="progress">
+      <div class="progress__label"><span>Your progress</span><span id="progressPct">0%</span></div>
+      <div class="progress__track"><div class="progress__fill" id="progressFill"></div></div>
+    </div>
+
+    <nav>
+      <ul class="nav" id="nav"><!-- populated by JS --></ul>
+    </nav>
+
+    <div class="sidebar__foot">
+      <button class="sidebar__theme" id="themeBtnSide" type="button">
+        <span id="themeIcon">◐</span> <span id="themeLabel">Toggle dark mode</span>
+      </button>
+      <p style="margin:14px 0 0">South East Technological University · A practical guide for part-time &amp; industry-based lecturers.</p>
+    </div>
+  </aside>
+  <div class="backdrop" id="backdrop"></div>
+
+  <!-- ============================ MAIN ============================ -->
+  <div class="main">
+    <div class="topbar">
+      <button class="icon-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      <img class="topbar__logo" src="assets/MONO_WHITE.png" alt="SETU">
+      <span class="topbar__title" id="topTitle">Understanding Module Descriptors</span>
+      <button class="icon-btn" id="themeBtn" aria-label="Toggle theme">◐</button>
+    </div>
+
+    <div class="content-scroll" id="scroll">
+
+      <!-- =================================================================
+           SECTION 0 — WELCOME & ORIENTATION
+      ================================================================== -->
+      <section class="lesson" data-lesson="0" data-accent="barrow">
+        <div class="cover">
+          <div class="cover__img">
+            <svg class="cover__u" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="26" aria-hidden="true"><path d="M18 6 V44 A32 32 0 0 0 82 44 V6"/></svg>
+            <span class="cover__badge">SETU · Continuing Professional Development</span>
+            <div class="cover__text">
+              <h1>Understanding Module Descriptors</h1>
+              <p>A practical guide for part-time and industry-based lecturers</p>
+            </div>
+          </div>
+        </div>
+        <p class="placeholder-note">[Placeholder cover — the SETU U-shape motif and brand gradient stand in for a warm, professional photo of a lecturer at a whiteboard or workshop. Swap in an approved SETU image or gradient when available.]</p>
+
+        <p class="lead">Welcome. If you're watching this, chances are you know your subject inside out — you've worked in the field, you've solved real problems, and you've been asked to bring that expertise into the classroom. What you might not have had much exposure to is the paperwork that sits behind every module you teach: the <strong>module descriptor</strong>.</p>
+
+        <div class="card card--objectives">
+          <h3>By the end of this session, you'll be able to:</h3>
+          <ul class="obj-list">
+            <li>Read a module descriptor and actually understand what it's asking of you</li>
+            <li>Explain what learning outcomes are and how they shape what you teach and how you assess</li>
+            <li>Understand how NFQ levels set the standard for your module</li>
+            <li>Work out roughly how much effort your students should be putting in, based on credit value</li>
+            <li>Spot the practical teaching and assessment implications hiding inside a descriptor</li>
+          </ul>
+        </div>
+
+        <p>Think of the module descriptor as the <strong>contract</strong> between you, your students, and the institution. Once you can read it fluently, a lot of the "why do I have to do it this way" questions in academic life start to make sense.</p>
+
+        <div class="callout callout--tip">
+          <div class="callout__icon">⏱</div>
+          <div class="callout__body">
+            <p><strong>Estimated time: 30 minutes.</strong> You can pause and return to this at any point — your progress is saved automatically on this device.</p>
+          </div>
+        </div>
+
+        <div class="lesson-nav">
+          <span></span>
+          <button class="btn btn--primary" data-next>Start the course <span aria-hidden="true">→</span></button>
+        </div>
+      </section>
+
+      <!-- =================================================================
+           SECTION 1 — WHAT IS A MODULE DESCRIPTOR
+      ================================================================== -->
+      <section class="lesson" data-lesson="1" data-accent="seagreen">
+        <span class="eyebrow"><svg class="u-mark" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="26" aria-hidden="true"><path d="M18 6 V44 A32 32 0 0 0 82 44 V6"/></svg> Section 1 · 5 min</span>
+        <h1>What is a module descriptor, and why it matters</h1>
+
+        <div class="statement"><svg class="u-watermark" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="26" aria-hidden="true"><path d="M18 6 V44 A32 32 0 0 0 82 44 V6"/></svg><span>A module descriptor is not paperwork for its own sake — it's the blueprint for everything that happens in your classroom.</span></div>
+
+        <p>Let's start with a plain definition. A <strong>module descriptor</strong> is a formal, approved document that describes a single unit of study — a module — within a programme. It typically includes:</p>
+
+        <div class="deflist">
+          <div class="deflist__row"><div class="deflist__term">Title, code &amp; credits</div><div class="deflist__desc">The module title, its code, and its credit value</div></div>
+          <div class="deflist__row"><div class="deflist__term">NFQ level</div><div class="deflist__desc">The National Framework of Qualifications level</div></div>
+          <div class="deflist__row"><div class="deflist__term">Learning outcomes</div><div class="deflist__desc">What students should know, understand, or be able to do by the end</div></div>
+          <div class="deflist__row"><div class="deflist__term">Indicative content</div><div class="deflist__desc">The syllabus — the topics to be covered</div></div>
+          <div class="deflist__row"><div class="deflist__term">Teaching methods</div><div class="deflist__desc">The teaching and learning methods used</div></div>
+          <div class="deflist__row"><div class="deflist__term">Assessment strategy</div><div class="deflist__desc">How students will demonstrate they've achieved the outcomes</div></div>
+          <div class="deflist__row"><div class="deflist__term">Requisites &amp; reading</div><div class="deflist__desc">Prerequisites, co-requisites, and reading lists</div></div>
+        </div>
+
+        <p>You might be handed this document on day one and think of it as a formality. In practice, it's the <strong>single most important document for planning your teaching</strong>, because it has already been through a quality assurance process — reviewed, validated, and approved by the institution and, in many cases, external panels.</p>
+
+        <!-- Annotated descriptor figure -->
+        <figure class="figure figure--framed fig-descriptor">
+          <svg viewBox="0 0 640 360" role="img" aria-label="Annotated module descriptor template with labelled sections">
+            <defs>
+              <style>
+                .doc-bg{fill:var(--bg);stroke:var(--line);stroke-width:1.5}
+                .doc-band{fill:var(--slate)}
+                .doc-line{fill:var(--line-soft)}
+                .doc-hl{fill:var(--accent-tint)}
+                .lbl{fill:var(--slate);font:600 12px var(--font-head)}
+                .lbl-a{fill:var(--accent-ink);font:700 11px var(--font-head)}
+                .doc-t{fill:var(--ink-strong);font:700 13px var(--font-head)}
+                .call{stroke:var(--slate);stroke-width:1.2;stroke-dasharray:3 3}
+                .call-a{stroke:var(--accent);stroke-width:1.2;stroke-dasharray:3 3}
+              </style>
+            </defs>
+            <!-- document -->
+            <rect class="doc-bg" x="200" y="20" width="240" height="320" rx="10"/>
+            <rect class="doc-band" x="200" y="20" width="240" height="46" rx="10"/>
+            <rect class="doc-band" x="200" y="46" width="240" height="20"/>
+            <text class="doc-t" x="216" y="42" fill="#fff">Module Descriptor</text>
+            <text x="216" y="58" fill="#dff1ef" style="font:11px var(--font-body)">DESC · 5 ECTS · Level 8</text>
+            <!-- rows -->
+            <rect class="doc-hl" x="216" y="82" width="208" height="30" rx="5"/>
+            <text class="doc-t" x="224" y="101">Learning Outcomes</text>
+            <rect class="doc-line" x="216" y="120" width="150" height="7" rx="3"/>
+            <rect class="doc-line" x="216" y="132" width="190" height="7" rx="3"/>
+            <rect class="doc-line" x="216" y="144" width="120" height="7" rx="3"/>
+            <text class="doc-t" x="224" y="180">Indicative Content</text>
+            <rect class="doc-line" x="216" y="190" width="190" height="7" rx="3"/>
+            <rect class="doc-line" x="216" y="202" width="160" height="7" rx="3"/>
+            <rect class="doc-hl" x="216" y="222" width="208" height="30" rx="5"/>
+            <text class="doc-t" x="224" y="241">Assessment Strategy</text>
+            <rect class="doc-line" x="216" y="262" width="180" height="7" rx="3"/>
+            <rect class="doc-line" x="216" y="274" width="140" height="7" rx="3"/>
+            <!-- callouts left -->
+            <line class="call" x1="200" y1="44" x2="60" y2="44"/>
+            <circle cx="60" cy="44" r="3" fill="var(--slate)"/>
+            <text class="lbl" x="16" y="40">Title, code</text>
+            <text class="lbl" x="16" y="54">&amp; credits</text>
+            <line class="call-a" x1="216" y1="97" x2="60" y2="120"/>
+            <circle cx="60" cy="120" r="3" fill="var(--accent)"/>
+            <text class="lbl-a" x="16" y="116">What students</text>
+            <text class="lbl-a" x="16" y="130">must achieve</text>
+            <!-- callouts right -->
+            <line class="call" x1="440" y1="58" x2="580" y2="58"/>
+            <circle cx="580" cy="58" r="3" fill="var(--slate)"/>
+            <text class="lbl" x="510" y="46">NFQ level</text>
+            <text class="lbl" x="510" y="60">&amp; ECTS</text>
+            <line class="call-a" x1="424" y1="237" x2="560" y2="237"/>
+            <circle cx="560" cy="237" r="3" fill="var(--accent)"/>
+            <text class="lbl-a" x="506" y="225">How they'll</text>
+            <text class="lbl-a" x="506" y="239">prove it</text>
+          </svg>
+          <figcaption>Every descriptor follows the same skeleton — learn to read it once, and you can read them all.</figcaption>
+        </figure>
+
+        <!-- Interactive descriptor explorer -->
+        <div class="widget anatomy" data-anatomy>
+          <div class="kc__tag">🔍 Explore · Anatomy of a descriptor</div>
+          <p style="color:var(--ink-soft);margin-top:0">Select a part of the descriptor to see what it's telling you — and why it matters for your teaching.</p>
+          <div class="anatomy__grid">
+            <div class="anatomy__tabs" role="tablist">
+              <button class="anatomy__tab is-active" type="button" data-part="title">Title, code &amp; credits</button>
+              <button class="anatomy__tab" type="button" data-part="nfq">NFQ level</button>
+              <button class="anatomy__tab" type="button" data-part="outcomes">Learning outcomes</button>
+              <button class="anatomy__tab" type="button" data-part="content">Indicative content</button>
+              <button class="anatomy__tab" type="button" data-part="assessment">Assessment strategy</button>
+            </div>
+            <div class="anatomy__detail" id="anatomyDetail"></div>
+          </div>
+        </div>
+
+
+        <h2>Why it matters</h2>
+        <div class="callout callout--why">
+          <div class="callout__icon">🛡️</div>
+          <div class="callout__body">
+            <p><strong>It's a quality assurance instrument.</strong> Every module goes through an approval process to meet institutional and national standards. QQI's Core Statutory Quality Assurance Guidelines and related Award Standards set the expectation that what's taught and assessed matches what was approved.</p>
+          </div>
+        </div>
+        <div class="callout callout--why">
+          <div class="callout__icon">📋</div>
+          <div class="callout__body">
+            <p><strong>It's your teaching brief.</strong> The descriptor tells you what students are entitled to learn and how they'll be assessed — regardless of who's teaching the module in any given semester. This protects consistency and fairness.</p>
+          </div>
+        </div>
+        <div class="callout callout--why">
+          <div class="callout__icon">🤝</div>
+          <div class="callout__body">
+            <p><strong>It's a two-way commitment.</strong> Students, quality reviewers, external examiners, and professional bodies all rely on the descriptor to know what a module promises. Drift too far from it, and you risk misaligning the module with what's being formally assessed.</p>
+          </div>
+        </div>
+
+        <div class="callout callout--tip">
+          <div class="callout__icon">🧭</div>
+          <div class="callout__body">
+            <p><strong>A useful metaphor</strong> The module descriptor is the <em>destination and the route map</em>. How you drive — your teaching style, your industry stories, your delivery techniques — is entirely up to you. But the destination (the learning outcomes) and the general route (assessment methods, content areas) are fixed by the descriptor.</p>
+          </div>
+        </div>
+
+        <!-- Reflection -->
+        <div class="reflect" data-reflect="s1">
+          <div class="reflect__tag">✍️ Reflection · not scored</div>
+          <p class="reflect__prompt">Think of a module you're currently teaching or about to teach. Have you read the <em>full</em> module descriptor — not just the syllabus list? What's one thing in it that surprised you or that you weren't sure about?</p>
+          <textarea placeholder="Jot your thoughts here — saved only on this device…"></textarea>
+          <div class="reflect__foot">
+            <span class="reflect__note">Just for your own thinking.</span>
+            <button class="reflect__save" type="button">Save note</button>
+          </div>
+        </div>
+
+        <!-- Knowledge check -->
+        <div class="kc" data-kc="s1" data-type="single">
+          <div class="kc__tag">✓ Knowledge check</div>
+          <p class="kc__q">Which of the following best describes the primary purpose of a module descriptor?</p>
+          <div class="kc__options">
+            <button class="opt" data-opt="A"><span class="opt__mark"><span class="opt__letter">A</span></span> A marketing document used to attract students to a programme</button>
+            <button class="opt" data-opt="B"><span class="opt__mark"><span class="opt__letter">B</span></span> A record of a lecturer's personal teaching preferences</button>
+            <button class="opt" data-opt="C" data-correct><span class="opt__mark"><span class="opt__letter">C</span></span> An approved document defining what a module covers, how it will be taught, and how it will be assessed</button>
+            <button class="opt" data-opt="D"><span class="opt__mark"><span class="opt__letter">D</span></span> An optional guide that lecturers can adapt freely without approval</button>
+          </div>
+          <div class="kc__feedback"
+               data-good="Exactly right. The module descriptor is a formally approved document — it sets out the agreed outcomes, content, and assessment approach for the module."
+               data-bad="Not quite. The module descriptor isn't a marketing tool or a personal preference sheet — it's an approved document that defines outcomes, content, and assessment for the module."></div>
+          <div class="kc__footer">
+            <button class="kc__retry" type="button">↺ Try again</button>
+          </div>
+        </div>
+
+        <div class="lesson-nav">
+          <button class="btn btn--ghost" data-prev><span aria-hidden="true">←</span> <span class="long">Welcome</span></button>
+          <button class="btn btn--primary" data-next><span class="long">Learning outcomes</span> <span aria-hidden="true">→</span></button>
+        </div>
+      </section>
+
+      <!-- =================================================================
+           SECTION 2 — LEARNING OUTCOMES
+      ================================================================== -->
+      <section class="lesson" data-lesson="2" data-accent="heather">
+        <span class="eyebrow"><svg class="u-mark" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="26" aria-hidden="true"><path d="M18 6 V44 A32 32 0 0 0 82 44 V6"/></svg> Section 2 · 7 min</span>
+        <h1>Learning outcomes: what they are and how they drive everything</h1>
+
+        <div class="statement"><svg class="u-watermark" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="26" aria-hidden="true"><path d="M18 6 V44 A32 32 0 0 0 82 44 V6"/></svg><span>Learning outcomes are the engine of the module descriptor. Everything else — content, teaching methods, assessment — exists to serve them.</span></div>
+
+        <p>A <strong>learning outcome</strong> is a statement of what a student should know, understand, or be able to do by the end of a module — and be able to <em>demonstrate</em> it.</p>
+        <p>Notice the emphasis: not what <em>you</em> will teach, but what the <em>student</em> will be able to do. This is a subtle but important shift for anyone coming from an industry training background, where content delivery is often the main focus.</p>
+
+        <h2>How learning outcomes are written</h2>
+        <p>Well-written learning outcomes usually follow a simple structure:</p>
+
+        <figure class="figure figure--framed fig-formula">
+          <svg viewBox="0 0 640 96" role="img" aria-label="Learning outcome formula: action verb plus what the learner will do plus context or standard">
+            <defs><style>
+              .fx{rx:10;height:52}
+              .fx-t{font:700 15px var(--font-head);fill:#fff}
+              .fx-s{font:600 11px var(--font-body);fill:var(--ink-muted);text-anchor:middle}
+              .plus{font:700 22px var(--font-head);fill:var(--ink-faint);text-anchor:middle}
+            </style></defs>
+            <rect x="8" y="18" width="180" height="52" rx="10" fill="var(--accent)"/>
+            <text class="fx-t" x="98" y="49" text-anchor="middle">Action verb</text>
+            <text class="fx-s" x="98" y="86">Evaluate…</text>
+            <text class="plus" x="205" y="52">+</text>
+            <rect x="228" y="18" width="200" height="52" rx="10" fill="var(--slate)"/>
+            <text class="fx-t" x="328" y="45" text-anchor="middle">What the learner</text>
+            <text class="fx-t" x="328" y="61" text-anchor="middle" style="font-size:13px">will do</text>
+            <text class="plus" x="445" y="52">+</text>
+            <rect x="468" y="18" width="164" height="52" rx="10" fill="var(--slate-dark)"/>
+            <text class="fx-t" x="550" y="45" text-anchor="middle">Context or</text>
+            <text class="fx-t" x="550" y="61" text-anchor="middle" style="font-size:13px">standard</text>
+          </svg>
+        </figure>
+
+        <p>For example:</p>
+        <ul>
+          <li>"<strong>Evaluate</strong> the structural integrity of a proposed building design <em>against current safety codes</em>."</li>
+          <li>"<strong>Design</strong> a basic relational database <em>to meet a specified business requirement</em>."</li>
+        </ul>
+        <p>The <strong>action verb</strong> matters enormously. It signals the level of cognitive demand expected — and this is where <strong>Bloom's Taxonomy</strong> comes in.</p>
+
+        <!-- Bloom's pyramid -->
+        <figure class="figure fig-pyramid">
+          <svg viewBox="0 0 640 340" role="img" aria-label="Bloom's Taxonomy pyramid from Remember at the base to Create at the top, with example verbs">
+            <defs><style>
+              .bt{font:700 15px var(--font-head);fill:#fff}
+              .bv{font:12px var(--font-body);fill:rgba(255,255,255,.9)}
+              .bside{font:700 11px var(--font-head);fill:var(--ink-muted)}
+            </style></defs>
+            <!-- 6 tiers as trapezoids, base wide — SETU palette, lower to higher order -->
+            <polygon points="60,300 580,300 520,258 120,258" fill="#435465"/>
+            <polygon points="120,256 520,256 470,214 170,214" fill="#378b84"/>
+            <polygon points="170,212 470,212 425,170 215,170" fill="#0062af"/>
+            <polygon points="215,168 425,168 385,126 255,126" fill="#5f5aa8"/>
+            <polygon points="255,124 385,124 350,82 290,82" fill="#a752a0"/>
+            <polygon points="290,80 350,80 320,40 320,40" fill="#e74751"/>
+            <text class="bt" x="320" y="285" text-anchor="middle">Remember</text>
+            <text class="bv" x="320" y="299" text-anchor="middle" style="fill:rgba(255,255,255,.85);font-size:11px">list · define</text>
+            <text class="bt" x="320" y="240" text-anchor="middle">Understand</text>
+            <text class="bv" x="320" y="253" text-anchor="middle" style="font-size:10.5px">describe · summarise</text>
+            <text class="bt" x="320" y="197" text-anchor="middle">Apply</text>
+            <text class="bv" x="320" y="209" text-anchor="middle" style="font-size:10.5px">demonstrate · implement</text>
+            <text class="bt" x="320" y="154" text-anchor="middle" style="font-size:13px">Analyse</text>
+            <text class="bt" x="320" y="112" text-anchor="middle" style="font-size:12px">Evaluate</text>
+            <text class="bt" x="320" y="70" text-anchor="middle" style="font-size:11px">Create</text>
+            <!-- side labels -->
+            <text class="bside" x="600" y="66" text-anchor="end">Higher-order ↑</text>
+            <text class="bside" x="600" y="296" text-anchor="end">Lower-order</text>
+          </svg>
+          <figcaption>Bloom's Taxonomy, revised by Anderson &amp; Krathwohl (2001) — thinking skills from lower- to higher-order.</figcaption>
+        </figure>
+
+        <ul>
+          <li><strong>Remember</strong> — recall facts (e.g. "list," "define")</li>
+          <li><strong>Understand</strong> — explain ideas (e.g. "describe," "summarise")</li>
+          <li><strong>Apply</strong> — use knowledge in new situations (e.g. "demonstrate," "implement")</li>
+          <li><strong>Analyse</strong> — break information into parts (e.g. "compare," "differentiate")</li>
+          <li><strong>Evaluate</strong> — make judgements (e.g. "critique," "justify")</li>
+          <li><strong>Create</strong> — produce something new (e.g. "design," "develop")</li>
+        </ul>
+        <p>If a learning outcome uses the verb "evaluate," your teaching <em>and</em> your assessment both need to give students a genuine opportunity to practise evaluating — not just recall facts. A multiple-choice test alone wouldn't cut it.</p>
+
+
+        <!-- Build a learning outcome -->
+        <div class="widget builder" data-builder>
+          <div class="kc__tag">🛠 Try it · Build a learning outcome</div>
+          <p style="color:var(--ink-soft);margin-top:0">Pick a verb, an object and a standard. The outcome assembles below — and the badge shows the Bloom's level the verb implies.</p>
+          <div class="builder__row">
+            <select class="builder__sel" id="bVerb" aria-label="Action verb">
+              <optgroup label="Remember"><option data-level="1">Define</option><option data-level="1">List</option></optgroup>
+              <optgroup label="Understand"><option data-level="2">Describe</option><option data-level="2">Explain</option></optgroup>
+              <optgroup label="Apply"><option data-level="3">Apply</option><option data-level="3">Demonstrate</option></optgroup>
+              <optgroup label="Analyse"><option data-level="4">Compare</option><option data-level="4">Analyse</option></optgroup>
+              <optgroup label="Evaluate"><option data-level="5">Evaluate</option><option data-level="5">Justify</option></optgroup>
+              <optgroup label="Create"><option data-level="6" selected>Design</option><option data-level="6">Develop</option></optgroup>
+            </select>
+            <select class="builder__sel" id="bObject" aria-label="What the learner works on">
+              <option>a relational database</option><option>a marketing plan</option>
+              <option>a bridge design</option><option>a patient care plan</option><option>a project budget</option>
+            </select>
+            <select class="builder__sel" id="bStandard" aria-label="Context or standard">
+              <option>to meet a specified business requirement</option>
+              <option>against current industry standards</option>
+              <option>for a given real-world scenario</option>
+              <option>to a professional code of practice</option>
+            </select>
+          </div>
+          <div class="builder__out">
+            <span class="builder__level" id="bLevel" data-level="6">Create</span>
+            <p class="builder__sentence" id="bSentence"></p>
+          </div>
+        </div>
+
+        <h2>Why this matters for you: constructive alignment</h2>
+        <p>This is where John Biggs' concept of <strong>constructive alignment</strong> becomes essential. Biggs argued that good teaching happens when three things line up:</p>
+
+        <!-- Alignment triangle -->
+        <figure class="figure figure--framed fig-triangle">
+          <svg viewBox="0 0 640 300" role="img" aria-label="Constructive alignment triangle linking learning outcomes, teaching activities, and assessment">
+            <defs><style>
+              .al-node{fill:var(--bg);stroke-width:2.5}
+              .al-t{font:700 13px var(--font-head);fill:var(--ink-strong);text-anchor:middle}
+              .al-arrow{stroke:var(--ink-faint);stroke-width:1.6;stroke-dasharray:5 4;fill:none}
+            </style>
+            <marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="var(--ink-faint)"/></marker>
+            </defs>
+            <!-- edges -->
+            <line class="al-arrow" x1="320" y1="70" x2="140" y2="220" marker-end="url(#ar)" marker-start="url(#ar)"/>
+            <line class="al-arrow" x1="320" y1="70" x2="500" y2="220" marker-end="url(#ar)" marker-start="url(#ar)"/>
+            <line class="al-arrow" x1="170" y1="235" x2="470" y2="235" marker-end="url(#ar)" marker-start="url(#ar)"/>
+            <!-- nodes -->
+            <g>
+              <circle class="al-node" cx="320" cy="55" r="46" stroke="var(--accent)"/>
+              <text class="al-t" x="320" y="50">Learning</text>
+              <text class="al-t" x="320" y="66">Outcomes</text>
+            </g>
+            <g>
+              <circle class="al-node" cx="130" cy="240" r="46" stroke="var(--slate)"/>
+              <text class="al-t" x="130" y="235">Teaching &amp;</text>
+              <text class="al-t" x="130" y="251">Activities</text>
+            </g>
+            <g>
+              <circle class="al-node" cx="510" cy="240" r="46" stroke="var(--accent-ink)"/>
+              <text class="al-t" x="510" y="244">Assessment</text>
+            </g>
+          </svg>
+          <figcaption>Good teaching happens when all three corners point at the same level of thinking.</figcaption>
+        </figure>
+
+        <p>If your assessment asks students to <em>analyse</em> a case study, but your teaching only ever covered <em>remembering</em> definitions, there's a misalignment — and students will struggle, often unfairly, through no fault of their own.</p>
+
+
+        <!-- Alignment checker -->
+        <div class="widget align" data-align>
+          <div class="kc__tag">⚖ Try it · Check the alignment</div>
+          <p style="color:var(--ink-soft);margin-top:0">Constructive alignment means all three should target the same level of thinking. Set each and see whether they line up.</p>
+          <div class="align__rows">
+            <label class="align__row"><span>Learning outcome</span><select id="alOutcome" class="builder__sel"></select></label>
+            <label class="align__row"><span>Teaching activity</span><select id="alTeach" class="builder__sel"></select></label>
+            <label class="align__row"><span>Assessment task</span><select id="alAssess" class="builder__sel"></select></label>
+          </div>
+          <div class="align__verdict" id="alignVerdict"></div>
+        </div>
+
+        <!-- Matching interaction -->
+        <div class="match" data-match="bloom">
+          <div class="kc__tag">🎯 Try it · Match the verb to Bloom's level</div>
+          <p style="color:var(--ink-soft)">Drag each learning-outcome verb onto the Bloom's level it signals.</p>
+          <div class="match__grid">
+            <div>
+              <div class="match__col-title">Verbs</div>
+              <div class="tokens" id="bloomTokens">
+                <div class="token" draggable="true" data-token="remember">"List the key components of…"</div>
+                <div class="token" draggable="true" data-token="analyse">"Compare two approaches to…"</div>
+                <div class="token" draggable="true" data-token="create">"Design a solution for…"</div>
+                <div class="token" draggable="true" data-token="evaluate">"Justify the choice of…"</div>
+                <div class="token" draggable="true" data-token="understand">"Explain the purpose of…"</div>
+                <div class="token" draggable="true" data-token="apply">"Apply the technique to…"</div>
+              </div>
+            </div>
+            <div>
+              <div class="match__col-title">Bloom's level</div>
+              <div class="drops">
+                <div class="drop" data-accept="remember"><span class="drop__slot"></span><span class="drop__target">Remember</span></div>
+                <div class="drop" data-accept="understand"><span class="drop__slot"></span><span class="drop__target">Understand</span></div>
+                <div class="drop" data-accept="apply"><span class="drop__slot"></span><span class="drop__target">Apply</span></div>
+                <div class="drop" data-accept="analyse"><span class="drop__slot"></span><span class="drop__target">Analyse</span></div>
+                <div class="drop" data-accept="evaluate"><span class="drop__slot"></span><span class="drop__target">Evaluate</span></div>
+                <div class="drop" data-accept="create"><span class="drop__slot"></span><span class="drop__target">Create</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="match__actions">
+            <button class="btn btn--primary btn--sm" data-check>Check my answers</button>
+            <button class="btn btn--ghost btn--sm" data-reset>Reset</button>
+            <span class="kc__score" data-matchscore></span>
+          </div>
+        </div>
+
+        <h2>How learning outcomes drive curriculum design</h2>
+        <p>Once outcomes are set, everything else should flow from them:</p>
+        <ol>
+          <li><strong>Content</strong> is selected because it's needed to achieve the outcome — not the other way around.</li>
+          <li><strong>Teaching methods</strong> are chosen because they give students the chance to practise the skill or thinking implied by the outcome.</li>
+          <li><strong>Assessment</strong> is designed to let students demonstrate the outcome, at the right level of challenge.</li>
+        </ol>
+
+        <div class="callout callout--tip">
+          <div class="callout__icon">🔍</div>
+          <div class="callout__body">
+            <p><strong>Your practical filter</strong> When deciding how to spend limited contact hours, ask: <em>"Does this activity help students get closer to demonstrating this outcome?"</em> If not, it may be interesting — but it might not be essential.</p>
+          </div>
+        </div>
+
+        <div class="reflect" data-reflect="s2">
+          <div class="reflect__tag">✍️ Reflection · not scored</div>
+          <p class="reflect__prompt">Look at one learning outcome from a module you teach. What Bloom's level is the main verb pitched at? Does your current assessment actually test students at that level — or a lower one?</p>
+          <textarea placeholder="Jot your thoughts here…"></textarea>
+          <div class="reflect__foot">
+            <span class="reflect__note">Just for your own thinking.</span>
+            <button class="reflect__save" type="button">Save note</button>
+          </div>
+        </div>
+
+        <div class="kc" data-kc="s2" data-type="single">
+          <div class="kc__tag">✓ Knowledge check</div>
+          <p class="kc__q">According to Biggs' constructive alignment, which of the following would represent good alignment?</p>
+          <div class="kc__options">
+            <button class="opt" data-opt="A"><span class="opt__mark"><span class="opt__letter">A</span></span> Teaching focuses on recalling facts, but the exam asks students to critically evaluate a scenario</button>
+            <button class="opt" data-opt="B" data-correct><span class="opt__mark"><span class="opt__letter">B</span></span> The outcome says "design," the teaching includes hands-on design practice, and the assessment asks students to design a solution</button>
+            <button class="opt" data-opt="C"><span class="opt__mark"><span class="opt__letter">C</span></span> The assessment is unrelated to the stated learning outcomes but covers "interesting" content</button>
+            <button class="opt" data-opt="D"><span class="opt__mark"><span class="opt__letter">D</span></span> Learning outcomes are written after the assessment has already been created</button>
+          </div>
+          <div class="kc__feedback"
+               data-good="Correct — this is constructive alignment in action: outcome, teaching, and assessment all point at the same cognitive demand."
+               data-bad="Not quite. Constructive alignment means the learning outcome, the teaching methods, and the assessment task should all target the same level of thinking — in this case, &quot;design.&quot;"></div>
+          <div class="kc__footer"><button class="kc__retry" type="button">↺ Try again</button></div>
+        </div>
+
+        <div class="lesson-nav">
+          <button class="btn btn--ghost" data-prev><span aria-hidden="true">←</span> <span class="long">Module descriptors</span></button>
+          <button class="btn btn--primary" data-next><span class="long">NFQ levels</span> <span aria-hidden="true">→</span></button>
+        </div>
+      </section>
+
+      <!-- =================================================================
+           SECTION 3 — NFQ LEVELS
+      ================================================================== -->
+      <section class="lesson" data-lesson="3" data-accent="clover">
+        <span class="eyebrow"><svg class="u-mark" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="26" aria-hidden="true"><path d="M18 6 V44 A32 32 0 0 0 82 44 V6"/></svg> Section 3 · 7 min</span>
+        <h1>NFQ levels: setting the standard</h1>
+
+        <div class="statement"><svg class="u-watermark" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="26" aria-hidden="true"><path d="M18 6 V44 A32 32 0 0 0 82 44 V6"/></svg><span>The NFQ level tells you how much independence, complexity, and critical thinking to expect — and to demand — from your students.</span></div>
+
+        <p>Every module descriptor states an <strong>NFQ level</strong> — a reference to Ireland's National Framework of Qualifications, maintained by <strong>QQI</strong> (Quality and Qualifications Ireland). The NFQ has 10 levels, from Level 1 (basic) through to Level 10 (doctoral).</p>
+
+        <!-- NFQ ladder -->
+        <figure class="figure figure--framed fig-ladder">
+          <svg viewBox="0 0 640 250" role="img" aria-label="NFQ ladder showing levels 1 to 10 with common qualification types at the higher levels">
+            <defs><style>
+              .rung{fill:var(--bg-sub);stroke:var(--line)}
+              .rung-hi{fill:var(--accent-tint);stroke:var(--accent)}
+              .rn{font:700 13px var(--font-head);fill:var(--accent-ink);text-anchor:middle}
+              .rq{font:12px var(--font-body);fill:var(--ink-soft)}
+              .rq-b{font:700 12px var(--font-head);fill:var(--ink-strong)}
+            </style></defs>
+            <!-- ascending bars -->
+            <g>
+              <rect class="rung" x="20" y="210" width="34" height="24" rx="4"/><text class="rn" x="37" y="226">1</text>
+              <rect class="rung" x="58" y="188" width="34" height="46" rx="4"/><text class="rn" x="75" y="215">2</text>
+              <rect class="rung" x="96" y="166" width="34" height="68" rx="4"/><text class="rn" x="113" y="204">3</text>
+              <rect class="rung" x="134" y="144" width="34" height="90" rx="4"/><text class="rn" x="151" y="193">4</text>
+              <rect class="rung" x="172" y="122" width="34" height="112" rx="4"/><text class="rn" x="189" y="182">5</text>
+              <rect class="rung-hi" x="210" y="100" width="34" height="134" rx="4"/><text class="rn" x="227" y="171">6</text>
+              <rect class="rung-hi" x="248" y="78" width="34" height="156" rx="4"/><text class="rn" x="265" y="160">7</text>
+              <rect class="rung-hi" x="286" y="56" width="34" height="178" rx="4"/><text class="rn" x="303" y="149">8</text>
+              <rect class="rung-hi" x="324" y="34" width="34" height="200" rx="4"/><text class="rn" x="341" y="138">9</text>
+              <rect class="rung" x="362" y="12" width="34" height="222" rx="4"/><text class="rn" x="379" y="127">10</text>
+            </g>
+            <!-- qualification labels -->
+            <text class="rq-b" x="410" y="118">6 · Higher Certificate</text>
+            <text class="rq-b" x="410" y="140">7 · Ordinary Bachelor Degree</text>
+            <text class="rq-b" x="410" y="162">8 · Honours Bachelor Degree</text>
+            <text class="rq-b" x="410" y="184">9 · Master's Degree</text>
+            <text class="rq" x="410" y="206">10 · Doctoral Degree</text>
+            <text class="rq" x="410" y="52" style="fill:var(--accent-ink);font-weight:700">Most part-time /</text>
+            <text class="rq" x="410" y="70" style="fill:var(--accent-ink);font-weight:700">industry teaching sits 6–9</text>
+          </svg>
+          <figcaption>The NFQ ladder — most modules taught by part-time industry lecturers sit between Levels 6 and 9.</figcaption>
+        </figure>
+
+        <p>The level isn't just a label; it comes with a detailed set of expectations called <strong>level indicators</strong>, published by QQI, covering:</p>
+        <ul>
+          <li><strong>Knowledge</strong> — breadth and kind</li>
+          <li><strong>Know-how and skill</strong> — range and selectivity</li>
+          <li><strong>Competence</strong> — context, role, learning to learn, insight</li>
+        </ul>
+
+        <h2>What changes as the level rises</h2>
+        <p>Here's the practical version, in plain language. Select a level to see what it means and a realistic example task:</p>
+
+        <!-- Tabs -->
+        <div class="tabs" data-tabs="nfq">
+<div class="tabs__scrub">
+            <input type="range" id="nfqScrub" min="6" max="9" value="6" step="1" aria-label="Slide across NFQ levels 6 to 9">
+            <div class="tabs__scrub-ticks"><span>6</span><span>7</span><span>8</span><span>9</span></div>
+          </div>
+          <div class="tabs__list" role="tablist">
+            <button class="tabs__btn is-active" data-tab="6" role="tab">Level 6</button>
+            <button class="tabs__btn" data-tab="7" role="tab">Level 7</button>
+            <button class="tabs__btn" data-tab="8" role="tab">Level 8</button>
+            <button class="tabs__btn" data-tab="9" role="tab">Level 9</button>
+          </div>
+          <div class="tabs__panel is-active" data-panel="6">
+            <span class="tabs__level">Higher Certificate</span>
+            <h4>Guided application of established methods</h4>
+            <p>Students work with a defined body of knowledge and apply known procedures in familiar contexts, usually with structured guidance. The focus is on doing things correctly by following an established process.</p>
+            <div class="tabs__example"><span>Example task</span>Follow a defined process to troubleshoot a fault in a piece of equipment.</div>
+          </div>
+          <div class="tabs__panel" data-panel="7">
+            <span class="tabs__level">Ordinary Bachelor Degree</span>
+            <h4>Applying knowledge to less predictable problems</h4>
+            <p>Students take on broader knowledge and begin to select appropriate methods for problems that aren't entirely routine. They can work with some autonomy within known boundaries.</p>
+            <div class="tabs__example"><span>Example task</span>Choose and apply an appropriate method to solve a moderately complex, real-world problem.</div>
+          </div>
+          <div class="tabs__panel" data-panel="8">
+            <span class="tabs__level">Honours Bachelor Degree</span>
+            <h4>Independent analysis and evaluation</h4>
+            <p>Students are expected to work independently, analyse and evaluate information critically, and handle some ambiguity. They can bring together ideas and justify their reasoning.</p>
+            <div class="tabs__example"><span>Example task</span>Critically analyse competing solutions to a problem and justify a recommended approach.</div>
+          </div>
+          <div class="tabs__panel" data-panel="9">
+            <span class="tabs__level">Master's Degree</span>
+            <h4>Original, self-directed problem-solving</h4>
+            <p>Students operate at the edge of current knowledge, dealing with ambiguity and incomplete information. They can design original solutions and defend them with rigour.</p>
+            <div class="tabs__example"><span>Example task</span>Design and justify an original solution to an ambiguous, open-ended industry problem.</div>
+          </div>
+        </div>
+
+
+        <!-- Pitch check -->
+        <div class="widget pitch" data-pitch>
+          <div class="kc__tag">🎚 Try it · Pitch check</div>
+          <p style="color:var(--ink-soft);margin-top:0">Read each task and choose the NFQ level it best matches.</p>
+          <div class="pitch__cards">
+            <div class="pitch__card" data-answer="6">
+              <p>"Follow a defined process to troubleshoot a fault in a piece of equipment."</p>
+              <div class="pitch__opts"><button type="button" data-lvl="6">L6</button><button type="button" data-lvl="7">L7</button><button type="button" data-lvl="8">L8</button><button type="button" data-lvl="9">L9</button></div>
+              <div class="pitch__fb"></div>
+            </div>
+            <div class="pitch__card" data-answer="8">
+              <p>"Critically analyse competing solutions to a problem and justify a recommended approach."</p>
+              <div class="pitch__opts"><button type="button" data-lvl="6">L6</button><button type="button" data-lvl="7">L7</button><button type="button" data-lvl="8">L8</button><button type="button" data-lvl="9">L9</button></div>
+              <div class="pitch__fb"></div>
+            </div>
+            <div class="pitch__card" data-answer="9">
+              <p>"Design and justify an original solution to an ambiguous, open-ended industry problem."</p>
+              <div class="pitch__opts"><button type="button" data-lvl="6">L6</button><button type="button" data-lvl="7">L7</button><button type="button" data-lvl="8">L8</button><button type="button" data-lvl="9">L9</button></div>
+              <div class="pitch__fb"></div>
+            </div>
+          </div>
+        </div>
+
+        <h2>Why this matters for your teaching</h2>
+        <p>This is often the biggest adjustment for lecturers coming from industry. In the workplace, you're usually solving problems using deep expertise and giving clear, authoritative answers. In the classroom, your job is to <strong>design experiences that let students build toward that expertise</strong> — appropriate to their level.</p>
+        <p>If you're teaching a Level 6 module, expecting first-year students to critically evaluate competing theoretical frameworks independently may be pitched too high — they haven't yet built the foundational knowledge. Conversely, if you're teaching a Level 9 module and still spoon-feeding definitions, you're likely under-challenging students relative to what the award standard requires.</p>
+
+        <div class="callout callout--why">
+          <div class="callout__icon">📚</div>
+          <div class="callout__body">
+            <p><strong>Find your discipline's Awards Standards.</strong> QQI publishes Awards Standards for many disciplines, translating general NFQ level indicators into subject-specific expectations. They give concrete guidance on what graduates at a given level should know and do. Your programme's quality office or programme director can point you to the relevant document.</p>
+          </div>
+        </div>
+
+        <div class="reflect" data-reflect="s3">
+          <div class="reflect__tag">✍️ Reflection · not scored</div>
+          <p class="reflect__prompt">What NFQ level is the module you teach? Looking at the level indicators, is there anything about your current teaching or assessment that's pitched a little too low, or too high, for that level?</p>
+          <textarea placeholder="Jot your thoughts here…"></textarea>
+          <div class="reflect__foot">
+            <span class="reflect__note">Just for your own thinking.</span>
+            <button class="reflect__save" type="button">Save note</button>
+          </div>
+        </div>
+
+        <div class="kc" data-kc="s3" data-type="single">
+          <div class="kc__tag">✓ Knowledge check · True or False</div>
+          <p class="kc__q">"The NFQ level of a module mainly reflects how difficult the content is to teach, rather than the level of independent thinking expected of students."</p>
+          <div class="kc__options">
+            <button class="opt" data-opt="T"><span class="opt__mark"><span class="opt__letter">T</span></span> True</button>
+            <button class="opt" data-opt="F" data-correct><span class="opt__mark"><span class="opt__letter">F</span></span> False</button>
+          </div>
+          <div class="kc__feedback"
+               data-good="Correct — NFQ levels are primarily about the level of independence, complexity, and critical thinking expected of the learner, not simply how hard the material is to deliver."
+               data-bad="Actually, NFQ levels describe the level of independence, complexity, and critical thinking expected of the learner — not just how hard the content is to teach."></div>
+          <div class="kc__footer"><button class="kc__retry" type="button">↺ Try again</button></div>
+        </div>
+
+        <div class="lesson-nav">
+          <button class="btn btn--ghost" data-prev><span aria-hidden="true">←</span> <span class="long">Learning outcomes</span></button>
+          <button class="btn btn--primary" data-next><span class="long">ECTS credits</span> <span aria-hidden="true">→</span></button>
+        </div>
+      </section>
+
+      <!-- =================================================================
+           SECTION 4 — ECTS CREDITS
+      ================================================================== -->
+      <section class="lesson" data-lesson="4" data-accent="barrow">
+        <span class="eyebrow"><svg class="u-mark" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="26" aria-hidden="true"><path d="M18 6 V44 A32 32 0 0 0 82 44 V6"/></svg> Section 4 · 6.5 min</span>
+        <h1>ECTS credits and student workload</h1>
+
+        <div class="statement"><svg class="u-watermark" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="26" aria-hidden="true"><path d="M18 6 V44 A32 32 0 0 0 82 44 V6"/></svg><span>Credits are not a measure of how much you teach. They're a measure of how much time a typical student should spend learning.</span></div>
+
+        <p>Every module carries a credit value, usually expressed in <strong>ECTS</strong> — the European Credit Transfer and Accumulation System. It's a European-wide system designed to make student workload comparable and transferable across institutions and countries.</p>
+
+        <div class="callout callout--why">
+          <div class="callout__icon">⚖️</div>
+          <div class="callout__body">
+            <p><strong>The key conversion to remember</strong> 1 ECTS credit ≈ <strong>20–25 hours</strong> of total student effort. The exact figure is set by each institution (commonly 20–25 hours in Irish HE, based on the European Commission's ECTS Users' Guide).</p>
+          </div>
+        </div>
+
+        <p>That "total student effort" figure includes everything — not just time in your classroom:</p>
+        <div class="deflist">
+          <div class="deflist__row"><div class="deflist__term">🏫 Contact hours</div><div class="deflist__desc">Timetabled lectures, labs, workshops, tutorials</div></div>
+          <div class="deflist__row"><div class="deflist__term">📖 Independent study</div><div class="deflist__desc">Reading and self-directed learning</div></div>
+          <div class="deflist__row"><div class="deflist__term">✏️ Assessment work</div><div class="deflist__desc">Preparation for and completion of assessments</div></div>
+          <div class="deflist__row"><div class="deflist__term">👥 Group work</div><div class="deflist__desc">Collaboration outside class</div></div>
+          <div class="deflist__row"><div class="deflist__term">📝 Exam prep</div><div class="deflist__desc">Revision and the exam itself</div></div>
+        </div>
+
+        <h2>Working the numbers</h2>
+        <p>Let's do an example together. A module is worth <strong>5 ECTS credits</strong>, at 20 hours per credit. Total student effort = 5 × 20 = <strong>100 hours</strong> across the semester. If timetabled contact hours are 24 hours (2 hours/week × 12 weeks), that leaves <strong>76 hours</strong> of independent study, assignment work, and exam preparation the student is expected to do on their own.</p>
+
+        <!-- Calculator -->
+        <div class="calc" data-calc>
+          <div class="kc__tag">🧮 Try it · Workload calculator</div>
+          <div class="calc__inputs">
+            <div class="field">
+              <label for="credits">ECTS credits <b id="creditsVal">5</b></label>
+              <input type="range" id="credits" min="1" max="30" value="5" step="1">
+            </div>
+            <div class="field">
+              <label for="hpc">Hours per credit <b id="hpcVal">20</b></label>
+              <input type="range" id="hpc" min="20" max="30" value="20" step="1">
+            </div>
+            <div class="field">
+              <label for="contact">Contact hours <b id="contactVal">24</b></label>
+              <input type="range" id="contact" min="0" max="200" value="24" step="1">
+            </div>
+            <div class="field" style="display:flex;align-items:flex-end">
+              <p class="calc__note" style="margin:0;text-align:left">Drag the sliders to see how total effort splits between class time and independent study.</p>
+            </div>
+          </div>
+          <div class="calc__out">
+            <div class="calc__stat calc__stat--total">
+              <div class="calc__num" id="totalOut">100</div>
+              <div class="calc__lbl">Total student effort (hours)</div>
+            </div>
+            <div class="calc__stat calc__stat--indep">
+              <div class="calc__num" id="indepOut">76</div>
+              <div class="calc__lbl">Expected independent study (hours)</div>
+            </div>
+          </div>
+          <div class="split" id="ectsSplit" role="img" aria-label="How total effort splits between contact time and independent study">
+            <div class="split__seg split__seg--contact" id="splitContact"><span>Contact</span></div>
+            <div class="split__seg split__seg--indep" id="splitIndep"><span>Independent study</span></div>
+          </div>
+          <p class="calc__note" id="calcNote">5 credits × 20 hours = 100 total hours, minus 24 contact hours = 76 hours on their own.</p>
+        </div>
+
+        <!-- Workload budget — applied exercise -->
+        <div class="widget budget" data-budget>
+          <div class="kc__tag">🧩 Try it · Build an assessment plan</div>
+          <p style="color:var(--ink-soft);margin-top:0">You're teaching a <strong>5-credit module</strong> (100 hours total, 24 contact). That leaves an <strong>independent-study budget of 76 hours</strong>. Toggle assessment tasks on and off and watch the budget — keep the total realistic.</p>
+          <div class="budget__grid">
+            <button class="budget__item" type="button" data-hours="15">2,000-word essay <b>15h</b></button>
+            <button class="budget__item" type="button" data-hours="12">Weekly quizzes ×12 <b>12h</b></button>
+            <button class="budget__item" type="button" data-hours="20">Group project <b>20h</b></button>
+            <button class="budget__item" type="button" data-hours="25">Set reading &amp; prep <b>25h</b></button>
+            <button class="budget__item" type="button" data-hours="18">Exam revision <b>18h</b></button>
+            <button class="budget__item" type="button" data-hours="10">Reflective journal <b>10h</b></button>
+          </div>
+          <div class="budget__bar" aria-hidden="true"><div class="budget__fill" id="budgetFill"></div></div>
+          <div class="budget__readout">
+            <span id="budgetUsed">0 h</span> of <span>76 h</span> used
+            <span class="budget__status" id="budgetStatus"></span>
+          </div>
+        </div>
+
+        <h2>Why this matters for you as a teacher</h2>
+        <div class="callout callout--tip">
+          <div class="callout__icon">🧾</div>
+          <div class="callout__body">
+            <p><strong>Sanity-check your assignment load.</strong> If you set three 2,000-word essays plus weekly quizzes plus a group project on a 5-credit module, ask whether that realistically fits within the independent study hours available — alongside everything else the student is doing across their other modules that semester.</p>
+          </div>
+        </div>
+        <div class="callout callout--tip">
+          <div class="callout__icon">🎯</div>
+          <div class="callout__body">
+            <p><strong>Set realistic expectations, not just easier ones.</strong> The workload figure isn't about making things easy — it's about matching demand to credit value, so students can plan their time sensibly and your module isn't inadvertently over- or under-weighted compared to others.</p>
+          </div>
+        </div>
+
+        <p>There's a well-established line of research on this — including work associated with the European Commission's ECTS Users' Guide, and broader higher-education workload research (including work often associated with Kember on student workload and time-on-task) — which consistently shows that students' <em>perceived</em> workload and <em>actual</em> time spent don't always match what course designers intend. Being deliberate about credit-to-hours mapping is one of the best tools you have to keep this realistic.</p>
+
+        <div class="callout callout--tip">
+          <div class="callout__icon">💡</div>
+          <div class="callout__body">
+            <p><strong>Quick practical tip</strong> When designing an assignment, try timing how long it would reasonably take a competent student to complete it — reading, drafting, and finishing. It's rough, but it catches a lot of over- or under-loaded assessments before they become a problem.</p>
+          </div>
+        </div>
+
+        <div class="reflect" data-reflect="s4">
+          <div class="reflect__tag">✍️ Reflection · not scored</div>
+          <p class="reflect__prompt">Pick one assessment task you currently set. Roughly how many hours would a student need to complete it well? Does that seem proportionate to the credit value of the module?</p>
+          <textarea placeholder="Jot your thoughts here…"></textarea>
+          <div class="reflect__foot">
+            <span class="reflect__note">Just for your own thinking.</span>
+            <button class="reflect__save" type="button">Save note</button>
+          </div>
+        </div>
+
+        <div class="kc" data-kc="s4" data-type="single">
+          <div class="kc__tag">✓ Knowledge check · Scenario</div>
+          <p class="kc__q">A module is worth 10 ECTS credits, and your institution uses 20 hours per credit. Timetabled contact hours total 40 hours across the semester. Roughly how many hours of independent study should a student expect to do?</p>
+          <div class="kc__options">
+            <button class="opt" data-opt="A"><span class="opt__mark"><span class="opt__letter">A</span></span> 20 hours</button>
+            <button class="opt" data-opt="B"><span class="opt__mark"><span class="opt__letter">B</span></span> 40 hours</button>
+            <button class="opt" data-opt="C" data-correct><span class="opt__mark"><span class="opt__letter">C</span></span> 160 hours</button>
+            <button class="opt" data-opt="D"><span class="opt__mark"><span class="opt__letter">D</span></span> 200 hours</button>
+          </div>
+          <div class="kc__feedback"
+               data-good="Correct. 10 credits × 20 hours = 200 total hours. Minus 40 contact hours = 160 hours of independent study."
+               data-bad="Let's check the maths: 10 credits × 20 hours = 200 total hours of effort. Subtract the 40 contact hours, and that leaves 160 hours of independent study."></div>
+          <div class="kc__footer"><button class="kc__retry" type="button">↺ Try again</button></div>
+        </div>
+
+        <div class="lesson-nav">
+          <button class="btn btn--ghost" data-prev><span aria-hidden="true">←</span> <span class="long">NFQ levels</span></button>
+          <button class="btn btn--primary" data-next><span class="long">Bringing it together</span> <span aria-hidden="true">→</span></button>
+        </div>
+      </section>
+
+      <!-- =================================================================
+           SECTION 5 — BRINGING IT TOGETHER
+      ================================================================== -->
+      <section class="lesson" data-lesson="5" data-accent="seagreen">
+        <span class="eyebrow"><svg class="u-mark" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="26" aria-hidden="true"><path d="M18 6 V44 A32 32 0 0 0 82 44 V6"/></svg> Section 5 · 2 min</span>
+        <h1>Bringing it together: reading a descriptor in practice</h1>
+
+        <p class="lead">Let's put it all together. When you next open a module descriptor, read it with these four questions in mind. Expand each for a practical tip you can apply when planning a class.</p>
+
+        <!-- Accordion -->
+        <div class="accordion" data-accordion>
+          <div class="acc">
+            <button class="acc__head" type="button">
+              <span class="acc__n">1</span>
+              <span class="acc__q">What are the learning outcomes asking students to actually <em>do</em>?</span>
+              <span class="acc__chev">▼</span>
+            </button>
+            <div class="acc__body"><div class="acc__inner">
+              <p>Check the verbs against Bloom's Taxonomy to gauge the level of thinking required.</p>
+              <p class="acc__tip">💡 Underline every action verb in the outcomes before you plan a single class — they tell you the cognitive level to aim for.</p>
+            </div></div>
+          </div>
+          <div class="acc">
+            <button class="acc__head" type="button">
+              <span class="acc__n">2</span>
+              <span class="acc__q">Does my planned teaching genuinely build toward those outcomes?</span>
+              <span class="acc__chev">▼</span>
+            </button>
+            <div class="acc__body"><div class="acc__inner">
+              <p>This is constructive alignment in practice.</p>
+              <p class="acc__tip">💡 For each class activity, name the outcome it serves. If you can't, question whether it earns its place.</p>
+            </div></div>
+          </div>
+          <div class="acc">
+            <button class="acc__head" type="button">
+              <span class="acc__n">3</span>
+              <span class="acc__q">Is the NFQ level reflected in how independently and critically I expect students to work?</span>
+              <span class="acc__chev">▼</span>
+            </button>
+            <div class="acc__body"><div class="acc__inner">
+              <p>Match your expectations of independence to the level indicators.</p>
+              <p class="acc__tip">💡 Ask: am I doing the thinking for them, or designing tasks that make them do it at the right level?</p>
+            </div></div>
+          </div>
+          <div class="acc">
+            <button class="acc__head" type="button">
+              <span class="acc__n">4</span>
+              <span class="acc__q">Does the assessment workload realistically fit the ECTS credit hours available?</span>
+              <span class="acc__chev">▼</span>
+            </button>
+            <div class="acc__body"><div class="acc__inner">
+              <p>Do the credit-to-hours maths before finalising your assessment brief.</p>
+              <p class="acc__tip">💡 Time yourself doing a scaled-down version of the task, then multiply — a quick reality check on load.</p>
+            </div></div>
+          </div>
+        </div>
+
+        <div class="callout callout--why">
+          <div class="callout__icon">✅</div>
+          <div class="callout__body">
+            <p>If you can answer all four with confidence, you're not just complying with a quality assurance requirement — you're teaching in a way that gives your students the best chance of success, and makes the most of the deep expertise you bring from industry.</p>
+          </div>
+        </div>
+
+        <!-- Readiness checklist -->
+        <div class="widget readiness" data-readiness>
+          <div class="kc__tag">🎯 Your descriptor-readiness</div>
+          <p style="color:var(--ink-soft);margin-top:0">Tick the ones you could confidently do right now for a module you teach.</p>
+          <div class="readiness__grid">
+            <label class="check"><input type="checkbox"> <span>Read the outcome verbs and name their Bloom's level</span></label>
+            <label class="check"><input type="checkbox"> <span>Show my teaching builds toward those outcomes</span></label>
+            <label class="check"><input type="checkbox"> <span>Pitch tasks to the module's NFQ level</span></label>
+            <label class="check"><input type="checkbox"> <span>Check assessment load fits the ECTS hours</span></label>
+          </div>
+          <div class="readiness__meter">
+            <div class="readiness__ring" id="readyRing"><span id="readyScore">0/4</span></div>
+            <p class="readiness__msg" id="readyMsg">Tick what you're confident about to see your readiness.</p>
+          </div>
+        </div>
+
+        <div class="lesson-nav">
+          <button class="btn btn--ghost" data-prev><span aria-hidden="true">←</span> <span class="long">ECTS credits</span></button>
+          <button class="btn btn--primary" data-next><span class="long">Summary &amp; final quiz</span> <span aria-hidden="true">→</span></button>
+        </div>
+      </section>
+
+      <!-- =================================================================
+           SECTION 6 — SUMMARY & FINAL QUIZ
+      ================================================================== -->
+      <section class="lesson" data-lesson="6" data-accent="heather">
+        <span class="eyebrow"><svg class="u-mark" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="26" aria-hidden="true"><path d="M18 6 V44 A32 32 0 0 0 82 44 V6"/></svg> Section 6 · Summary &amp; assessment</span>
+        <h1>Summary, final knowledge check &amp; reflection</h1>
+
+        <div class="statement"><svg class="u-watermark" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="26" aria-hidden="true"><path d="M18 6 V44 A32 32 0 0 0 82 44 V6"/></svg><span>The module descriptor is your map. Learning outcomes are your destination. NFQ level sets your altitude. ECTS credits tell you how far the journey should take.</span></div>
+
+        <h2>Let's recap</h2>
+        <div class="deflist">
+          <div class="deflist__row"><div class="deflist__term">Module descriptor</div><div class="deflist__desc">An approved document defining what a module covers, how it's taught, and how it's assessed — it exists to ensure quality and consistency for students.</div></div>
+          <div class="deflist__row"><div class="deflist__term">Learning outcomes</div><div class="deflist__desc">Describe what students should be able to <em>do</em>, not just what you'll teach. Bloom's helps you read the level of thinking; Biggs' constructive alignment keeps outcomes, teaching, and assessment pointed the same way.</div></div>
+          <div class="deflist__row"><div class="deflist__term">NFQ levels</div><div class="deflist__desc">Set the standard for independence, complexity, and critical thinking — and QQI's Awards Standards translate this into discipline-specific expectations.</div></div>
+          <div class="deflist__row"><div class="deflist__term">ECTS credits</div><div class="deflist__desc">Represent total student effort, not just contact time — a practical check for setting realistic assessment workloads.</div></div>
+        </div>
+
+        <!-- Final quiz -->
+        <div class="kc" data-kc="f1" data-type="single" data-final>
+          <div class="kc__tag">📝 Final quiz · Question 1 of 4</div>
+          <p class="kc__q">A learning outcome uses the verb "critically evaluate." Which Bloom's level does this best correspond to?</p>
+          <div class="kc__options">
+            <button class="opt" data-opt="A"><span class="opt__mark"><span class="opt__letter">A</span></span> Remember</button>
+            <button class="opt" data-opt="B"><span class="opt__mark"><span class="opt__letter">B</span></span> Apply</button>
+            <button class="opt" data-opt="C" data-correct><span class="opt__mark"><span class="opt__letter">C</span></span> Evaluate</button>
+            <button class="opt" data-opt="D"><span class="opt__mark"><span class="opt__letter">D</span></span> Understand</button>
+          </div>
+          <div class="kc__feedback"
+               data-good="Correct — &quot;critically evaluate&quot; sits at the Evaluate level: making reasoned judgements."
+               data-bad="Not quite — &quot;critically evaluate&quot; asks students to make reasoned judgements, which is the Evaluate level."></div>
+          <div class="kc__footer"><button class="kc__retry" type="button">↺ Try again</button></div>
+        </div>
+
+        <div class="kc" data-kc="f2" data-type="single" data-final>
+          <div class="kc__tag">📝 Final quiz · Question 2 of 4</div>
+          <p class="kc__q">Which document translates general NFQ level indicators into expectations for a specific discipline?</p>
+          <div class="kc__options">
+            <button class="opt" data-opt="A"><span class="opt__mark"><span class="opt__letter">A</span></span> The programme timetable</button>
+            <button class="opt" data-opt="B" data-correct><span class="opt__mark"><span class="opt__letter">B</span></span> QQI Awards Standards</button>
+            <button class="opt" data-opt="C"><span class="opt__mark"><span class="opt__letter">C</span></span> The student handbook</button>
+            <button class="opt" data-opt="D"><span class="opt__mark"><span class="opt__letter">D</span></span> The lecturer's CV</button>
+          </div>
+          <div class="kc__feedback"
+               data-good="Correct — QQI Awards Standards translate the general NFQ indicators into subject-specific expectations."
+               data-bad="Not quite — it's the QQI Awards Standards that translate general NFQ indicators into discipline-specific expectations."></div>
+          <div class="kc__footer"><button class="kc__retry" type="button">↺ Try again</button></div>
+        </div>
+
+        <div class="kc" data-kc="f3" data-type="single" data-final>
+          <div class="kc__tag">📝 Final quiz · Question 3 of 4</div>
+          <p class="kc__q">What does 1 ECTS credit approximately represent?</p>
+          <div class="kc__options">
+            <button class="opt" data-opt="A"><span class="opt__mark"><span class="opt__letter">A</span></span> 1 hour of lecture time</button>
+            <button class="opt" data-opt="B" data-correct><span class="opt__mark"><span class="opt__letter">B</span></span> 20–25 hours of total student effort</button>
+            <button class="opt" data-opt="C"><span class="opt__mark"><span class="opt__letter">C</span></span> 1 week of study</button>
+            <button class="opt" data-opt="D"><span class="opt__mark"><span class="opt__letter">D</span></span> 1 assignment</button>
+          </div>
+          <div class="kc__feedback"
+               data-good="Correct — 1 ECTS credit represents roughly 20–25 hours of total student effort."
+               data-bad="Not quite — 1 ECTS credit represents approximately 20–25 hours of total student effort, across all activities."></div>
+          <div class="kc__footer"><button class="kc__retry" type="button">↺ Try again</button></div>
+        </div>
+
+        <div class="kc" data-kc="f4" data-type="single" data-final>
+          <div class="kc__tag">📝 Final quiz · Question 4 of 4</div>
+          <p class="kc__q">You're planning a Level 8 module. Which teaching approach best matches the expected level of demand?</p>
+          <div class="kc__options">
+            <button class="opt" data-opt="A"><span class="opt__mark"><span class="opt__letter">A</span></span> Providing step-by-step instructions for every task, with one correct answer</button>
+            <button class="opt" data-opt="B" data-correct><span class="opt__mark"><span class="opt__letter">B</span></span> Designing activities that require independent analysis, evaluation, and some ambiguity</button>
+            <button class="opt" data-opt="C"><span class="opt__mark"><span class="opt__letter">C</span></span> Focusing only on memorisation of key facts</button>
+            <button class="opt" data-opt="D"><span class="opt__mark"><span class="opt__letter">D</span></span> Avoiding any assessment beyond short quizzes</button>
+          </div>
+          <div class="kc__feedback"
+               data-good="Correct — Level 8 expects independent analysis and evaluation, with room for ambiguity."
+               data-bad="Not quite — at Level 8, students should be working independently with analysis, evaluation, and some ambiguity, not just following step-by-step instructions."></div>
+          <div class="kc__footer"><button class="kc__retry" type="button">↺ Try again</button></div>
+        </div>
+
+        <div class="card" style="text-align:center">
+          <span class="kc__score" id="finalScore" style="font-size:16px;margin:0"></span>
+        </div>
+
+        <!-- Final reflection -->
+        <div class="reflect" data-reflect="final">
+          <div class="reflect__tag">✍️ Final reflection · not submitted</div>
+          <p class="reflect__prompt">Look at the descriptor for a module you teach (or are about to). Write a short note to yourself covering:</p>
+          <ul style="margin:0 0 14px">
+            <li>One learning outcome you want to focus on more deliberately</li>
+            <li>One thing about the NFQ level that will change how you pitch a class or task</li>
+            <li>One assessment you might need to adjust based on the ECTS workload calculation</li>
+          </ul>
+          <textarea placeholder="Your planning notes — saved only on this device…" style="min-height:130px"></textarea>
+          <div class="reflect__foot">
+            <span class="reflect__note">For your own planning.</span>
+            <button class="reflect__save" type="button">Save note</button>
+          </div>
+        </div>
+
+        <h2>Further reading &amp; reference documents</h2>
+        <ul class="reflist">
+          <li>QQI — National Framework of Qualifications (NFQ) and level indicators</li>
+          <li>QQI — Awards Standards and Policies for your discipline area</li>
+          <li>National Forum for the Enhancement of Teaching and Learning in Higher Education — resources on assessment, curriculum design, and workload</li>
+          <li>European Commission — ECTS Users' Guide</li>
+          <li>Biggs, J. — work on constructive alignment</li>
+          <li>Anderson, L. W. &amp; Krathwohl, D. R. (2001) — revised Bloom's Taxonomy</li>
+        </ul>
+        <p class="placeholder-note">[Add live hyperlinks to your institution's copies of these documents before publishing.]</p>
+
+        <!-- Progress dashboard -->
+        <div class="widget dashboard" data-dashboard>
+          <div class="kc__tag">📊 Your progress summary</div>
+          <div class="dashboard__tiles">
+            <div class="dash-tile"><div class="dash-num" id="dashSections">0/7</div><div class="dash-lbl">Sections viewed</div></div>
+            <div class="dash-tile"><div class="dash-num" id="dashQuiz">0/4</div><div class="dash-lbl">Final quiz</div></div>
+            <div class="dash-tile"><div class="dash-num" id="dashActs">0/8</div><div class="dash-lbl">Activities explored</div></div>
+          </div>
+          <div class="dashboard__status" id="dashStatus"></div>
+          <div class="dashboard__actions">
+            <button class="btn btn--sm" id="exportNotes" type="button">⬇ Export my reflection notes</button>
+          </div>
+        </div>
+
+        <!-- Completion -->
+        <div class="complete">
+          <svg class="u-watermark" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="26" aria-hidden="true"><path d="M18 6 V44 A32 32 0 0 0 82 44 V6"/></svg>
+          <div class="complete__badge">🎓</div>
+          <h2>That's it — you're done.</h2>
+          <p>You now have a working method for reading any module descriptor with confidence. This isn't about ticking a compliance box; it's a genuinely useful planning tool that will save you time and help your students succeed.</p>
+          <p>If you want to go deeper, your teaching and learning centre can point you to the specific NFQ level indicators, QQI Awards Standards, and National Forum resources relevant to your discipline.</p>
+          <div style="margin-top:20px">
+            <button class="btn btn--primary" id="finishBtn">✓ Mark course complete</button>
+          </div>
+        </div>
+
+        <div class="lesson-nav">
+          <button class="btn btn--ghost" data-prev><span aria-hidden="true">←</span> <span class="long">Bringing it together</span></button>
+          <button class="btn" id="restartBtn">↺ Back to start</button>
+        </div>
+      </section>
+
+    </div><!-- /content-scroll -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<script src="js/core.js"></script>
+<script src="js/scorm.js"></script>
+<script src="js/analytics.js"></script>
+<script src="js/animations.js"></script>
+<script src="js/confetti.js"></script>
+<script src="js/interactions.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
