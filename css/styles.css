@@ -516,7 +516,22 @@ button { font-family: inherit; }
   background: linear-gradient(120deg, var(--slate) 0%, var(--slate) 30%, var(--setu-barrow-blue) 100%);
 }
 .cover__u {
-  position: absolute; right: -30px; top: -30px; height: 150%; width: auto; opacity: .16; color: #fff;
+  position: absolute; right: -30px; top: -30px; height: 150%; width: auto;
+  aspect-ratio: 1212 / 1512; opacity: .16; color: #fff;
+}
+
+/* ---------- SETU "U" motif (masked PNG, tinted via currentColor) ---------- */
+.u-mark, .u-watermark, .cover__u {
+  display: inline-block;
+  background-color: currentColor;
+  -webkit-mask-image: url("../assets/setu-symbol.png");
+  mask-image: url("../assets/setu-symbol.png");
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
 }
 .cover__badge {
   position: absolute; top: 26px; left: 36px; font-family: var(--font-head); font-size: 12px; font-weight: 700;

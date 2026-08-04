@@ -47,6 +47,8 @@ INCLUDE_FILES = [
     "assets/MONO_WHITE.png",
     "assets/MONO_BLACK.png",
     "assets/RGB.png",
+    "assets/favicon.png",
+    "assets/setu-symbol.png",
     "assets/fonts/dmsans-var.woff2",
     "assets/fonts/inter-var.woff2",
     "assets/fonts/inter-italic-var.woff2",

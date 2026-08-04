@@ -229,6 +229,14 @@ kept in `assets/` for use on light backgrounds (e.g. print, certificates, or a
 light header if you add one). Clear space is preserved around the logo and it is
 displayed well above the 60px minimum.
 
+`assets/favicon.png` is used as the browser-tab icon. `assets/setu-symbol.png`
+(the official SETU "U" symbol) is used everywhere the course shows its "U"
+motif — the cover graphic, the small eyebrow icon on each section, and the
+watermark behind statement panels — via a CSS `mask-image` on the `.cover__u`,
+`.u-mark`, and `.u-watermark` classes in `css/styles.css`, so it's still tinted
+with `currentColor` (white on Slate, accent colours, dark-mode-aware) rather
+than baked in as a fixed-colour image.
+
 ## Placeholders / items needing your input
 
 Marked in-course with a *[Placeholder …]* note:
