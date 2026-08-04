@@ -1,4 +1,63 @@
-# Understanding Module Descriptors — Standalone HTML Course (SETU-branded)
+# CPD Course Template
+
+A reusable template for building clean, modern, self-paced SCORM 1.2
+e-learning courses as **standalone static sites** — no build step, no server
+framework, no external dependencies (fonts are self-hosted, JS is vanilla).
+
+The repo ships with a complete, working example course — *Understanding
+Module Descriptors*, styled to the **SETU Online Course Brand Guide** (SETU
+Brand Guidelines v1, May 2022) — so you can see the whole system (navigation,
+progress tracking, interactive widgets, SCORM packaging, theming) in a
+finished state before adapting it.
+
+## Using this as a template
+
+1. **Fork or use this as a GitHub template repo**, then clone it.
+2. **Set course identity.** Either run the interactive setup script:
+   ```bash
+   python3 scripts/init_course.py
+   ```
+   or edit `js/course.config.js` by hand. This is the single source of
+   truth for course title, slug, institution name, the `localStorage` key,
+   and the SCORM pass mark — it drives `js/core.js`, `imsmanifest.xml`
+   (kept in sync by the script), and the output zip filename from
+   `scripts/build_scorm.py`.
+3. **Replace branding.** Swap the logo files in `assets/` (`MONO_WHITE.png`,
+   `MONO_BLACK.png`, `RGB.png`, `favicon.png`) for your own, and update the
+   color tokens under `/* SETU primary */` / `/* SETU secondary (accents) */`
+   in `css/styles.css` (`:root`, lines ~26-41) to your institution's palette.
+   Everything else in the stylesheet (layout, components, animations,
+   dark theme) reads from those tokens, so a palette swap re-themes the
+   whole course.
+4. **Write your own section content.** Course copy, learning objectives,
+   knowledge checks, and interactive widgets live directly in `index.html`
+   (structure) and `js/interactions.js` (widget logic/data, e.g. Bloom's
+   verbs, NFQ levels). Use the existing 7 sections as a worked pattern for
+   markup, quiz structure, and widget wiring; replace the copy and swap or
+   remove widgets that don't fit your subject. There's no data-driven
+   content layer — this is a template you edit directly, not a generator.
+5. **Update page chrome text.** A handful of strings are still literal HTML
+   and aren't read from config: the `<title>`/`<meta description>` in
+   `index.html`'s `<head>`, the sidebar `<h1>` and footer text, and the
+   topbar title span. Search `index.html` for the course title to find them.
+6. **Build the SCORM package** once your content is ready:
+   ```bash
+   python3 scripts/build_scorm.py
+   # -> dist/<your-course-slug>-scorm12.zip
+   ```
+
+**What's reusable vs. what you edit per course**
+
+| Reusable (structural) | Edit per course |
+|---|---|
+| `js/core.js`, `js/scorm.js`, `js/analytics.js`, `js/animations.js`, `js/confetti.js`, `js/dashboard.js`, `js/app.js` | `js/course.config.js` (identity/config) |
+| `css/styles.css` layout, components, animation rules | `css/styles.css` color tokens (~lines 26-41), `assets/` logos/fonts |
+| `scripts/build_scorm.py`, `scripts/init_course.py` | `index.html` section content, `js/interactions.js` widget data |
+| SCORM 1.2 plumbing (`imsmanifest.xml` structure, `js/scorm.js` adapter) | `imsmanifest.xml` identity fields (kept in sync by `init_course.py`) |
+
+---
+
+## The example course: Understanding Module Descriptors
 
 A clean, modern, self-paced e-learning course built from the *Understanding
 Module Descriptors* narration & build script (originally written for Articulate
@@ -77,7 +136,7 @@ run standalone from `file://`.
 
 ```bash
 python3 scripts/build_scorm.py
-# -> dist/understanding-module-descriptors-scorm12.zip  (manifest at the root)
+# -> dist/<course-slug>-scorm12.zip  (manifest at the root)
 ```
 
 Upload that zip to your LMS, or to <https://cloud.scorm.com> to validate.
@@ -136,7 +195,8 @@ an LMS file area, a shared drive, etc.).
 ├── imsmanifest.xml            # SCORM 1.2 package manifest (single SCO)
 ├── css/styles.css             # SETU design tokens, layout, components, animations
 ├── js/
-│   ├── core.js                # config, state store, and the event bus (foundation)
+│   ├── course.config.js       # per-course identity (title, slug, institution, storeKey, pass mark)
+│   ├── core.js                # state store and the event bus (foundation)
 │   ├── scorm.js               # SCORM 1.2 adapter (+ ?scorm=mock test harness)
 │   ├── analytics.js           # dev event inspector + optional endpoint sink
 │   ├── animations.js          # scroll-reveal, count-ups, self-building diagrams
@@ -144,7 +204,9 @@ an LMS file area, a shared drive, etc.).
 │   ├── interactions.js        # builder, alignment, pitch, budget, readiness, anatomy
 │   ├── dashboard.js           # results dashboard + export-my-notes
 │   └── app.js                 # navigation, progress, theme, core widgets
-├── scripts/build_scorm.py     # builds dist/…-scorm12.zip
+├── scripts/
+│   ├── build_scorm.py         # builds dist/<slug>-scorm12.zip
+│   └── init_course.py         # interactive setup for a new course's identity
 └── assets/
     ├── MONO_WHITE.png         # official SETU reversed (white) logo — used in the UI
     ├── MONO_BLACK.png         # official SETU mono-black logo (for light backgrounds)
@@ -152,9 +214,11 @@ an LMS file area, a shared drive, etc.).
     └── fonts/                 # self-hosted DM Sans + Inter (variable WOFF2)
 ```
 
-Load order in `index.html`: `core → scorm → analytics → animations → confetti →
-interactions → dashboard → app`. `scorm.js` runs early so it can restore
-`suspend_data` into the shared state before the widgets read it.
+Load order in `index.html`: `course.config → core → scorm → analytics →
+animations → confetti → interactions → dashboard → app`. `course.config.js`
+must load before `core.js` (which reads `window.CourseConfig`), and
+`scorm.js` runs early so it can restore `suspend_data` into the shared state
+before the widgets read it.
 
 ## Logos
 
@@ -164,6 +228,14 @@ top bar, both of which sit on Slate Grey. `MONO_BLACK.png` and `RGB.png` are
 kept in `assets/` for use on light backgrounds (e.g. print, certificates, or a
 light header if you add one). Clear space is preserved around the logo and it is
 displayed well above the 60px minimum.
+
+`assets/favicon.png` is used as the browser-tab icon. `assets/setu-symbol.png`
+(the official SETU "U" symbol) is used everywhere the course shows its "U"
+motif — the cover graphic, the small eyebrow icon on each section, and the
+watermark behind statement panels — via a CSS `mask-image` on the `.cover__u`,
+`.u-mark`, and `.u-watermark` classes in `css/styles.css`, so it's still tinted
+with `currentColor` (white on Slate, accent colours, dark-mode-aware) rather
+than baked in as a fixed-colour image.
 
 ## Placeholders / items needing your input
 
