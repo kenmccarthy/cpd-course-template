@@ -18,13 +18,13 @@ window.Course = (function () {
 
   /* ---------- Course model ---------- */
   var SECTIONS = [
-    { id: 0, label: "Welcome & orientation" },
-    { id: 1, label: "What is a module descriptor" },
-    { id: 2, label: "Learning outcomes" },
-    { id: 3, label: "NFQ levels" },
-    { id: 4, label: "ECTS credits & workload" },
-    { id: 5, label: "Bringing it together" },
-    { id: 6, label: "Summary & final quiz" }
+    { id: 0, label: "Welcome & orientation",      mins: 1.5 },
+    { id: 1, label: "What is a module descriptor", mins: 5 },
+    { id: 2, label: "Learning outcomes",           mins: 7 },
+    { id: 3, label: "NFQ levels",                  mins: 7 },
+    { id: 4, label: "ECTS credits & workload",     mins: 6.5 },
+    { id: 5, label: "Bringing it together",        mins: 2 },
+    { id: 6, label: "Summary & final quiz",        mins: 3 }
   ];
 
   var courseConfig = window.CourseConfig || {};
@@ -32,8 +32,15 @@ window.Course = (function () {
     storeKey: courseConfig.storeKey || "umd-course-v2",
     finalQuiz: ["f1", "f2", "f3", "f4"],
     passMark: (courseConfig.masteryScore != null ? courseConfig.masteryScore : 75) / 100,
-    sectionCount: SECTIONS.length
+    sectionCount: SECTIONS.length,
+    programmeYear: courseConfig.programmeYear || "2026/27",
+    courseTitle: courseConfig.courseTitle || document.title,
+    courseSubtitle: courseConfig.courseSubtitle || "",
+    tagline: courseConfig.showTagline === false ? "" : (courseConfig.tagline || ""),
+    institution: courseConfig.institution || ""
   };
+  // Apply the Lifelong Learning colour year to the page (drives CSS tokens).
+  document.documentElement.setAttribute("data-year", CONFIG.programmeYear);
 
   /* ---------- State store (localStorage-backed) ---------- */
   function load() {

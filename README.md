@@ -125,6 +125,51 @@ limited HE/quality-assurance background.
 - **Light / dark** theme (follows the OS, with a manual toggle)
 - Fully **responsive** with a slide-out menu on mobile
 
+## Rise-style learner experience (Lifelong Learning at SETU look)
+
+The template follows the Articulate Rise pattern and the *Lifelong Learning at SETU
+Design Toolkit* (see `docs/design-toolkit.md`):
+
+- **Course overview page** — the front door: a Slate Grey hero with a gradient
+  **U-shape** panel (title, subtitle, tagline "LEARN MORE. GO FURTHER."), a large
+  cropped **gradient crest**, a *Start / Continue* button, and **lesson cards**
+  showing duration and live status (not started / in progress / completed) with a
+  progress bar. Also reachable from the sidebar's "Course overview" item.
+- **Hero banner per lesson** — every lesson opens with a gradient U-panel (eyebrow,
+  title, "Lesson N of 7 · ~X min") beside a **photo slot** U-panel. Until a photo is
+  supplied the slot renders a light gradient + crest; drop an `<img>` into the
+  `.hero__photo` element (the HTML comment names the photography theme).
+- **Continue-button reveal** — lesson content is paced in chunks separated by
+  `<div class="gate" data-gate></div>` markers. Each *Continue* reveals the next chunk
+  with a staggered entrance and scrolls to it; the lesson's Next/Previous bar appears
+  only after the last gate. Progress through the gates persists and feeds the lesson
+  cards. `Course.rise.revealAll(lessonEl)` opens a lesson fully (testing/accessibility).
+- **Horizontal slide transitions** — lessons slide in from the right (forward) or the
+  left (back) with a crossfade; a plain swap under `prefers-reduced-motion`.
+- **Rise block layout** — a wider 900px content column for full-bleed blocks, with prose
+  held to a ~70-character measure for readability.
+
+### Programme colour year
+
+`programmeYear` in `js/course.config.js` selects the Lifelong Learning accent trio
+(always on Slate Grey + White). It drives section accents, tints, mesh gradients,
+heroes and cards:
+
+| Year | Accent trio |
+|---|---|
+| `"2026/27"` (default) | Heather Purple · Sunset Red · Clover Pink |
+| `"2027/28"` | Barrow Blue · Suir Blue · Grass Green |
+| `"2028/29"` | Sea Green · Sunrise Yellow · Suir Blue |
+
+Section accents cycle through the trio via `data-accent="1|2|3"` on each lesson.
+Semantic colours stay fixed (Grass Green = correct, Sunset Red = incorrect).
+
+### Tagline font
+
+The campaign tagline uses **Compressa Condensed Black**, a licensed face. Drop
+`assets/fonts/compressa.woff2` into the repo to enable it; until then it falls back to
+DM Sans Bold. Set `showTagline: false` in the config to hide the tagline entirely.
+
 ## SCORM 1.2 packaging
 
 The course ships ready to package for an LMS. A single **SCO** (`index.html`) and
@@ -203,6 +248,7 @@ an LMS file area, a shared drive, etc.).
 │   ├── confetti.js            # brand-coloured canvas confetti
 │   ├── interactions.js        # builder, alignment, pitch, budget, readiness, anatomy
 │   ├── dashboard.js           # results dashboard + export-my-notes
+│   ├── rise.js                # overview page, lesson cards, Continue-reveal
 │   └── app.js                 # navigation, progress, theme, core widgets
 ├── scripts/
 │   ├── build_scorm.py         # builds dist/<slug>-scorm12.zip
@@ -215,7 +261,7 @@ an LMS file area, a shared drive, etc.).
 ```
 
 Load order in `index.html`: `course.config → core → scorm → analytics →
-animations → confetti → interactions → dashboard → app`. `course.config.js`
+animations → confetti → interactions → dashboard → rise → app`. `course.config.js`
 must load before `core.js` (which reads `window.CourseConfig`), and
 `scorm.js` runs early so it can restore `suspend_data` into the shared state
 before the widgets read it.

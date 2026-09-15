@@ -45,6 +45,17 @@
     });
   }
 
+  /* Reveal a specific set of nodes (used when a Continue gate opens). */
+  function revealNodes(nodes) {
+    nodes.forEach(function (el, i) {
+      el.classList.remove("is-in");
+      el.classList.add("reveal");
+      if (reduce) { el.classList.add("is-in"); return; }
+      el.style.setProperty("--rd", (Math.min(i, 6) * 70) + "ms");
+      requestAnimationFrame(function () { requestAnimationFrame(function () { el.classList.add("is-in"); }); });
+    });
+  }
+
   /* Animated integer count-up. Respects reduced motion. */
   function countUp(el, to, opts) {
     opts = opts || {};
@@ -74,6 +85,7 @@
 
   C.anim = {
     revealLesson: revealLesson,
+    revealNodes: revealNodes,
     countUp: countUp,
     pulse: pulse,
     reduce: reduce

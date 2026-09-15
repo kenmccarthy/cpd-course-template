@@ -31,7 +31,8 @@ def prompt(label, default):
     return raw or default
 
 
-def write_config(course_title, course_slug, institution, store_key, mastery_score):
+def write_config(course_title, course_slug, institution, store_key, mastery_score,
+                 programme_year="2026/27", course_subtitle=""):
     content = '''/* ==========================================================================
    Course config -- single source of truth for per-course/per-institution
    identity. Edit this file (or re-run `python3 scripts/init_course.py`)
@@ -55,6 +56,17 @@ window.CourseConfig = {{
   // one, so learners don't inherit stale progress.
   storeKey: "{store_key}",
 
+  // Lifelong Learning at SETU annual colour year. Drives the accent trio,
+  // gradients and hero panels. One of: "2026/27", "2027/28", "2028/29".
+  programmeYear: "{programme_year}",
+
+  // Shown under the course title on the overview page.
+  courseSubtitle: "{course_subtitle}",
+
+  // Lifelong Learning at SETU campaign tagline. Set showTagline: false to hide.
+  tagline: "LEARN MORE. GO FURTHER.",
+  showTagline: true,
+
   // Final-quiz pass mark, as a percentage (0-100). Mirrors
   // <adlcp:masteryscore> in imsmanifest.xml -- keep both in sync.
   masteryScore: {mastery_score}
@@ -65,6 +77,8 @@ window.CourseConfig = {{
         institution=institution.replace('"', '\\"'),
         store_key=store_key,
         mastery_score=mastery_score,
+        programme_year=programme_year,
+        course_subtitle=course_subtitle.replace('"', '\\"'),
     )
     with open(CONFIG_FILE, "w", encoding="utf-8") as f:
         f.write(content)
@@ -96,13 +110,16 @@ def main():
     course_slug = slugify(prompt("Course slug (used for the SCORM zip filename)", default_slug))
     institution = prompt("Institution name", "Your Institution")
     store_key = prompt("localStorage key", "%s-course-v1" % course_slug)
+    course_subtitle = prompt("Course subtitle (overview page)", "")
+    programme_year = prompt("Programme colour year (2026/27, 2027/28, 2028/29)", "2026/27")
     mastery_score = prompt("Pass mark, 0-100", "75")
     try:
         mastery_score = int(mastery_score)
     except ValueError:
         raise SystemExit("ERROR: pass mark must be a whole number")
 
-    write_config(course_title, course_slug, institution, store_key, mastery_score)
+    write_config(course_title, course_slug, institution, store_key, mastery_score,
+                 programme_year, course_subtitle)
     update_manifest(course_title, course_slug, mastery_score)
 
     print("\nUpdated:")
