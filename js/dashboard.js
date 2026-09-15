@@ -45,11 +45,11 @@
     var allSeen = visited === C.SECTIONS.length;
     if (q.complete && q.passed && allSeen) {
       status.className = "dashboard__status is-pass";
-      status.innerHTML = "✓ <strong>Complete &amp; passed</strong> — all sections viewed and final quiz at " +
+      status.innerHTML = C.icon("check-circle") + " <strong>Complete &amp; passed</strong> — all sections viewed and final quiz at " +
         Math.round(q.ratio * 100) + "%.";
     } else if (q.complete && !q.passed) {
       status.className = "dashboard__status is-warn";
-      status.innerHTML = "Final quiz at " + Math.round(q.ratio * 100) + "% — the pass mark is 75%. Use ↺ Try again on any question to improve.";
+      status.innerHTML = "Final quiz at " + Math.round(q.ratio * 100) + "% — the pass mark is " + Math.round(C.CONFIG.passMark * 100) + "%. Use \u201cTry again\u201d on any question to improve.";
     } else {
       status.className = "dashboard__status";
       var bits = [];
@@ -98,7 +98,7 @@
     setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
 
     var btn = $("#exportNotes");
-    if (btn) { var t = btn.textContent; btn.textContent = any ? "✓ Notes downloaded" : "✓ Downloaded (notes were empty)"; setTimeout(function () { btn.textContent = t; }, 1800); }
+    if (btn) { var html = btn.innerHTML; btn.innerHTML = C.icon("check") + (any ? " Notes downloaded" : " Downloaded (notes were empty)"); setTimeout(function () { btn.innerHTML = html; }, 1800); }
     C.emit("interaction.complete", { id: "export-notes" });
   }
   var exportBtn = $("#exportNotes");

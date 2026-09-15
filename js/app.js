@@ -32,8 +32,9 @@
     btn.className = "nav__item";
     btn.setAttribute("data-goto", l.id);
     btn.innerHTML =
-      '<span class="nav__num"><span>' + (l.id) + "</span></span>" +
-      '<span class="nav__label">' + l.label + "</span>";
+      '<span class="nav__num" aria-hidden="true"><span>' + C.sectionNumber(l.id) + "</span></span>" +
+      '<span class="nav__label">' + l.label + "</span>" +
+      '<span class="sr-only nav__sr" data-nav-sr></span>';
     btn.addEventListener("click", function () { goTo(l.id); closeSidebar(); });
     li.appendChild(btn);
     navEl.appendChild(li);
@@ -62,6 +63,7 @@
 
     var outgoing = lessons.filter(function (s) { return s.classList.contains("is-active") && !s.classList.contains("is-leaving"); })[0] || null;
     var fromOverview = !outgoing;
+    var prevScroll = C.scrollOffset();
     if (C.rise) C.rise.hideOverview();
 
     current = i;
@@ -70,39 +72,71 @@
     state.visited[i] = true;
 
     var dir = fromOverview ? 1 : (i > prev ? 1 : (i < prev ? -1 : 0));
-    transition(outgoing, lessons[i], dir);
-    navItems.forEach(function (n, idx) { n.classList.toggle("is-active", idx === i); });
+    transition(outgoing, lessons[i], dir, prevScroll);
+    var ovNav = $(".nav__item[data-overview]");
+    if (ovNav) { ovNav.classList.remove("is-active"); ovNav.removeAttribute("aria-current"); }
+    navItems.forEach(function (n, idx) {
+      n.classList.toggle("is-active", idx === i);
+      if (idx === i) n.setAttribute("aria-current", "page"); else n.removeAttribute("aria-current");
+    });
     $("#topTitle").textContent = LESSONS[i].label;
-    $("#scroll").scrollTop = 0;
-    window.scrollTo(0, 0);
+    C.jumpToTop();
 
-    if (anim) anim.revealLesson(lessons[i]);
+    // One motion only: blocks already in view settle immediately while the lesson slides in.
+    if (anim) anim.revealLesson(lessons[i], { settleAboveFold: dir !== 0 });
     updateProgress();
     save();
+    // Move the reading point to the new section's heading and announce it.
+    var heading = $(".hero h1", lessons[i]) || lessons[i];
+    if (heading) {
+      if (!heading.hasAttribute("tabindex")) heading.setAttribute("tabindex", "-1");
+      try { heading.focus({ preventScroll: true }); } catch (e) { heading.focus(); }
+    }
+    C.announce("Section " + C.sectionNumber(i) + " of " + LESSONS.length + ": " + LESSONS[i].label);
     emit("section.view", { id: i, label: LESSONS[i].label, firstView: firstView });
   }
 
-  /* Rise-style horizontal slide between lessons (crossfade under reduced motion) */
-  function transition(out, inc, dir) {
+  /* Rise-style horizontal slide between lessons (plain swap under reduced motion).
+     - The outgoing lesson is pinned where the learner was looking (top = -scrollTop) so the
+       scroll reset doesn't snap it to its start mid-slide.
+     - Enter classes are left in place after the animation (fill-mode both); re-adding them
+       after a reflow restarts the slide. Nothing is removed on `animationend`, because that
+       event bubbles from child animations (figures, ticks) and would cut the slide short. */
+  var MOTION = ["is-leaving", "x-left", "x-right", "in-left", "in-right", "fade-in"];
+  function transition(out, inc, dir, prevScroll) {
     var reduce = !anim || anim.reduce;
     lessons.forEach(function (s) {
-      if (s !== out && s !== inc) s.classList.remove("is-active", "is-leaving", "x-left", "x-right", "in-left", "in-right");
+      if (s !== out && s !== inc) { s.classList.remove.apply(s.classList, ["is-active"].concat(MOTION)); s.style.top = ""; s.style.height = ""; }
     });
     if (out && out !== inc) {
+      out.classList.remove("in-left", "in-right", "fade-in");
       if (reduce || dir === 0) {
         out.classList.remove("is-active");
       } else {
+        // Pin the outgoing lesson so the part the learner was reading is what slides away.
+        out.style.top = (-(prevScroll || 0)) + "px";
+        out.style.height = ((prevScroll || 0) + window.innerHeight) + "px";
         out.classList.add("is-leaving", dir > 0 ? "x-left" : "x-right");
-        var done = function () { out.classList.remove("is-active", "is-leaving", "x-left", "x-right"); };
-        out.addEventListener("animationend", done, { once: true });
-        setTimeout(done, 700);
+        var finished = false;
+        var done = function (e) {
+          if (e && e.target !== out) return;           // ignore bubbled child animations
+          if (finished) return; finished = true;
+          out.classList.remove("is-active", "is-leaving", "x-left", "x-right");
+          out.style.top = ""; out.style.height = "";
+        };
+        out.addEventListener("animationend", done);
+        setTimeout(done, 600);
       }
     }
-    inc.classList.remove("in-left", "in-right");
+    inc.classList.remove.apply(inc.classList, MOTION);
+    inc.style.top = ""; inc.style.height = "";
     inc.classList.add("is-active");
-    if (!reduce && out !== inc) {
+    if (!reduce && out !== inc && dir !== 0) {
+      void inc.offsetWidth;                                // reflow so the animation restarts
       inc.classList.add(dir < 0 ? "in-left" : "in-right");
-      inc.addEventListener("animationend", function () { inc.classList.remove("in-left", "in-right"); }, { once: true });
+    } else if (!reduce && out === inc) {
+      void inc.offsetWidth;
+      inc.classList.add("fade-in");
     }
   }
 
@@ -111,7 +145,10 @@
   }
   function updateProgress() {
     navItems.forEach(function (n, idx) {
-      n.classList.toggle("is-done", !!state.visited[idx] && idx !== current);
+      var done = !!state.visited[idx] && idx !== current;
+      n.classList.toggle("is-done", done);
+      var sr = n.querySelector("[data-nav-sr]");
+      if (sr) sr.textContent = done ? " (viewed)" : "";
     });
     var pct = Math.round((countVisited() / LESSONS.length) * 100);
     if (anim) anim.countUp($("#progressPct"), pct, { suffix: "%" });
@@ -123,15 +160,27 @@
   $$("[data-prev]").forEach(function (b) { b.addEventListener("click", function () { goTo(current - 1); }); });
 
   document.addEventListener("keydown", function (e) {
-    if (e.target.tagName === "TEXTAREA" || e.target.tagName === "INPUT") return;
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    var t = e.target, tag = t && t.tagName;
+    if (e.key === "Escape") { if (sidebar.classList.contains("open")) { closeSidebar(); $("#menuBtn").focus(); } return; }
+    if (tag === "TEXTAREA" || tag === "INPUT" || tag === "SELECT" || tag === "BUTTON" || (t && t.isContentEditable)) return;
+    if (t && t.closest && t.closest("[role='tablist'], [role='tab'], .token, .drop, .kc__options")) return;
+    if (C.rise && !lessons.some(function (l) { return l.classList.contains("is-active"); })) return;   // on the overview
     if (e.key === "ArrowRight") goTo(current + 1);
     if (e.key === "ArrowLeft") goTo(current - 1);
   });
 
   /* ---------- sidebar (mobile) ---------- */
   var sidebar = $("#sidebar"), backdrop = $("#backdrop");
-  function openSidebar() { sidebar.classList.add("open"); backdrop.classList.add("show"); }
-  function closeSidebar() { sidebar.classList.remove("open"); backdrop.classList.remove("show"); }
+  function openSidebar() {
+    sidebar.classList.add("open"); backdrop.classList.add("show");
+    $("#menuBtn").setAttribute("aria-expanded", "true");
+    var first = $(".nav__item", sidebar); if (first) first.focus();
+  }
+  function closeSidebar() {
+    sidebar.classList.remove("open"); backdrop.classList.remove("show");
+    $("#menuBtn").setAttribute("aria-expanded", "false");
+  }
   $("#menuBtn").addEventListener("click", openSidebar);
   backdrop.addEventListener("click", closeSidebar);
 
@@ -143,9 +192,11 @@
       (!state.theme && window.matchMedia("(prefers-color-scheme: dark)").matches);
   }
   function syncThemeLabel() {
-    var lbl = $("#themeLabel"), ic = $("#themeIcon");
-    if (lbl) lbl.textContent = currentlyDark() ? "Switch to light mode" : "Switch to dark mode";
-    if (ic) ic.textContent = currentlyDark() ? "☀" : "☾";
+    var dark = currentlyDark();
+    var label = dark ? "Switch to light mode" : "Switch to dark mode";
+    var lbl = $("#themeLabel"); if (lbl) lbl.textContent = label;
+    ["#themeIcon", "#themeIconTop"].forEach(function (sel) { var ic = $(sel); if (ic) ic.innerHTML = C.icon(dark ? "sun" : "moon"); });
+    var top = $("#themeBtn"); if (top) top.setAttribute("aria-label", label);
   }
   function toggleTheme() {
     state.theme = currentlyDark() ? "light" : "dark";
@@ -182,6 +233,7 @@
       feedback.innerHTML = "<strong>" + (isCorrect ? "Correct" : "Not quite") + "</strong>" +
         (isCorrect ? feedback.getAttribute("data-good") : feedback.getAttribute("data-bad"));
       retry.classList.toggle("show", !isCorrect);
+      if (!replay && !isCorrect) retry.focus({ preventScroll: true });   // disabled options drop focus; land on Try again
       if (!replay && !isCorrect && !anim.reduce) {          // micro-interaction: shake wrong
         chosen.classList.remove("shake"); void chosen.offsetWidth; chosen.classList.add("shake");
       }
@@ -225,7 +277,7 @@
     } else {
       el.innerHTML = "Final quiz score: <b>" + r.correct + " / " + r.total + "</b>" +
         (r.answered < r.total ? " · " + (r.total - r.answered) + " unanswered"
-                              : (r.passed ? " · passed ✓" : ""));
+                              : (r.passed ? " · passed " + C.icon("check") : ""));
     }
   }
   function maybeQuizComplete() {
@@ -248,9 +300,10 @@
     ta.addEventListener("input", persist);
     btn.addEventListener("click", function () {
       persist(); save();
-      var original = btn.textContent;
-      btn.textContent = "✓ Saved";
-      setTimeout(function () { btn.textContent = original; }, 1400);
+      var original = btn.innerHTML;
+      btn.innerHTML = C.icon("check") + " Saved";
+      setTimeout(function () { btn.innerHTML = original; }, 1400);
+      C.announce("Note saved on this device");
       // emit length only — never the private content
       emit("reflection.save", { id: id, length: (ta.value || "").trim().length });
     });
@@ -274,21 +327,26 @@
         if (freed) freed.classList.remove("placed");
       }
       slot.innerHTML = "";
-      var chip = document.createElement("span");
+      var levelName = $(".drop__target", drop).textContent.trim();
+      var chip = document.createElement("button");
+      chip.type = "button";
       chip.className = "drop__chip";
       chip.setAttribute("data-token", token.getAttribute("data-token"));
-      chip.textContent = token.textContent;
-      chip.title = "Click to remove";
+      chip.innerHTML = token.textContent + " " + C.icon("x");
+      chip.setAttribute("aria-label", "Remove " + token.textContent + " from " + levelName);
       chip.addEventListener("click", function () {
         token.classList.remove("placed");
         slot.innerHTML = "";
         drop.classList.remove("correct", "incorrect");
         clearScore();
+        C.announce(token.textContent + " returned to the verb list");
+        token.focus();
       });
       slot.appendChild(chip);
       token.classList.add("placed");
       drop.classList.remove("correct", "incorrect");
       clearScore();
+      C.announce(token.textContent + " placed on " + levelName);
     }
 
     tokens.forEach(function (t) {
@@ -297,11 +355,17 @@
         e.dataTransfer.setData("text/plain", t.getAttribute("data-token"));
       });
       t.addEventListener("dragend", function () { t.classList.remove("dragging"); });
-      t.addEventListener("click", function () {
+      function toggleSelect() {
         if (t.classList.contains("placed")) return;
-        if (selected === t) { t.classList.remove("selected"); selected = null; return; }
-        tokens.forEach(function (x) { x.classList.remove("selected"); });
-        selected = t; t.classList.add("selected");
+        if (selected === t) { t.classList.remove("selected"); t.setAttribute("aria-pressed", "false"); selected = null; return; }
+        tokens.forEach(function (x) { x.classList.remove("selected"); x.setAttribute("aria-pressed", "false"); });
+        selected = t; t.classList.add("selected"); t.setAttribute("aria-pressed", "true");
+        C.announce(t.textContent + " selected. Choose a Bloom's level to place it.");
+      }
+      t.setAttribute("aria-pressed", "false");
+      t.addEventListener("click", toggleSelect);
+      t.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSelect(); }
       });
     });
     drops.forEach(function (d) {
@@ -313,8 +377,10 @@
         var token = tokens.filter(function (t) { return t.getAttribute("data-token") === key; })[0];
         if (token) placeToken(token, d);
       });
-      d.addEventListener("click", function () {
-        if (selected) { placeToken(selected, d); selected.classList.remove("selected"); selected = null; }
+      d.addEventListener("click", function (e) {
+        if (e.target.closest && e.target.closest(".drop__chip")) return;   // chip handles its own click
+        if (selected) { var tok = selected; placeToken(tok, d); tok.classList.remove("selected"); tok.setAttribute("aria-pressed", "false"); selected = null; }
+        else if (e.target.closest && e.target.closest(".drop__target")) C.announce("Select a verb first, then choose a level.");
       });
     });
 
@@ -335,7 +401,7 @@
         scoreEl.textContent = "Place all six verbs first (" + filled + "/" + total + ")";
         return;
       }
-      scoreEl.textContent = right + " / " + total + " correct" + (right === total ? " — perfect!" : "");
+      scoreEl.textContent = right + " / " + total + " correct" + (right === total ? " — perfect!" : ". Incorrect ones are outlined in red; remove and try again.");
       emit("interaction.complete", { id: "bloom-match", score: right, total: total });
       if (right === total && window.Confetti) window.Confetti.burst(wrap);
     });
@@ -354,14 +420,32 @@
     var panels = $$(".tabs__panel", tabs);
     var scrub = $(".tabs__scrub input", tabs);
     var seen = {};
-    function activate(k, fromScrub) {
-      btns.forEach(function (x) { x.classList.toggle("is-active", x.getAttribute("data-tab") === k); });
+    function activate(k, fromScrub, focusTab) {
+      btns.forEach(function (x) {
+        var on = x.getAttribute("data-tab") === k;
+        x.classList.toggle("is-active", on);
+        x.setAttribute("aria-selected", on ? "true" : "false");
+        x.setAttribute("tabindex", on ? "0" : "-1");
+        if (on && focusTab) x.focus();
+      });
       panels.forEach(function (p) { p.classList.toggle("is-active", p.getAttribute("data-panel") === k); });
-      if (scrub && !fromScrub) scrub.value = k;
+      if (scrub) { if (!fromScrub) scrub.value = k; scrub.setAttribute("aria-valuetext", "Level " + k); }
       seen[k] = true;
       emit("interaction.complete", { id: "nfq-tabs", value: k, seenCount: Object.keys(seen).length });
     }
-    btns.forEach(function (b) { b.addEventListener("click", function () { activate(b.getAttribute("data-tab")); }); });
+    btns.forEach(function (b, i) {
+      b.addEventListener("click", function () { activate(b.getAttribute("data-tab")); });
+      b.addEventListener("keydown", function (e) {
+        var j = null;
+        if (e.key === "ArrowRight" || e.key === "ArrowDown") j = (i + 1) % btns.length;
+        else if (e.key === "ArrowLeft" || e.key === "ArrowUp") j = (i - 1 + btns.length) % btns.length;
+        else if (e.key === "Home") j = 0;
+        else if (e.key === "End") j = btns.length - 1;
+        if (j === null) return;
+        e.preventDefault();
+        activate(btns[j].getAttribute("data-tab"), false, true);
+      });
+    });
     if (scrub) scrub.addEventListener("input", function () { activate(scrub.value, true); });
   });
 
@@ -369,8 +453,10 @@
      Accordion
      ========================================================================== */
   $$("[data-accordion] .acc").forEach(function (acc, idx) {
-    $(".acc__head", acc).addEventListener("click", function () {
+    var head = $(".acc__head", acc);
+    head.addEventListener("click", function () {
       var open = acc.classList.toggle("open");
+      head.setAttribute("aria-expanded", open ? "true" : "false");
       if (open) emit("interaction.complete", { id: "reading-accordion", value: idx + 1 });
     });
   });
@@ -423,11 +509,12 @@
      ========================================================================== */
   var finishBtn = $("#finishBtn");
   if (finishBtn) {
-    if (state.completed) finishBtn.textContent = "✓ Course completed";
+    if (state.completed) finishBtn.innerHTML = C.icon("check") + " Course completed";
     finishBtn.addEventListener("click", function () {
       state.completed = true;
       state.completedSec[current] = true;
-      finishBtn.textContent = "✓ Course completed";
+      finishBtn.innerHTML = C.icon("check") + " Course completed";
+      C.announce("Course marked complete");
       save();
       updateProgress();
       var r = C.quizResult();

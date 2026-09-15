@@ -30,15 +30,24 @@
     }, { root: null, rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
   }
 
-  /* Prepare/observe reveal targets inside a lesson when it becomes active. */
-  function revealLesson(lessonEl) {
+  /* Prepare/observe reveal targets inside a lesson when it becomes active.
+     opts.settleAboveFold: blocks already in the viewport are shown at once (no stagger) —
+     used when the lesson itself is sliding in, so there is one motion, not two. */
+  function revealLesson(lessonEl, opts) {
     if (!lessonEl) return;
+    opts = opts || {};
     var targets = C.$$(REVEAL_SELECTOR, lessonEl);
+    var vh = window.innerHeight || 800;
     targets.forEach(function (el, i) {
       // reset so re-entering a lesson replays the entrance
       el.classList.remove("is-in");
       el.classList.add("reveal");
       if (reduce || !io) { el.classList.add("is-in"); return; }
+      if (opts.settleAboveFold && el.getBoundingClientRect().top < vh) {
+        el.style.setProperty("--rd", "0ms");
+        el.classList.add("is-in");
+        return;
+      }
       // small stagger for the first cluster (above the fold)
       el.style.setProperty("--rd", (Math.min(i, 6) * 65) + "ms");
       io.observe(el);

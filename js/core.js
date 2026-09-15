@@ -111,6 +111,39 @@ window.Course = (function () {
   var reduceMotion = !!(window.matchMedia &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches);
 
+  /* ---------- UI helpers shared by every layer ---------- */
+  /* Inline icon from the sprite in index.html: Course.icon("check") -> <svg class="icon"><use href="#i-check"/></svg>.
+     Decorative by default (aria-hidden); pass a label to make it meaningful on its own. */
+  function icon(name, label) {
+    return '<svg class="icon" ' + (label ? 'role="img" aria-label="' + label + '"' : 'aria-hidden="true"') +
+      ' focusable="false"><use href="#i-' + name + '" xlink:href="#i-' + name + '"></use></svg>';
+  }
+  /* Screen-reader announcement via the polite live region (#a11yStatus). */
+  var announceTimer = null;
+  function announce(msg) {
+    var el = document.getElementById("a11yStatus");
+    if (!el) return;
+    el.textContent = "";
+    clearTimeout(announceTimer);
+    announceTimer = setTimeout(function () { el.textContent = msg; }, 60);
+  }
+  /* Display number for a 0-based section id (learners see 1..n). */
+  function sectionNumber(id) { return Number(id) + 1; }
+  /* Current vertical scroll offset (the window is the scroller; #scroll is a fallback). */
+  function scrollOffset() {
+    var sc = document.getElementById("scroll");
+    return window.pageYOffset || document.documentElement.scrollTop || (sc ? sc.scrollTop : 0) || 0;
+  }
+  /* Jump to the top instantly — bypasses `scroll-behavior: smooth` so a page change never
+     animates the scroll on top of the lesson transition. */
+  function jumpToTop() {
+    var de = document.documentElement, prev = de.style.scrollBehavior;
+    de.style.scrollBehavior = "auto";
+    window.scrollTo(0, 0);
+    var sc = document.getElementById("scroll"); if (sc) sc.scrollTop = 0;
+    de.style.scrollBehavior = prev;
+  }
+
   return {
     $: $, $$: $$,
     SECTIONS: SECTIONS,
@@ -120,6 +153,11 @@ window.Course = (function () {
     on: on, off: off, emit: emit, eventLog: eventLog,
     quizResult: quizResult,
     allSectionsVisited: allSectionsVisited,
-    reduceMotion: reduceMotion
+    reduceMotion: reduceMotion,
+    icon: icon,
+    announce: announce,
+    sectionNumber: sectionNumber,
+    scrollOffset: scrollOffset,
+    jumpToTop: jumpToTop
   };
 })();

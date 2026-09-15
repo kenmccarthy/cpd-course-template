@@ -36,7 +36,7 @@
     panel.innerHTML =
       '<div style="position:sticky;top:0;background:#141b21;padding:8px 12px;font-weight:bold;' +
       'border-bottom:1px solid #33414c;display:flex;justify-content:space-between">' +
-      '<span>Event inspector' + (C.scorm && C.scorm.present ? " · SCORM ✓" : " · no LMS") + '</span>' +
+      '<span>Event inspector' + (C.scorm && C.scorm.present ? " · SCORM connected" : " · no LMS") + '</span>' +
       '<span id="ev-count">0</span></div><div id="ev-list" style="padding:6px 12px"></div>';
     document.addEventListener("DOMContentLoaded", function () { document.body.appendChild(panel); });
     if (document.body) document.body.appendChild(panel);

@@ -94,33 +94,38 @@ limited HE/quality-assurance background.
 
 | Section | Topic |
 |--------:|-------|
-| 0 | Welcome & orientation (cover, objectives) |
-| 1 | What a module descriptor is and why it matters |
-| 2 | Learning outcomes, Bloom's Taxonomy & constructive alignment |
-| 3 | NFQ levels |
-| 4 | ECTS credits & student workload |
-| 5 | Bringing it together (four-question checklist) |
-| 6 | Summary, final quiz & reflection |
+| 1 | Welcome & orientation (objectives) |
+| 2 | What a module descriptor is and why it matters |
+| 3 | Learning outcomes, Bloom's Taxonomy & constructive alignment |
+| 4 | NFQ levels |
+| 5 | ECTS credits & student workload |
+| 6 | Bringing it together (four-question checklist) |
+| 7 | Summary, final quiz & reflection |
+
+Sections are numbered **1–7** everywhere the learner sees them (navigation,
+lesson cards, hero eyebrows). Internally each `<section class="lesson">` keeps a
+0-based `data-lesson` id (`0`–`6`) — that id is what `localStorage` progress and the
+SCORM bookmark use, so renumbering the display never disturbs saved progress.
 
 ### Interactions (all native, no libraries)
 - **Knowledge checks** — MCQ and true/false with instant feedback, retry, shake-on-wrong / tick-on-correct
 - **Reflections** — open text prompts (saved locally, never submitted) with an **export-to-file** option
-- **Descriptor explorer** (§1) — click each part to reveal what it tells you
-- **Build a learning outcome** (§2) — verb + object + standard → a sample outcome with its Bloom's level
-- **Alignment checker** (§2) — set outcome/teaching/assessment levels for a live aligned/misaligned verdict
-- **Bloom's matching** (§2) — drag-and-drop *and* tap-to-place, with confetti on a perfect score
-- **NFQ tabs + scrubber** (§3) — Levels 6–9 via tabs or a slider
-- **Pitch check** (§3) — match tasks to their NFQ level
-- **ECTS calculator** (§4) — live sliders with an animated contact-vs-independent split bar
-- **Workload budget** (§4) — toggle assessment tasks against a 76-hour budget; bar turns red when over
-- **Readiness checklist** (§5) — a conic-gradient readiness ring
-- **Results dashboard** (§6) — live tiles for sections, quiz score and activities explored
+- **Descriptor explorer** (§2) — a keyboard-operable tab list; pick each part to reveal what it tells you
+- **Build a learning outcome** (§3) — verb + object + standard → a sample outcome with its Bloom's level
+- **Alignment checker** (§3) — set outcome/teaching/assessment levels for a live aligned/misaligned verdict
+- **Bloom's matching** (§3) — drag-and-drop, tap-to-place *and* keyboard (select a verb, choose a level), with confetti on a perfect score
+- **NFQ tabs + scrubber** (§4) — Levels 6–9 via arrow-key tabs or a slider
+- **Pitch check** (§4) — match tasks to their NFQ level
+- **ECTS calculator** (§5) — live sliders with an animated contact-vs-independent split bar
+- **Workload budget** (§5) — toggle assessment tasks against a 76-hour budget; bar turns red when over
+- **Readiness checklist** (§6) — a conic-gradient readiness ring
+- **Results dashboard** (§7) — live tiles for sections, quiz score and activities explored
 - **Self-building SVG graphics** — annotated descriptor, Bloom's pyramid, alignment triangle, NFQ ladder
 
 ### Learner experience
 - Left-hand lesson navigation with live **progress bar** and completed ticks
 - **Scroll-reveal** entrances, **count-ups**, and **micro-interactions** — all disabled under `prefers-reduced-motion`
-- Previous / Next buttons and **←/→ keyboard** navigation
+- Previous / Next buttons and **←/→ keyboard** navigation (ignored while a form control, tab list or matching token has focus)
 - Progress, quiz answers, activities and reflection notes **persist** in `localStorage`
 - **Light / dark** theme (follows the OS, with a manual toggle)
 - Fully **responsive** with a slide-out menu on mobile
@@ -135,17 +140,25 @@ Design Toolkit* (see `docs/design-toolkit.md`):
   cropped **gradient crest**, a *Start / Continue* button, and **lesson cards**
   showing duration and live status (not started / in progress / completed) with a
   progress bar. Also reachable from the sidebar's "Course overview" item.
-- **Hero banner per lesson** — every lesson opens with a gradient U-panel (eyebrow,
-  title, "Lesson N of 7 · ~X min") beside a **photo slot** U-panel. Until a photo is
-  supplied the slot renders a light gradient + crest; drop an `<img>` into the
-  `.hero__photo` element (the HTML comment names the photography theme).
+- **Hero banner per lesson** — every lesson opens with the *same treatment as the
+  overview*: a Slate Grey block with a gradient **U-panel** (eyebrow "Section N of 7",
+  title, read time), the large cropped **gradient crest**, and a progress strip on
+  the right (one segment per section, completed ones in Grass Green) with a
+  "N of 7 sections completed" line. The eyebrow and strip are rendered by
+  `js/rise.js` from `Course.SECTIONS`, so the counts are never hand-typed. To add a
+  cover photo, place `<img class="hero__bg" src="assets/…" alt="">` as the first
+  child of the `.hero` element — it sits behind the crest at reduced opacity.
 - **Continue-button reveal** — lesson content is paced in chunks separated by
   `<div class="gate" data-gate></div>` markers. Each *Continue* reveals the next chunk
   with a staggered entrance and scrolls to it; the lesson's Next/Previous bar appears
   only after the last gate. Progress through the gates persists and feeds the lesson
   cards. `Course.rise.revealAll(lessonEl)` opens a lesson fully (testing/accessibility).
 - **Horizontal slide transitions** — lessons slide in from the right (forward) or the
-  left (back) with a crossfade; a plain swap under `prefers-reduced-motion`.
+  left (back) with a crossfade; a plain swap under `prefers-reduced-motion`. The
+  outgoing lesson is pinned at the scroll position the learner was reading (so that
+  part is what slides away), the scroll reset is instant rather than smooth, and
+  blocks already in view settle at once instead of staggering in on top of the slide —
+  one motion per page change, no judder.
 - **Rise block layout** — a wider 900px content column for full-bleed blocks, with prose
   held to a ~70-character measure for readability.
 
@@ -169,6 +182,51 @@ Semantic colours stay fixed (Grass Green = correct, Sunset Red = incorrect).
 The campaign tagline uses **Compressa Condensed Black**, a licensed face. Drop
 `assets/fonts/compressa.woff2` into the repo to enable it; until then it falls back to
 DM Sans Bold. Set `showTagline: false` in the config to hide the tagline entirely.
+
+### Icons
+
+All UI icons come from a single **inline SVG sprite** at the top of `index.html`
+(24px line icons adapted from Lucide, ISC licence) — no emoji, no icon font, no
+external requests, so they render identically on every OS and LMS. Use one with
+
+```html
+<svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg>
+```
+
+or from JavaScript with `Course.icon("check")`. Icons are decorative (the adjacent
+text carries the meaning); add new `<symbol id="i-…">` entries to the sprite as
+needed. Sizing follows the surrounding font size (`.icon` = 1.05em) with a few
+context overrides in `css/styles.css` under *Icons + accessibility utilities*.
+
+## Accessibility
+
+The template is built to WCAG 2.1 AA and audited with axe-core (no violations
+across the overview, lessons and the dark theme). Conventions to keep when
+authoring new courses:
+
+- **Landmarks & skip link** — `<main id="scroll">`, `<nav aria-label="Course
+  sections">`, and a "Skip to course content" link that appears on keyboard focus.
+- **Page changes are announced** — a visually hidden live region (`#a11yStatus`)
+  receives "Section N of 7: …", "Course overview", "More of this section revealed"
+  etc. via `Course.announce(text)`; focus moves to the new lesson's `<h1>` (or the
+  newly revealed chunk after *Continue*) so screen-reader and keyboard users land on
+  the new content. The active navigation item carries `aria-current="page"`.
+- **Real widget semantics** — NFQ levels and the descriptor explorer are ARIA tab
+  lists (roving tabindex, ←/→/Home/End); the accordion buttons expose
+  `aria-expanded`/`aria-controls`; knowledge-check options are grouped under their
+  question, feedback and scores are `role="status"`; reflection textareas are
+  labelled by their prompt; budget items use `aria-pressed`; matching tokens are
+  keyboard-operable buttons and every placement/removal is announced.
+- **Keyboard** — everything works without a mouse: `Esc` closes the mobile menu
+  (focus returns to the menu button), the global ←/→ page shortcuts stay out of the
+  way of controls, and `:focus-visible` rings are visible on every colour (white on
+  slate/gradients, accent elsewhere).
+- **Contrast** — text tokens and the sidebar's white-on-slate opacities meet 4.5:1;
+  colour is never the only signal (correct/incorrect also show a tick/cross and text).
+- **Motion** — every animation and transition, including the slide between lessons,
+  is disabled under `prefers-reduced-motion`.
+- **Structure** — one `<h1>` per lesson, headings step by one level, figures are
+  `role="img"` with a text alternative, decorative art is `aria-hidden`.
 
 ## SCORM 1.2 packaging
 
@@ -236,7 +294,7 @@ an LMS file area, a shared drive, etc.).
 
 ```
 .
-├── index.html                 # all course content + interactive markup
+├── index.html                 # all course content + interactive markup (+ inline icon sprite)
 ├── imsmanifest.xml            # SCORM 1.2 package manifest (single SCO)
 ├── css/styles.css             # SETU design tokens, layout, components, animations
 ├── js/
@@ -287,9 +345,9 @@ than baked in as a fixed-colour image.
 
 Marked in-course with a *[Placeholder …]* note:
 
-- **Cover image** — currently the SETU U-motif over a Slate → Barrow Blue brand
-  gradient. Swap in an approved SETU photo or official gradient if preferred.
-- **Further-reading links** — the reference list in Section 6 is plain text;
+- **Hero photos** — the overview and section heroes use the gradient crest; add
+  approved SETU photography via `<img class="hero__bg">` if preferred.
+- **Further-reading links** — the reference list in Section 7 is plain text;
   add live hyperlinks to SETU/QQI/National Forum/ECTS documents.
 - **Hours-per-credit default** — set to 20 (common Irish HE figure); the
   calculator slider allows 20–25.
