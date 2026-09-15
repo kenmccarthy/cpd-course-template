@@ -17,6 +17,15 @@
 
   /* ---------- build nav ---------- */
   var navEl = $("#nav");
+  if (C.rise) {
+    var ovLi = document.createElement("li");
+    var ovBtn = document.createElement("button");
+    ovBtn.className = "nav__item nav__item--overview";
+    ovBtn.setAttribute("data-overview", "");
+    ovBtn.innerHTML = '<span class="nav__num"><span class="u-mark" aria-hidden="true"></span></span><span class="nav__label">Course overview</span>';
+    ovBtn.addEventListener("click", function () { C.rise.showOverview(); closeSidebar(); });
+    ovLi.appendChild(ovBtn); navEl.appendChild(ovLi);
+  }
   LESSONS.forEach(function (l) {
     var li = document.createElement("li");
     var btn = document.createElement("button");
@@ -29,10 +38,10 @@
     li.appendChild(btn);
     navEl.appendChild(li);
   });
-  var navItems = $$(".nav__item");
+  var navItems = $$(".nav__item[data-goto]");
 
   /* ---------- navigation ---------- */
-  var lessons = $$(".lesson");
+  var lessons = $$(".lesson").filter(function (s) { return !s.classList.contains("lesson--overview"); });
   var current = state.current != null ? state.current : 0;
   var started = false;
 
@@ -43,20 +52,25 @@
     if (!started) { started = true; emit("course.start", {}); }
     // leaving a viewed section => count it complete
     if (prev !== i && state.visited[prev]) {
-      if (!state.completedSec[prev]) {
+      var gatesDone = !C.rise || !C.rise.gates[prev] ||
+        (state.reveal && (state.reveal[prev] || 0) >= C.rise.gates[prev].gates.length);
+      if (!state.completedSec[prev] && gatesDone) {
         state.completedSec[prev] = true;
         emit("section.complete", { id: prev, label: LESSONS[prev].label });
       }
     }
+
+    var outgoing = lessons.filter(function (s) { return s.classList.contains("is-active") && !s.classList.contains("is-leaving"); })[0] || null;
+    var fromOverview = !outgoing;
+    if (C.rise) C.rise.hideOverview();
 
     current = i;
     state.current = i;
     var firstView = !state.visited[i];
     state.visited[i] = true;
 
-    lessons.forEach(function (sec) {
-      sec.classList.toggle("is-active", +sec.getAttribute("data-lesson") === i);
-    });
+    var dir = fromOverview ? 1 : (i > prev ? 1 : (i < prev ? -1 : 0));
+    transition(outgoing, lessons[i], dir);
     navItems.forEach(function (n, idx) { n.classList.toggle("is-active", idx === i); });
     $("#topTitle").textContent = LESSONS[i].label;
     $("#scroll").scrollTop = 0;
@@ -66,6 +80,30 @@
     updateProgress();
     save();
     emit("section.view", { id: i, label: LESSONS[i].label, firstView: firstView });
+  }
+
+  /* Rise-style horizontal slide between lessons (crossfade under reduced motion) */
+  function transition(out, inc, dir) {
+    var reduce = !anim || anim.reduce;
+    lessons.forEach(function (s) {
+      if (s !== out && s !== inc) s.classList.remove("is-active", "is-leaving", "x-left", "x-right", "in-left", "in-right");
+    });
+    if (out && out !== inc) {
+      if (reduce || dir === 0) {
+        out.classList.remove("is-active");
+      } else {
+        out.classList.add("is-leaving", dir > 0 ? "x-left" : "x-right");
+        var done = function () { out.classList.remove("is-active", "is-leaving", "x-left", "x-right"); };
+        out.addEventListener("animationend", done, { once: true });
+        setTimeout(done, 700);
+      }
+    }
+    inc.classList.remove("in-left", "in-right");
+    inc.classList.add("is-active");
+    if (!reduce && out !== inc) {
+      inc.classList.add(dir < 0 ? "in-left" : "in-right");
+      inc.addEventListener("animationend", function () { inc.classList.remove("in-left", "in-right"); }, { once: true });
+    }
   }
 
   function countVisited() {
@@ -406,6 +444,9 @@
   if (restartBtn) restartBtn.addEventListener("click", function () { goTo(0); });
 
   /* ---------- init ---------- */
-  goTo(current);
+  C.goTo = goTo;
+  C.currentLesson = function () { return current; };
+  updateProgress();
+  if (C.rise) C.rise.showOverview(); else goTo(current);
   updateFinalScore();
 })();

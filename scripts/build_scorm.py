@@ -43,6 +43,7 @@ INCLUDE_FILES = [
     "js/confetti.js",
     "js/interactions.js",
     "js/dashboard.js",
+    "js/rise.js",
     "js/app.js",
     "assets/MONO_WHITE.png",
     "assets/MONO_BLACK.png",

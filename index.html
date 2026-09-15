@@ -50,20 +50,42 @@
     <div class="content-scroll" id="scroll">
 
       <!-- =================================================================
-           SECTION 0 — WELCOME & ORIENTATION
+           COURSE OVERVIEW (Rise-style front door)
       ================================================================== -->
-      <section class="lesson" data-lesson="0" data-accent="barrow">
-        <div class="cover">
-          <div class="cover__img">
-            <span class="cover__u" aria-hidden="true"></span>
-            <span class="cover__badge">SETU · Continuing Professional Development</span>
-            <div class="cover__text">
-              <h1>Understanding Module Descriptors</h1>
-              <p>A practical guide for part-time and industry-based lecturers</p>
-            </div>
+      <section class="lesson lesson--overview" data-lesson="overview" data-accent="1">
+        <div class="ov-hero">
+          <span class="ov-hero__crest crest-grad" aria-hidden="true"></span>
+          <div class="ov-hero__panel u-panel grad-mesh">
+            <span class="eyebrow"><span class="u-mark" aria-hidden="true"></span> Lifelong Learning at SETU · CPD</span>
+            <h1 id="ovTitle">Understanding Module Descriptors</h1>
+            <p class="ov-hero__sub" id="ovSubtitle">A practical guide for part-time and industry-based lecturers</p>
+            <p class="ov-hero__meta"><span id="ovMeta">~30 minutes · 7 sections</span> · <span id="ovPct">0%</span> complete</p>
+          </div>
+          <div class="ov-hero__side">
+            <p class="tagline" id="ovTagline">LEARN MORE.<br>GO FURTHER.</p>
+            <button class="btn btn--primary btn--lg" id="overviewCta" type="button">Start the course</button>
           </div>
         </div>
-        <p class="placeholder-note">[Placeholder cover — the SETU U-shape motif and brand gradient stand in for a warm, professional photo of a lecturer at a whiteboard or workshop. Swap in an approved SETU image or gradient when available.]</p>
+        <h2 class="ov-h2">Lessons</h2>
+        <div class="lcards" id="lessonCards"></div>
+        <p class="ov-note">Your progress is saved automatically on this device — return to any lesson at any time.</p>
+      </section>
+
+      <!-- =================================================================
+           SECTION 0 — WELCOME & ORIENTATION
+      ================================================================== -->
+      <section class="lesson" data-lesson="0" data-accent="1">
+        <header class="hero">
+          <div class="hero__panel u-panel grad-mesh">
+            <span class="eyebrow"><span class="u-mark" aria-hidden="true"></span> Welcome · Section 0</span>
+            <h1>Understanding Module Descriptors</h1>
+            <p class="hero__meta">~1.5 min read</p>
+          </div>
+          <!-- Photo slot: replace the crest with <img src="assets/…" alt="…"> (theme: Our People — see docs/design-toolkit.md §6) -->
+          <div class="hero__photo u-panel grad-mesh grad-mesh--light" data-photo-theme="Our People">
+            <span class="crest-grad" aria-hidden="true"></span>
+          </div>
+        </header>
 
         <p class="lead">Welcome. If you're watching this, chances are you know your subject inside out — you've worked in the field, you've solved real problems, and you've been asked to bring that expertise into the classroom. What you might not have had much exposure to is the paperwork that sits behind every module you teach: the <strong>module descriptor</strong>.</p>
 
@@ -78,6 +100,7 @@
           </ul>
         </div>
 
+        <div class="gate" data-gate></div>
         <p>Think of the module descriptor as the <strong>contract</strong> between you, your students, and the institution. Once you can read it fluently, a lot of the "why do I have to do it this way" questions in academic life start to make sense.</p>
 
         <div class="callout callout--tip">
@@ -96,9 +119,18 @@
       <!-- =================================================================
            SECTION 1 — WHAT IS A MODULE DESCRIPTOR
       ================================================================== -->
-      <section class="lesson" data-lesson="1" data-accent="seagreen">
-        <span class="eyebrow"><span class="u-mark" aria-hidden="true"></span> Section 1 · 5 min</span>
-        <h1>What is a module descriptor, and why it matters</h1>
+      <section class="lesson" data-lesson="1" data-accent="2">
+        <header class="hero">
+          <div class="hero__panel u-panel grad-mesh">
+            <span class="eyebrow"><span class="u-mark" aria-hidden="true"></span> Section 1 · 5 min</span>
+            <h1>What is a module descriptor, and why it matters</h1>
+            <p class="hero__meta">~5 min read</p>
+          </div>
+          <!-- Photo slot: replace the crest with <img src="assets/…" alt="…"> (theme: Learning in Real Life — see docs/design-toolkit.md §6) -->
+          <div class="hero__photo u-panel grad-mesh grad-mesh--light" data-photo-theme="Learning in Real Life">
+            <span class="crest-grad" aria-hidden="true"></span>
+          </div>
+        </header>
 
         <div class="statement"><span class="u-watermark" aria-hidden="true"></span><span>A module descriptor is not paperwork for its own sake — it's the blueprint for everything that happens in your classroom.</span></div>
 
@@ -117,6 +149,7 @@
         <p>You might be handed this document on day one and think of it as a formality. In practice, it's the <strong>single most important document for planning your teaching</strong>, because it has already been through a quality assurance process — reviewed, validated, and approved by the institution and, in many cases, external panels.</p>
 
         <!-- Annotated descriptor figure -->
+        <div class="gate" data-gate></div>
         <figure class="figure figure--framed fig-descriptor">
           <svg viewBox="0 0 640 360" role="img" aria-label="Annotated module descriptor template with labelled sections">
             <defs>
@@ -190,6 +223,7 @@
         </div>
 
 
+        <div class="gate" data-gate></div>
         <h2>Why it matters</h2>
         <div class="callout callout--why">
           <div class="callout__icon">🛡️</div>
@@ -218,6 +252,7 @@
         </div>
 
         <!-- Reflection -->
+        <div class="gate" data-gate></div>
         <div class="reflect" data-reflect="s1">
           <div class="reflect__tag">✍️ Reflection · not scored</div>
           <p class="reflect__prompt">Think of a module you're currently teaching or about to teach. Have you read the <em>full</em> module descriptor — not just the syllabus list? What's one thing in it that surprised you or that you weren't sure about?</p>
@@ -255,15 +290,25 @@
       <!-- =================================================================
            SECTION 2 — LEARNING OUTCOMES
       ================================================================== -->
-      <section class="lesson" data-lesson="2" data-accent="heather">
-        <span class="eyebrow"><span class="u-mark" aria-hidden="true"></span> Section 2 · 7 min</span>
-        <h1>Learning outcomes: what they are and how they drive everything</h1>
+      <section class="lesson" data-lesson="2" data-accent="3">
+        <header class="hero">
+          <div class="hero__panel u-panel grad-mesh">
+            <span class="eyebrow"><span class="u-mark" aria-hidden="true"></span> Section 2 · 7 min</span>
+            <h1>Learning outcomes: what they are and how they drive everything</h1>
+            <p class="hero__meta">~7 min read</p>
+          </div>
+          <!-- Photo slot: replace the crest with <img src="assets/…" alt="…"> (theme: Skills in Action — see docs/design-toolkit.md §6) -->
+          <div class="hero__photo u-panel grad-mesh grad-mesh--light" data-photo-theme="Skills in Action">
+            <span class="crest-grad" aria-hidden="true"></span>
+          </div>
+        </header>
 
         <div class="statement"><span class="u-watermark" aria-hidden="true"></span><span>Learning outcomes are the engine of the module descriptor. Everything else — content, teaching methods, assessment — exists to serve them.</span></div>
 
         <p>A <strong>learning outcome</strong> is a statement of what a student should know, understand, or be able to do by the end of a module — and be able to <em>demonstrate</em> it.</p>
         <p>Notice the emphasis: not what <em>you</em> will teach, but what the <em>student</em> will be able to do. This is a subtle but important shift for anyone coming from an industry training background, where content delivery is often the main focus.</p>
 
+        <div class="gate" data-gate></div>
         <h2>How learning outcomes are written</h2>
         <p>Well-written learning outcomes usually follow a simple structure:</p>
 
@@ -339,6 +384,7 @@
 
 
         <!-- Build a learning outcome -->
+        <div class="gate" data-gate></div>
         <div class="widget builder" data-builder>
           <div class="kc__tag">🛠 Try it · Build a learning outcome</div>
           <p style="color:var(--ink-soft);margin-top:0">Pick a verb, an object and a standard. The outcome assembles below — and the badge shows the Bloom's level the verb implies.</p>
@@ -368,6 +414,7 @@
           </div>
         </div>
 
+        <div class="gate" data-gate></div>
         <h2>Why this matters for you: constructive alignment</h2>
         <p>This is where John Biggs' concept of <strong>constructive alignment</strong> becomes essential. Biggs argued that good teaching happens when three things line up:</p>
 
@@ -454,6 +501,7 @@
           </div>
         </div>
 
+        <div class="gate" data-gate></div>
         <h2>How learning outcomes drive curriculum design</h2>
         <p>Once outcomes are set, everything else should flow from them:</p>
         <ol>
@@ -469,6 +517,7 @@
           </div>
         </div>
 
+        <div class="gate" data-gate></div>
         <div class="reflect" data-reflect="s2">
           <div class="reflect__tag">✍️ Reflection · not scored</div>
           <p class="reflect__prompt">Look at one learning outcome from a module you teach. What Bloom's level is the main verb pitched at? Does your current assessment actually test students at that level — or a lower one?</p>
@@ -503,9 +552,18 @@
       <!-- =================================================================
            SECTION 3 — NFQ LEVELS
       ================================================================== -->
-      <section class="lesson" data-lesson="3" data-accent="clover">
-        <span class="eyebrow"><span class="u-mark" aria-hidden="true"></span> Section 3 · 7 min</span>
-        <h1>NFQ levels: setting the standard</h1>
+      <section class="lesson" data-lesson="3" data-accent="1">
+        <header class="hero">
+          <div class="hero__panel u-panel grad-mesh">
+            <span class="eyebrow"><span class="u-mark" aria-hidden="true"></span> Section 3 · 7 min</span>
+            <h1>NFQ levels: setting the standard</h1>
+            <p class="hero__meta">~7 min read</p>
+          </div>
+          <!-- Photo slot: replace the crest with <img src="assets/…" alt="…"> (theme: Supported Journeys — see docs/design-toolkit.md §6) -->
+          <div class="hero__photo u-panel grad-mesh grad-mesh--light" data-photo-theme="Supported Journeys">
+            <span class="crest-grad" aria-hidden="true"></span>
+          </div>
+        </header>
 
         <div class="statement"><span class="u-watermark" aria-hidden="true"></span><span>The NFQ level tells you how much independence, complexity, and critical thinking to expect — and to demand — from your students.</span></div>
 
@@ -553,6 +611,7 @@
           <li><strong>Competence</strong> — context, role, learning to learn, insight</li>
         </ul>
 
+        <div class="gate" data-gate></div>
         <h2>What changes as the level rises</h2>
         <p>Here's the practical version, in plain language. Select a level to see what it means and a realistic example task:</p>
 
@@ -618,6 +677,7 @@
           </div>
         </div>
 
+        <div class="gate" data-gate></div>
         <h2>Why this matters for your teaching</h2>
         <p>This is often the biggest adjustment for lecturers coming from industry. In the workplace, you're usually solving problems using deep expertise and giving clear, authoritative answers. In the classroom, your job is to <strong>design experiences that let students build toward that expertise</strong> — appropriate to their level.</p>
         <p>If you're teaching a Level 6 module, expecting first-year students to critically evaluate competing theoretical frameworks independently may be pitched too high — they haven't yet built the foundational knowledge. Conversely, if you're teaching a Level 9 module and still spoon-feeding definitions, you're likely under-challenging students relative to what the award standard requires.</p>
@@ -629,6 +689,7 @@
           </div>
         </div>
 
+        <div class="gate" data-gate></div>
         <div class="reflect" data-reflect="s3">
           <div class="reflect__tag">✍️ Reflection · not scored</div>
           <p class="reflect__prompt">What NFQ level is the module you teach? Looking at the level indicators, is there anything about your current teaching or assessment that's pitched a little too low, or too high, for that level?</p>
@@ -661,9 +722,18 @@
       <!-- =================================================================
            SECTION 4 — ECTS CREDITS
       ================================================================== -->
-      <section class="lesson" data-lesson="4" data-accent="barrow">
-        <span class="eyebrow"><span class="u-mark" aria-hidden="true"></span> Section 4 · 6.5 min</span>
-        <h1>ECTS credits and student workload</h1>
+      <section class="lesson" data-lesson="4" data-accent="2">
+        <header class="hero">
+          <div class="hero__panel u-panel grad-mesh">
+            <span class="eyebrow"><span class="u-mark" aria-hidden="true"></span> Section 4 · 6.5 min</span>
+            <h1>ECTS credits and student workload</h1>
+            <p class="hero__meta">~6.5 min read</p>
+          </div>
+          <!-- Photo slot: replace the crest with <img src="assets/…" alt="…"> (theme: Learning in Real Life — see docs/design-toolkit.md §6) -->
+          <div class="hero__photo u-panel grad-mesh grad-mesh--light" data-photo-theme="Learning in Real Life">
+            <span class="crest-grad" aria-hidden="true"></span>
+          </div>
+        </header>
 
         <div class="statement"><span class="u-watermark" aria-hidden="true"></span><span>Credits are not a measure of how much you teach. They're a measure of how much time a typical student should spend learning.</span></div>
 
@@ -685,6 +755,7 @@
           <div class="deflist__row"><div class="deflist__term">📝 Exam prep</div><div class="deflist__desc">Revision and the exam itself</div></div>
         </div>
 
+        <div class="gate" data-gate></div>
         <h2>Working the numbers</h2>
         <p>Let's do an example together. A module is worth <strong>5 ECTS credits</strong>, at 20 hours per credit. Total student effort = 5 × 20 = <strong>100 hours</strong> across the semester. If timetabled contact hours are 24 hours (2 hours/week × 12 weeks), that leaves <strong>76 hours</strong> of independent study, assignment work, and exam preparation the student is expected to do on their own.</p>
 
@@ -744,6 +815,7 @@
           </div>
         </div>
 
+        <div class="gate" data-gate></div>
         <h2>Why this matters for you as a teacher</h2>
         <div class="callout callout--tip">
           <div class="callout__icon">🧾</div>
@@ -767,6 +839,7 @@
           </div>
         </div>
 
+        <div class="gate" data-gate></div>
         <div class="reflect" data-reflect="s4">
           <div class="reflect__tag">✍️ Reflection · not scored</div>
           <p class="reflect__prompt">Pick one assessment task you currently set. Roughly how many hours would a student need to complete it well? Does that seem proportionate to the credit value of the module?</p>
@@ -801,9 +874,18 @@
       <!-- =================================================================
            SECTION 5 — BRINGING IT TOGETHER
       ================================================================== -->
-      <section class="lesson" data-lesson="5" data-accent="seagreen">
-        <span class="eyebrow"><span class="u-mark" aria-hidden="true"></span> Section 5 · 2 min</span>
-        <h1>Bringing it together: reading a descriptor in practice</h1>
+      <section class="lesson" data-lesson="5" data-accent="3">
+        <header class="hero">
+          <div class="hero__panel u-panel grad-mesh">
+            <span class="eyebrow"><span class="u-mark" aria-hidden="true"></span> Section 5 · 2 min</span>
+            <h1>Bringing it together: reading a descriptor in practice</h1>
+            <p class="hero__meta">~2 min read</p>
+          </div>
+          <!-- Photo slot: replace the crest with <img src="assets/…" alt="…"> (theme: Embodied Futures — see docs/design-toolkit.md §6) -->
+          <div class="hero__photo u-panel grad-mesh grad-mesh--light" data-photo-theme="Embodied Futures">
+            <span class="crest-grad" aria-hidden="true"></span>
+          </div>
+        </header>
 
         <p class="lead">Let's put it all together. When you next open a module descriptor, read it with these four questions in mind. Expand each for a practical tip you can apply when planning a class.</p>
 
@@ -862,6 +944,7 @@
           </div>
         </div>
 
+        <div class="gate" data-gate></div>
         <!-- Readiness checklist -->
         <div class="widget readiness" data-readiness>
           <div class="kc__tag">🎯 Your descriptor-readiness</div>
@@ -887,9 +970,18 @@
       <!-- =================================================================
            SECTION 6 — SUMMARY & FINAL QUIZ
       ================================================================== -->
-      <section class="lesson" data-lesson="6" data-accent="heather">
-        <span class="eyebrow"><span class="u-mark" aria-hidden="true"></span> Section 6 · Summary &amp; assessment</span>
-        <h1>Summary, final knowledge check &amp; reflection</h1>
+      <section class="lesson" data-lesson="6" data-accent="1">
+        <header class="hero">
+          <div class="hero__panel u-panel grad-mesh">
+            <span class="eyebrow"><span class="u-mark" aria-hidden="true"></span> Section 6 · Summary &amp; assessment</span>
+            <h1>Summary, final knowledge check &amp; reflection</h1>
+            <p class="hero__meta">~3 min read</p>
+          </div>
+          <!-- Photo slot: replace the crest with <img src="assets/…" alt="…"> (theme: Our People — see docs/design-toolkit.md §6) -->
+          <div class="hero__photo u-panel grad-mesh grad-mesh--light" data-photo-theme="Our People">
+            <span class="crest-grad" aria-hidden="true"></span>
+          </div>
+        </header>
 
         <div class="statement"><span class="u-watermark" aria-hidden="true"></span><span>The module descriptor is your map. Learning outcomes are your destination. NFQ level sets your altitude. ECTS credits tell you how far the journey should take.</span></div>
 
@@ -902,6 +994,7 @@
         </div>
 
         <!-- Final quiz -->
+        <div class="gate" data-gate></div>
         <div class="kc" data-kc="f1" data-type="single" data-final>
           <div class="kc__tag">📝 Final quiz · Question 1 of 4</div>
           <p class="kc__q">A learning outcome uses the verb "critically evaluate." Which Bloom's level does this best correspond to?</p>
@@ -967,6 +1060,7 @@
         </div>
 
         <!-- Final reflection -->
+        <div class="gate" data-gate></div>
         <div class="reflect" data-reflect="final">
           <div class="reflect__tag">✍️ Final reflection · not submitted</div>
           <p class="reflect__prompt">Look at the descriptor for a module you teach (or are about to). Write a short note to yourself covering:</p>
@@ -993,6 +1087,7 @@
         </ul>
         <p class="placeholder-note">[Add live hyperlinks to your institution's copies of these documents before publishing.]</p>
 
+        <div class="gate" data-gate></div>
         <!-- Progress dashboard -->
         <div class="widget dashboard" data-dashboard>
           <div class="kc__tag">📊 Your progress summary</div>
@@ -1037,6 +1132,7 @@
 <script src="js/confetti.js"></script>
 <script src="js/interactions.js"></script>
 <script src="js/dashboard.js"></script>
+<script src="js/rise.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>
