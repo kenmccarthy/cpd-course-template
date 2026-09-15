@@ -9,6 +9,48 @@
   <link rel="icon" type="image/png" href="assets/favicon.png">
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to course content</a>
+<!-- Inline icon sprite — line icons on a 24px grid (paths adapted from Lucide, ISC licence).
+     Use: <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-NAME"></use></svg>
+     or, from JS, Course.icon("NAME"). Add new symbols here; keep them decorative (text carries meaning). -->
+<svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden">
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></symbol>
+  <symbol id="i-clipboard" viewBox="0 0 24 24"><rect width="8" height="4" x="8" y="2" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M9 12h6M9 16h6"/></symbol>
+  <symbol id="i-swap" viewBox="0 0 24 24"><path d="M8 3 4 7l4 4"/><path d="M4 7h16"/><path d="m16 21 4-4-4-4"/><path d="M20 17H4"/></symbol>
+  <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36z"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 24 24"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3"/><path d="M1 14h6M9 8h6M17 16h6"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></symbol>
+  <symbol id="i-book-open" viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></symbol>
+  <symbol id="i-building" viewBox="0 0 24 24"><rect width="16" height="20" x="4" y="2" rx="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01M16 6h.01M12 6h.01M12 10h.01M12 14h.01M16 10h.01M16 14h.01M8 10h.01M8 14h.01"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8M16 13H8M16 17H8"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-calculator" viewBox="0 0 24 24"><rect width="16" height="20" x="4" y="2" rx="2"/><path d="M8 6h8"/><path d="M16 14v4M16 10h.01M12 10h.01M8 10h.01M12 14h.01M8 14h.01M12 18h.01M8 18h.01"/></symbol>
+  <symbol id="i-blocks" viewBox="0 0 24 24"><rect width="7" height="7" x="14" y="3" rx="1"/><path d="M10 21V8a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1H3"/></symbol>
+  <symbol id="i-list-checks" viewBox="0 0 24 24"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol>
+  <symbol id="i-cap" viewBox="0 0 24 24"><path d="M21.42 10.92a1 1 0 0 0-.02-1.84L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.83l8.57 3.91a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></symbol>
+  <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></symbol>
+  <symbol id="i-arrow-down" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></symbol>
+  <symbol id="i-warning" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
+</svg>
+<div class="sr-only" id="a11yStatus" role="status" aria-live="polite" aria-atomic="true"></div>
 <div class="app">
 
   <!-- ============================ SIDEBAR ============================ -->
@@ -17,7 +59,7 @@
       <img class="sidebar__logo" src="assets/MONO_WHITE.png" alt="SETU — South East Technological University">
       <p class="sidebar__kicker">CPD · Self-paced</p>
       <h1 class="sidebar__title">Understanding Module Descriptors</h1>
-      <p class="sidebar__meta">⏱ ~30 minutes · 7 sections</p>
+      <p class="sidebar__meta"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-clock"></use></svg> ~30 minutes · 7 sections</p>
     </div>
 
     <div class="progress">
@@ -25,29 +67,29 @@
       <div class="progress__track"><div class="progress__fill" id="progressFill"></div></div>
     </div>
 
-    <nav>
+    <nav aria-label="Course sections">
       <ul class="nav" id="nav"><!-- populated by JS --></ul>
     </nav>
 
     <div class="sidebar__foot">
       <button class="sidebar__theme" id="themeBtnSide" type="button">
-        <span id="themeIcon">◐</span> <span id="themeLabel">Toggle dark mode</span>
+        <span class="sidebar__theme-icon" id="themeIcon" aria-hidden="true"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-moon"></use></svg></span> <span id="themeLabel">Toggle dark mode</span>
       </button>
       <p style="margin:14px 0 0">South East Technological University · A practical guide for part-time &amp; industry-based lecturers.</p>
     </div>
   </aside>
-  <div class="backdrop" id="backdrop"></div>
+  <div class="backdrop" id="backdrop" aria-hidden="true"></div>
 
   <!-- ============================ MAIN ============================ -->
   <div class="main">
     <div class="topbar">
-      <button class="icon-btn" id="menuBtn" aria-label="Open menu">☰</button>
+      <button class="icon-btn" id="menuBtn" type="button" aria-label="Open course menu" aria-controls="sidebar" aria-expanded="false"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-menu"></use></svg></button>
       <img class="topbar__logo" src="assets/MONO_WHITE.png" alt="SETU">
       <span class="topbar__title" id="topTitle">Understanding Module Descriptors</span>
-      <button class="icon-btn" id="themeBtn" aria-label="Toggle theme">◐</button>
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch to dark mode"><span id="themeIconTop" aria-hidden="true"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-moon"></use></svg></span></button>
     </div>
 
-    <div class="content-scroll" id="scroll">
+    <main class="content-scroll" id="scroll" tabindex="-1"><div id="main"></div>
 
       <!-- =================================================================
            COURSE OVERVIEW (Rise-style front door)
@@ -57,7 +99,7 @@
           <span class="ov-hero__crest crest-grad" aria-hidden="true"></span>
           <div class="ov-hero__panel u-panel grad-mesh">
             <span class="eyebrow"><span class="u-mark" aria-hidden="true"></span> Lifelong Learning at SETU · CPD</span>
-            <h1 id="ovTitle">Understanding Module Descriptors</h1>
+            <h1 id="ovTitle" tabindex="-1">Understanding Module Descriptors</h1>
             <p class="ov-hero__sub" id="ovSubtitle">A practical guide for part-time and industry-based lecturers</p>
             <p class="ov-hero__meta"><span id="ovMeta">~30 minutes · 7 sections</span> · <span id="ovPct">0%</span> complete</p>
           </div>
@@ -66,25 +108,25 @@
             <button class="btn btn--primary btn--lg" id="overviewCta" type="button">Start the course</button>
           </div>
         </div>
-        <h2 class="ov-h2">Lessons</h2>
-        <div class="lcards" id="lessonCards"></div>
+        <h2 class="ov-h2" id="lessonsHeading">Lessons</h2>
+        <div class="lcards" id="lessonCards" role="list" aria-labelledby="lessonsHeading"></div>
         <p class="ov-note">Your progress is saved automatically on this device — return to any lesson at any time.</p>
       </section>
 
       <!-- =================================================================
-           SECTION 0 — WELCOME & ORIENTATION
+           SECTION 1 — WELCOME & ORIENTATION  (data-lesson="0")
       ================================================================== -->
       <section class="lesson" data-lesson="0" data-accent="1">
         <header class="hero">
+          <span class="hero__crest crest-grad" aria-hidden="true"></span>
           <div class="hero__panel u-panel grad-mesh">
-            <span class="eyebrow"><span class="u-mark" aria-hidden="true"></span> Welcome · Section 0</span>
-            <h1>Understanding Module Descriptors</h1>
+            <span class="eyebrow" data-hero-eyebrow><span class="u-mark" aria-hidden="true"></span> Section 1 of 7</span>
+            <h1 tabindex="-1">Understanding Module Descriptors</h1>
             <p class="hero__meta">~1.5 min read</p>
           </div>
-          <!-- Photo slot: replace the crest with <img src="assets/…" alt="…"> (theme: Our People — see docs/design-toolkit.md §6) -->
-          <div class="hero__photo u-panel grad-mesh grad-mesh--light" data-photo-theme="Our People">
-            <span class="crest-grad" aria-hidden="true"></span>
-          </div>
+          <!-- Progress strip, rendered by js/rise.js. Optional cover photo: add
+               <img class="hero__bg" src="assets/…" alt=""> as the first child of .hero -->
+          <div class="hero__side" data-hero-side></div>
         </header>
 
         <p class="lead">Welcome. If you're watching this, chances are you know your subject inside out — you've worked in the field, you've solved real problems, and you've been asked to bring that expertise into the classroom. What you might not have had much exposure to is the paperwork that sits behind every module you teach: the <strong>module descriptor</strong>.</p>
@@ -104,7 +146,7 @@
         <p>Think of the module descriptor as the <strong>contract</strong> between you, your students, and the institution. Once you can read it fluently, a lot of the "why do I have to do it this way" questions in academic life start to make sense.</p>
 
         <div class="callout callout--tip">
-          <div class="callout__icon">⏱</div>
+          <div class="callout__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-clock"></use></svg></div>
           <div class="callout__body">
             <p><strong>Estimated time: 30 minutes.</strong> You can pause and return to this at any point — your progress is saved automatically on this device.</p>
           </div>
@@ -112,24 +154,24 @@
 
         <div class="lesson-nav">
           <span></span>
-          <button class="btn btn--primary" data-next>Start the course <span aria-hidden="true">→</span></button>
+          <button class="btn btn--primary" data-next>Start the course <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg></button>
         </div>
       </section>
 
       <!-- =================================================================
-           SECTION 1 — WHAT IS A MODULE DESCRIPTOR
+           SECTION 2 — WHAT IS A MODULE DESCRIPTOR  (data-lesson="1")
       ================================================================== -->
       <section class="lesson" data-lesson="1" data-accent="2">
         <header class="hero">
+          <span class="hero__crest crest-grad" aria-hidden="true"></span>
           <div class="hero__panel u-panel grad-mesh">
-            <span class="eyebrow"><span class="u-mark" aria-hidden="true"></span> Section 1 · 5 min</span>
-            <h1>What is a module descriptor, and why it matters</h1>
+            <span class="eyebrow" data-hero-eyebrow><span class="u-mark" aria-hidden="true"></span> Section 2 of 7</span>
+            <h1 tabindex="-1">What is a module descriptor, and why it matters</h1>
             <p class="hero__meta">~5 min read</p>
           </div>
-          <!-- Photo slot: replace the crest with <img src="assets/…" alt="…"> (theme: Learning in Real Life — see docs/design-toolkit.md §6) -->
-          <div class="hero__photo u-panel grad-mesh grad-mesh--light" data-photo-theme="Learning in Real Life">
-            <span class="crest-grad" aria-hidden="true"></span>
-          </div>
+          <!-- Progress strip, rendered by js/rise.js. Optional cover photo: add
+               <img class="hero__bg" src="assets/…" alt=""> as the first child of .hero -->
+          <div class="hero__side" data-hero-side></div>
         </header>
 
         <div class="statement"><span class="u-watermark" aria-hidden="true"></span><span>A module descriptor is not paperwork for its own sake — it's the blueprint for everything that happens in your classroom.</span></div>
@@ -169,7 +211,7 @@
             <rect class="doc-bg" x="200" y="20" width="240" height="320" rx="10"/>
             <rect class="doc-band" x="200" y="20" width="240" height="46" rx="10"/>
             <rect class="doc-band" x="200" y="46" width="240" height="20"/>
-            <text class="doc-t" x="216" y="42" fill="#fff">Module Descriptor</text>
+            <text class="doc-t" x="216" y="42" style="fill:#fff">Module Descriptor</text>
             <text x="216" y="58" fill="#dff1ef" style="font:11px var(--font-body)">DESC · 5 ECTS · Level 8</text>
             <!-- rows -->
             <rect class="doc-hl" x="216" y="82" width="208" height="30" rx="5"/>
@@ -208,17 +250,17 @@
 
         <!-- Interactive descriptor explorer -->
         <div class="widget anatomy" data-anatomy>
-          <div class="kc__tag">🔍 Explore · Anatomy of a descriptor</div>
+          <div class="kc__tag"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-search"></use></svg> Explore · Anatomy of a descriptor</div>
           <p style="color:var(--ink-soft);margin-top:0">Select a part of the descriptor to see what it's telling you — and why it matters for your teaching.</p>
           <div class="anatomy__grid">
-            <div class="anatomy__tabs" role="tablist">
-              <button class="anatomy__tab is-active" type="button" data-part="title">Title, code &amp; credits</button>
-              <button class="anatomy__tab" type="button" data-part="nfq">NFQ level</button>
-              <button class="anatomy__tab" type="button" data-part="outcomes">Learning outcomes</button>
-              <button class="anatomy__tab" type="button" data-part="content">Indicative content</button>
-              <button class="anatomy__tab" type="button" data-part="assessment">Assessment strategy</button>
+            <div class="anatomy__tabs" role="tablist" aria-label="Parts of a module descriptor" aria-orientation="vertical">
+              <button class="anatomy__tab is-active" type="button" role="tab" id="anat-title" aria-controls="anatomyDetail" aria-selected="true" tabindex="0" data-part="title">Title, code &amp; credits</button>
+              <button class="anatomy__tab" type="button" role="tab" id="anat-nfq" aria-controls="anatomyDetail" aria-selected="false" tabindex="-1" data-part="nfq">NFQ level</button>
+              <button class="anatomy__tab" type="button" role="tab" id="anat-outcomes" aria-controls="anatomyDetail" aria-selected="false" tabindex="-1" data-part="outcomes">Learning outcomes</button>
+              <button class="anatomy__tab" type="button" role="tab" id="anat-content" aria-controls="anatomyDetail" aria-selected="false" tabindex="-1" data-part="content">Indicative content</button>
+              <button class="anatomy__tab" type="button" role="tab" id="anat-assessment" aria-controls="anatomyDetail" aria-selected="false" tabindex="-1" data-part="assessment">Assessment strategy</button>
             </div>
-            <div class="anatomy__detail" id="anatomyDetail"></div>
+            <div class="anatomy__detail" id="anatomyDetail" role="tabpanel" tabindex="0"></div>
           </div>
         </div>
 
@@ -226,26 +268,26 @@
         <div class="gate" data-gate></div>
         <h2>Why it matters</h2>
         <div class="callout callout--why">
-          <div class="callout__icon">🛡️</div>
+          <div class="callout__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-shield"></use></svg></div>
           <div class="callout__body">
             <p><strong>It's a quality assurance instrument.</strong> Every module goes through an approval process to meet institutional and national standards. QQI's Core Statutory Quality Assurance Guidelines and related Award Standards set the expectation that what's taught and assessed matches what was approved.</p>
           </div>
         </div>
         <div class="callout callout--why">
-          <div class="callout__icon">📋</div>
+          <div class="callout__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-clipboard"></use></svg></div>
           <div class="callout__body">
             <p><strong>It's your teaching brief.</strong> The descriptor tells you what students are entitled to learn and how they'll be assessed — regardless of who's teaching the module in any given semester. This protects consistency and fairness.</p>
           </div>
         </div>
         <div class="callout callout--why">
-          <div class="callout__icon">🤝</div>
+          <div class="callout__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-swap"></use></svg></div>
           <div class="callout__body">
             <p><strong>It's a two-way commitment.</strong> Students, quality reviewers, external examiners, and professional bodies all rely on the descriptor to know what a module promises. Drift too far from it, and you risk misaligning the module with what's being formally assessed.</p>
           </div>
         </div>
 
         <div class="callout callout--tip">
-          <div class="callout__icon">🧭</div>
+          <div class="callout__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-compass"></use></svg></div>
           <div class="callout__body">
             <p><strong>A useful metaphor</strong> The module descriptor is the <em>destination and the route map</em>. How you drive — your teaching style, your industry stories, your delivery techniques — is entirely up to you. But the destination (the learning outcomes) and the general route (assessment methods, content areas) are fixed by the descriptor.</p>
           </div>
@@ -254,9 +296,9 @@
         <!-- Reflection -->
         <div class="gate" data-gate></div>
         <div class="reflect" data-reflect="s1">
-          <div class="reflect__tag">✍️ Reflection · not scored</div>
-          <p class="reflect__prompt">Think of a module you're currently teaching or about to teach. Have you read the <em>full</em> module descriptor — not just the syllabus list? What's one thing in it that surprised you or that you weren't sure about?</p>
-          <textarea placeholder="Jot your thoughts here — saved only on this device…"></textarea>
+          <div class="reflect__tag"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-pen"></use></svg> Reflection · not scored</div>
+          <p class="reflect__prompt" id="reflect-s1">Think of a module you're currently teaching or about to teach. Have you read the <em>full</em> module descriptor — not just the syllabus list? What's one thing in it that surprised you or that you weren't sure about?</p>
+          <textarea aria-labelledby="reflect-s1" placeholder="Jot your thoughts here — saved only on this device…"></textarea>
           <div class="reflect__foot">
             <span class="reflect__note">Just for your own thinking.</span>
             <button class="reflect__save" type="button">Save note</button>
@@ -265,42 +307,42 @@
 
         <!-- Knowledge check -->
         <div class="kc" data-kc="s1" data-type="single">
-          <div class="kc__tag">✓ Knowledge check</div>
-          <p class="kc__q">Which of the following best describes the primary purpose of a module descriptor?</p>
-          <div class="kc__options">
+          <div class="kc__tag"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg> Knowledge check</div>
+          <p class="kc__q" id="kcq-s1">Which of the following best describes the primary purpose of a module descriptor?</p>
+          <div class="kc__options" role="group" aria-labelledby="kcq-s1">
             <button class="opt" data-opt="A"><span class="opt__mark"><span class="opt__letter">A</span></span> A marketing document used to attract students to a programme</button>
             <button class="opt" data-opt="B"><span class="opt__mark"><span class="opt__letter">B</span></span> A record of a lecturer's personal teaching preferences</button>
             <button class="opt" data-opt="C" data-correct><span class="opt__mark"><span class="opt__letter">C</span></span> An approved document defining what a module covers, how it will be taught, and how it will be assessed</button>
             <button class="opt" data-opt="D"><span class="opt__mark"><span class="opt__letter">D</span></span> An optional guide that lecturers can adapt freely without approval</button>
           </div>
-          <div class="kc__feedback"
+          <div class="kc__feedback" role="status" aria-live="polite"
                data-good="Exactly right. The module descriptor is a formally approved document — it sets out the agreed outcomes, content, and assessment approach for the module."
                data-bad="Not quite. The module descriptor isn't a marketing tool or a personal preference sheet — it's an approved document that defines outcomes, content, and assessment for the module."></div>
           <div class="kc__footer">
-            <button class="kc__retry" type="button">↺ Try again</button>
+            <button class="kc__retry" type="button"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-rotate"></use></svg> Try again</button>
           </div>
         </div>
 
         <div class="lesson-nav">
-          <button class="btn btn--ghost" data-prev><span aria-hidden="true">←</span> <span class="long">Welcome</span></button>
-          <button class="btn btn--primary" data-next><span class="long">Learning outcomes</span> <span aria-hidden="true">→</span></button>
+          <button class="btn btn--ghost" data-prev><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-left"></use></svg> <span class="long">Welcome</span></button>
+          <button class="btn btn--primary" data-next><span class="long">Learning outcomes</span> <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg></button>
         </div>
       </section>
 
       <!-- =================================================================
-           SECTION 2 — LEARNING OUTCOMES
+           SECTION 3 — LEARNING OUTCOMES  (data-lesson="2")
       ================================================================== -->
       <section class="lesson" data-lesson="2" data-accent="3">
         <header class="hero">
+          <span class="hero__crest crest-grad" aria-hidden="true"></span>
           <div class="hero__panel u-panel grad-mesh">
-            <span class="eyebrow"><span class="u-mark" aria-hidden="true"></span> Section 2 · 7 min</span>
-            <h1>Learning outcomes: what they are and how they drive everything</h1>
+            <span class="eyebrow" data-hero-eyebrow><span class="u-mark" aria-hidden="true"></span> Section 3 of 7</span>
+            <h1 tabindex="-1">Learning outcomes: what they are and how they drive everything</h1>
             <p class="hero__meta">~7 min read</p>
           </div>
-          <!-- Photo slot: replace the crest with <img src="assets/…" alt="…"> (theme: Skills in Action — see docs/design-toolkit.md §6) -->
-          <div class="hero__photo u-panel grad-mesh grad-mesh--light" data-photo-theme="Skills in Action">
-            <span class="crest-grad" aria-hidden="true"></span>
-          </div>
+          <!-- Progress strip, rendered by js/rise.js. Optional cover photo: add
+               <img class="hero__bg" src="assets/…" alt=""> as the first child of .hero -->
+          <div class="hero__side" data-hero-side></div>
         </header>
 
         <div class="statement"><span class="u-watermark" aria-hidden="true"></span><span>Learning outcomes are the engine of the module descriptor. Everything else — content, teaching methods, assessment — exists to serve them.</span></div>
@@ -366,7 +408,7 @@
             <text class="bt" x="320" y="112" text-anchor="middle" style="font-size:12px">Evaluate</text>
             <text class="bt" x="320" y="70" text-anchor="middle" style="font-size:11px">Create</text>
             <!-- side labels -->
-            <text class="bside" x="600" y="66" text-anchor="end">Higher-order ↑</text>
+            <text class="bside" x="600" y="66" text-anchor="end">Higher-order</text>
             <text class="bside" x="600" y="296" text-anchor="end">Lower-order</text>
           </svg>
           <figcaption>Bloom's Taxonomy, revised by Anderson &amp; Krathwohl (2001) — thinking skills from lower- to higher-order.</figcaption>
@@ -386,7 +428,7 @@
         <!-- Build a learning outcome -->
         <div class="gate" data-gate></div>
         <div class="widget builder" data-builder>
-          <div class="kc__tag">🛠 Try it · Build a learning outcome</div>
+          <div class="kc__tag"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-wrench"></use></svg> Try it · Build a learning outcome</div>
           <p style="color:var(--ink-soft);margin-top:0">Pick a verb, an object and a standard. The outcome assembles below — and the badge shows the Bloom's level the verb implies.</p>
           <div class="builder__row">
             <select class="builder__sel" id="bVerb" aria-label="Action verb">
@@ -408,7 +450,7 @@
               <option>to a professional code of practice</option>
             </select>
           </div>
-          <div class="builder__out">
+          <div class="builder__out" role="status" aria-live="polite">
             <span class="builder__level" id="bLevel" data-level="6">Create</span>
             <p class="builder__sentence" id="bSentence"></p>
           </div>
@@ -456,48 +498,48 @@
 
         <!-- Alignment checker -->
         <div class="widget align" data-align>
-          <div class="kc__tag">⚖ Try it · Check the alignment</div>
+          <div class="kc__tag"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-scale"></use></svg> Try it · Check the alignment</div>
           <p style="color:var(--ink-soft);margin-top:0">Constructive alignment means all three should target the same level of thinking. Set each and see whether they line up.</p>
           <div class="align__rows">
             <label class="align__row"><span>Learning outcome</span><select id="alOutcome" class="builder__sel"></select></label>
             <label class="align__row"><span>Teaching activity</span><select id="alTeach" class="builder__sel"></select></label>
             <label class="align__row"><span>Assessment task</span><select id="alAssess" class="builder__sel"></select></label>
           </div>
-          <div class="align__verdict" id="alignVerdict"></div>
+          <div class="align__verdict" id="alignVerdict" role="status"></div>
         </div>
 
         <!-- Matching interaction -->
         <div class="match" data-match="bloom">
-          <div class="kc__tag">🎯 Try it · Match the verb to Bloom's level</div>
-          <p style="color:var(--ink-soft)">Drag each learning-outcome verb onto the Bloom's level it signals.</p>
+          <div class="kc__tag"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-target"></use></svg> Try it · Match the verb to Bloom's level</div>
+          <p style="color:var(--ink-soft)">Drag each learning-outcome verb onto the Bloom's level it signals — or select a verb, then choose a level.</p>
           <div class="match__grid">
             <div>
               <div class="match__col-title">Verbs</div>
               <div class="tokens" id="bloomTokens">
-                <div class="token" draggable="true" data-token="remember">"List the key components of…"</div>
-                <div class="token" draggable="true" data-token="analyse">"Compare two approaches to…"</div>
-                <div class="token" draggable="true" data-token="create">"Design a solution for…"</div>
-                <div class="token" draggable="true" data-token="evaluate">"Justify the choice of…"</div>
-                <div class="token" draggable="true" data-token="understand">"Explain the purpose of…"</div>
-                <div class="token" draggable="true" data-token="apply">"Apply the technique to…"</div>
+                <div class="token" draggable="true" role="button" tabindex="0" data-token="remember">"List the key components of…"</div>
+                <div class="token" draggable="true" role="button" tabindex="0" data-token="analyse">"Compare two approaches to…"</div>
+                <div class="token" draggable="true" role="button" tabindex="0" data-token="create">"Design a solution for…"</div>
+                <div class="token" draggable="true" role="button" tabindex="0" data-token="evaluate">"Justify the choice of…"</div>
+                <div class="token" draggable="true" role="button" tabindex="0" data-token="understand">"Explain the purpose of…"</div>
+                <div class="token" draggable="true" role="button" tabindex="0" data-token="apply">"Apply the technique to…"</div>
               </div>
             </div>
             <div>
               <div class="match__col-title">Bloom's level</div>
               <div class="drops">
-                <div class="drop" data-accept="remember"><span class="drop__slot"></span><span class="drop__target">Remember</span></div>
-                <div class="drop" data-accept="understand"><span class="drop__slot"></span><span class="drop__target">Understand</span></div>
-                <div class="drop" data-accept="apply"><span class="drop__slot"></span><span class="drop__target">Apply</span></div>
-                <div class="drop" data-accept="analyse"><span class="drop__slot"></span><span class="drop__target">Analyse</span></div>
-                <div class="drop" data-accept="evaluate"><span class="drop__slot"></span><span class="drop__target">Evaluate</span></div>
-                <div class="drop" data-accept="create"><span class="drop__slot"></span><span class="drop__target">Create</span></div>
+                <div class="drop" data-accept="remember"><span class="drop__slot"></span><button class="drop__target" type="button" aria-label="Place the selected verb on Remember">Remember</button></div>
+                <div class="drop" data-accept="understand"><span class="drop__slot"></span><button class="drop__target" type="button" aria-label="Place the selected verb on Understand">Understand</button></div>
+                <div class="drop" data-accept="apply"><span class="drop__slot"></span><button class="drop__target" type="button" aria-label="Place the selected verb on Apply">Apply</button></div>
+                <div class="drop" data-accept="analyse"><span class="drop__slot"></span><button class="drop__target" type="button" aria-label="Place the selected verb on Analyse">Analyse</button></div>
+                <div class="drop" data-accept="evaluate"><span class="drop__slot"></span><button class="drop__target" type="button" aria-label="Place the selected verb on Evaluate">Evaluate</button></div>
+                <div class="drop" data-accept="create"><span class="drop__slot"></span><button class="drop__target" type="button" aria-label="Place the selected verb on Create">Create</button></div>
               </div>
             </div>
           </div>
           <div class="match__actions">
             <button class="btn btn--primary btn--sm" data-check>Check my answers</button>
             <button class="btn btn--ghost btn--sm" data-reset>Reset</button>
-            <span class="kc__score" data-matchscore></span>
+            <span class="kc__score" data-matchscore role="status"></span>
           </div>
         </div>
 
@@ -511,7 +553,7 @@
         </ol>
 
         <div class="callout callout--tip">
-          <div class="callout__icon">🔍</div>
+          <div class="callout__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-search"></use></svg></div>
           <div class="callout__body">
             <p><strong>Your practical filter</strong> When deciding how to spend limited contact hours, ask: <em>"Does this activity help students get closer to demonstrating this outcome?"</em> If not, it may be interesting — but it might not be essential.</p>
           </div>
@@ -519,9 +561,9 @@
 
         <div class="gate" data-gate></div>
         <div class="reflect" data-reflect="s2">
-          <div class="reflect__tag">✍️ Reflection · not scored</div>
-          <p class="reflect__prompt">Look at one learning outcome from a module you teach. What Bloom's level is the main verb pitched at? Does your current assessment actually test students at that level — or a lower one?</p>
-          <textarea placeholder="Jot your thoughts here…"></textarea>
+          <div class="reflect__tag"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-pen"></use></svg> Reflection · not scored</div>
+          <p class="reflect__prompt" id="reflect-s2">Look at one learning outcome from a module you teach. What Bloom's level is the main verb pitched at? Does your current assessment actually test students at that level — or a lower one?</p>
+          <textarea aria-labelledby="reflect-s2" placeholder="Jot your thoughts here…"></textarea>
           <div class="reflect__foot">
             <span class="reflect__note">Just for your own thinking.</span>
             <button class="reflect__save" type="button">Save note</button>
@@ -529,40 +571,40 @@
         </div>
 
         <div class="kc" data-kc="s2" data-type="single">
-          <div class="kc__tag">✓ Knowledge check</div>
-          <p class="kc__q">According to Biggs' constructive alignment, which of the following would represent good alignment?</p>
-          <div class="kc__options">
+          <div class="kc__tag"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg> Knowledge check</div>
+          <p class="kc__q" id="kcq-s2">According to Biggs' constructive alignment, which of the following would represent good alignment?</p>
+          <div class="kc__options" role="group" aria-labelledby="kcq-s2">
             <button class="opt" data-opt="A"><span class="opt__mark"><span class="opt__letter">A</span></span> Teaching focuses on recalling facts, but the exam asks students to critically evaluate a scenario</button>
             <button class="opt" data-opt="B" data-correct><span class="opt__mark"><span class="opt__letter">B</span></span> The outcome says "design," the teaching includes hands-on design practice, and the assessment asks students to design a solution</button>
             <button class="opt" data-opt="C"><span class="opt__mark"><span class="opt__letter">C</span></span> The assessment is unrelated to the stated learning outcomes but covers "interesting" content</button>
             <button class="opt" data-opt="D"><span class="opt__mark"><span class="opt__letter">D</span></span> Learning outcomes are written after the assessment has already been created</button>
           </div>
-          <div class="kc__feedback"
+          <div class="kc__feedback" role="status" aria-live="polite"
                data-good="Correct — this is constructive alignment in action: outcome, teaching, and assessment all point at the same cognitive demand."
                data-bad="Not quite. Constructive alignment means the learning outcome, the teaching methods, and the assessment task should all target the same level of thinking — in this case, &quot;design.&quot;"></div>
-          <div class="kc__footer"><button class="kc__retry" type="button">↺ Try again</button></div>
+          <div class="kc__footer"><button class="kc__retry" type="button"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-rotate"></use></svg> Try again</button></div>
         </div>
 
         <div class="lesson-nav">
-          <button class="btn btn--ghost" data-prev><span aria-hidden="true">←</span> <span class="long">Module descriptors</span></button>
-          <button class="btn btn--primary" data-next><span class="long">NFQ levels</span> <span aria-hidden="true">→</span></button>
+          <button class="btn btn--ghost" data-prev><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-left"></use></svg> <span class="long">Module descriptors</span></button>
+          <button class="btn btn--primary" data-next><span class="long">NFQ levels</span> <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg></button>
         </div>
       </section>
 
       <!-- =================================================================
-           SECTION 3 — NFQ LEVELS
+           SECTION 4 — NFQ LEVELS  (data-lesson="3")
       ================================================================== -->
       <section class="lesson" data-lesson="3" data-accent="1">
         <header class="hero">
+          <span class="hero__crest crest-grad" aria-hidden="true"></span>
           <div class="hero__panel u-panel grad-mesh">
-            <span class="eyebrow"><span class="u-mark" aria-hidden="true"></span> Section 3 · 7 min</span>
-            <h1>NFQ levels: setting the standard</h1>
+            <span class="eyebrow" data-hero-eyebrow><span class="u-mark" aria-hidden="true"></span> Section 4 of 7</span>
+            <h1 tabindex="-1">NFQ levels: setting the standard</h1>
             <p class="hero__meta">~7 min read</p>
           </div>
-          <!-- Photo slot: replace the crest with <img src="assets/…" alt="…"> (theme: Supported Journeys — see docs/design-toolkit.md §6) -->
-          <div class="hero__photo u-panel grad-mesh grad-mesh--light" data-photo-theme="Supported Journeys">
-            <span class="crest-grad" aria-hidden="true"></span>
-          </div>
+          <!-- Progress strip, rendered by js/rise.js. Optional cover photo: add
+               <img class="hero__bg" src="assets/…" alt=""> as the first child of .hero -->
+          <div class="hero__side" data-hero-side></div>
         </header>
 
         <div class="statement"><span class="u-watermark" aria-hidden="true"></span><span>The NFQ level tells you how much independence, complexity, and critical thinking to expect — and to demand — from your students.</span></div>
@@ -618,36 +660,36 @@
         <!-- Tabs -->
         <div class="tabs" data-tabs="nfq">
 <div class="tabs__scrub">
-            <input type="range" id="nfqScrub" min="6" max="9" value="6" step="1" aria-label="Slide across NFQ levels 6 to 9">
+            <input type="range" id="nfqScrub" min="6" max="9" value="6" step="1" aria-label="NFQ level" aria-valuetext="Level 6">
             <div class="tabs__scrub-ticks"><span>6</span><span>7</span><span>8</span><span>9</span></div>
           </div>
-          <div class="tabs__list" role="tablist">
-            <button class="tabs__btn is-active" data-tab="6" role="tab">Level 6</button>
-            <button class="tabs__btn" data-tab="7" role="tab">Level 7</button>
-            <button class="tabs__btn" data-tab="8" role="tab">Level 8</button>
-            <button class="tabs__btn" data-tab="9" role="tab">Level 9</button>
+          <div class="tabs__list" role="tablist" aria-label="NFQ levels">
+            <button class="tabs__btn is-active" data-tab="6" role="tab" id="nfqtab-6" aria-controls="nfqpanel-6" aria-selected="true" tabindex="0" type="button">Level 6</button>
+            <button class="tabs__btn" data-tab="7" role="tab" id="nfqtab-7" aria-controls="nfqpanel-7" aria-selected="false" tabindex="-1" type="button">Level 7</button>
+            <button class="tabs__btn" data-tab="8" role="tab" id="nfqtab-8" aria-controls="nfqpanel-8" aria-selected="false" tabindex="-1" type="button">Level 8</button>
+            <button class="tabs__btn" data-tab="9" role="tab" id="nfqtab-9" aria-controls="nfqpanel-9" aria-selected="false" tabindex="-1" type="button">Level 9</button>
           </div>
-          <div class="tabs__panel is-active" data-panel="6">
+          <div class="tabs__panel is-active" data-panel="6" role="tabpanel" id="nfqpanel-6" aria-labelledby="nfqtab-6" tabindex="0">
             <span class="tabs__level">Higher Certificate</span>
-            <h4>Guided application of established methods</h4>
+            <h3>Guided application of established methods</h3>
             <p>Students work with a defined body of knowledge and apply known procedures in familiar contexts, usually with structured guidance. The focus is on doing things correctly by following an established process.</p>
             <div class="tabs__example"><span>Example task</span>Follow a defined process to troubleshoot a fault in a piece of equipment.</div>
           </div>
-          <div class="tabs__panel" data-panel="7">
+          <div class="tabs__panel" data-panel="7" role="tabpanel" id="nfqpanel-7" aria-labelledby="nfqtab-7" tabindex="0">
             <span class="tabs__level">Ordinary Bachelor Degree</span>
-            <h4>Applying knowledge to less predictable problems</h4>
+            <h3>Applying knowledge to less predictable problems</h3>
             <p>Students take on broader knowledge and begin to select appropriate methods for problems that aren't entirely routine. They can work with some autonomy within known boundaries.</p>
             <div class="tabs__example"><span>Example task</span>Choose and apply an appropriate method to solve a moderately complex, real-world problem.</div>
           </div>
-          <div class="tabs__panel" data-panel="8">
+          <div class="tabs__panel" data-panel="8" role="tabpanel" id="nfqpanel-8" aria-labelledby="nfqtab-8" tabindex="0">
             <span class="tabs__level">Honours Bachelor Degree</span>
-            <h4>Independent analysis and evaluation</h4>
+            <h3>Independent analysis and evaluation</h3>
             <p>Students are expected to work independently, analyse and evaluate information critically, and handle some ambiguity. They can bring together ideas and justify their reasoning.</p>
             <div class="tabs__example"><span>Example task</span>Critically analyse competing solutions to a problem and justify a recommended approach.</div>
           </div>
-          <div class="tabs__panel" data-panel="9">
+          <div class="tabs__panel" data-panel="9" role="tabpanel" id="nfqpanel-9" aria-labelledby="nfqtab-9" tabindex="0">
             <span class="tabs__level">Master's Degree</span>
-            <h4>Original, self-directed problem-solving</h4>
+            <h3>Original, self-directed problem-solving</h3>
             <p>Students operate at the edge of current knowledge, dealing with ambiguity and incomplete information. They can design original solutions and defend them with rigour.</p>
             <div class="tabs__example"><span>Example task</span>Design and justify an original solution to an ambiguous, open-ended industry problem.</div>
           </div>
@@ -656,23 +698,23 @@
 
         <!-- Pitch check -->
         <div class="widget pitch" data-pitch>
-          <div class="kc__tag">🎚 Try it · Pitch check</div>
+          <div class="kc__tag"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-sliders"></use></svg> Try it · Pitch check</div>
           <p style="color:var(--ink-soft);margin-top:0">Read each task and choose the NFQ level it best matches.</p>
           <div class="pitch__cards">
             <div class="pitch__card" data-answer="6">
               <p>"Follow a defined process to troubleshoot a fault in a piece of equipment."</p>
-              <div class="pitch__opts"><button type="button" data-lvl="6">L6</button><button type="button" data-lvl="7">L7</button><button type="button" data-lvl="8">L8</button><button type="button" data-lvl="9">L9</button></div>
-              <div class="pitch__fb"></div>
+              <div class="pitch__opts"><button type="button" data-lvl="6" aria-label="Level 6">L6</button><button type="button" data-lvl="7" aria-label="Level 7">L7</button><button type="button" data-lvl="8" aria-label="Level 8">L8</button><button type="button" data-lvl="9" aria-label="Level 9">L9</button></div>
+              <div class="pitch__fb" role="status"></div>
             </div>
             <div class="pitch__card" data-answer="8">
               <p>"Critically analyse competing solutions to a problem and justify a recommended approach."</p>
-              <div class="pitch__opts"><button type="button" data-lvl="6">L6</button><button type="button" data-lvl="7">L7</button><button type="button" data-lvl="8">L8</button><button type="button" data-lvl="9">L9</button></div>
-              <div class="pitch__fb"></div>
+              <div class="pitch__opts"><button type="button" data-lvl="6" aria-label="Level 6">L6</button><button type="button" data-lvl="7" aria-label="Level 7">L7</button><button type="button" data-lvl="8" aria-label="Level 8">L8</button><button type="button" data-lvl="9" aria-label="Level 9">L9</button></div>
+              <div class="pitch__fb" role="status"></div>
             </div>
             <div class="pitch__card" data-answer="9">
               <p>"Design and justify an original solution to an ambiguous, open-ended industry problem."</p>
-              <div class="pitch__opts"><button type="button" data-lvl="6">L6</button><button type="button" data-lvl="7">L7</button><button type="button" data-lvl="8">L8</button><button type="button" data-lvl="9">L9</button></div>
-              <div class="pitch__fb"></div>
+              <div class="pitch__opts"><button type="button" data-lvl="6" aria-label="Level 6">L6</button><button type="button" data-lvl="7" aria-label="Level 7">L7</button><button type="button" data-lvl="8" aria-label="Level 8">L8</button><button type="button" data-lvl="9" aria-label="Level 9">L9</button></div>
+              <div class="pitch__fb" role="status"></div>
             </div>
           </div>
         </div>
@@ -683,7 +725,7 @@
         <p>If you're teaching a Level 6 module, expecting first-year students to critically evaluate competing theoretical frameworks independently may be pitched too high — they haven't yet built the foundational knowledge. Conversely, if you're teaching a Level 9 module and still spoon-feeding definitions, you're likely under-challenging students relative to what the award standard requires.</p>
 
         <div class="callout callout--why">
-          <div class="callout__icon">📚</div>
+          <div class="callout__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-book"></use></svg></div>
           <div class="callout__body">
             <p><strong>Find your discipline's Awards Standards.</strong> QQI publishes Awards Standards for many disciplines, translating general NFQ level indicators into subject-specific expectations. They give concrete guidance on what graduates at a given level should know and do. Your programme's quality office or programme director can point you to the relevant document.</p>
           </div>
@@ -691,9 +733,9 @@
 
         <div class="gate" data-gate></div>
         <div class="reflect" data-reflect="s3">
-          <div class="reflect__tag">✍️ Reflection · not scored</div>
-          <p class="reflect__prompt">What NFQ level is the module you teach? Looking at the level indicators, is there anything about your current teaching or assessment that's pitched a little too low, or too high, for that level?</p>
-          <textarea placeholder="Jot your thoughts here…"></textarea>
+          <div class="reflect__tag"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-pen"></use></svg> Reflection · not scored</div>
+          <p class="reflect__prompt" id="reflect-s3">What NFQ level is the module you teach? Looking at the level indicators, is there anything about your current teaching or assessment that's pitched a little too low, or too high, for that level?</p>
+          <textarea aria-labelledby="reflect-s3" placeholder="Jot your thoughts here…"></textarea>
           <div class="reflect__foot">
             <span class="reflect__note">Just for your own thinking.</span>
             <button class="reflect__save" type="button">Save note</button>
@@ -701,38 +743,38 @@
         </div>
 
         <div class="kc" data-kc="s3" data-type="single">
-          <div class="kc__tag">✓ Knowledge check · True or False</div>
-          <p class="kc__q">"The NFQ level of a module mainly reflects how difficult the content is to teach, rather than the level of independent thinking expected of students."</p>
-          <div class="kc__options">
+          <div class="kc__tag"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg> Knowledge check · True or False</div>
+          <p class="kc__q" id="kcq-s3">"The NFQ level of a module mainly reflects how difficult the content is to teach, rather than the level of independent thinking expected of students."</p>
+          <div class="kc__options" role="group" aria-labelledby="kcq-s3">
             <button class="opt" data-opt="T"><span class="opt__mark"><span class="opt__letter">T</span></span> True</button>
             <button class="opt" data-opt="F" data-correct><span class="opt__mark"><span class="opt__letter">F</span></span> False</button>
           </div>
-          <div class="kc__feedback"
+          <div class="kc__feedback" role="status" aria-live="polite"
                data-good="Correct — NFQ levels are primarily about the level of independence, complexity, and critical thinking expected of the learner, not simply how hard the material is to deliver."
                data-bad="Actually, NFQ levels describe the level of independence, complexity, and critical thinking expected of the learner — not just how hard the content is to teach."></div>
-          <div class="kc__footer"><button class="kc__retry" type="button">↺ Try again</button></div>
+          <div class="kc__footer"><button class="kc__retry" type="button"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-rotate"></use></svg> Try again</button></div>
         </div>
 
         <div class="lesson-nav">
-          <button class="btn btn--ghost" data-prev><span aria-hidden="true">←</span> <span class="long">Learning outcomes</span></button>
-          <button class="btn btn--primary" data-next><span class="long">ECTS credits</span> <span aria-hidden="true">→</span></button>
+          <button class="btn btn--ghost" data-prev><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-left"></use></svg> <span class="long">Learning outcomes</span></button>
+          <button class="btn btn--primary" data-next><span class="long">ECTS credits</span> <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg></button>
         </div>
       </section>
 
       <!-- =================================================================
-           SECTION 4 — ECTS CREDITS
+           SECTION 5 — ECTS CREDITS  (data-lesson="4")
       ================================================================== -->
       <section class="lesson" data-lesson="4" data-accent="2">
         <header class="hero">
+          <span class="hero__crest crest-grad" aria-hidden="true"></span>
           <div class="hero__panel u-panel grad-mesh">
-            <span class="eyebrow"><span class="u-mark" aria-hidden="true"></span> Section 4 · 6.5 min</span>
-            <h1>ECTS credits and student workload</h1>
+            <span class="eyebrow" data-hero-eyebrow><span class="u-mark" aria-hidden="true"></span> Section 5 of 7</span>
+            <h1 tabindex="-1">ECTS credits and student workload</h1>
             <p class="hero__meta">~6.5 min read</p>
           </div>
-          <!-- Photo slot: replace the crest with <img src="assets/…" alt="…"> (theme: Learning in Real Life — see docs/design-toolkit.md §6) -->
-          <div class="hero__photo u-panel grad-mesh grad-mesh--light" data-photo-theme="Learning in Real Life">
-            <span class="crest-grad" aria-hidden="true"></span>
-          </div>
+          <!-- Progress strip, rendered by js/rise.js. Optional cover photo: add
+               <img class="hero__bg" src="assets/…" alt=""> as the first child of .hero -->
+          <div class="hero__side" data-hero-side></div>
         </header>
 
         <div class="statement"><span class="u-watermark" aria-hidden="true"></span><span>Credits are not a measure of how much you teach. They're a measure of how much time a typical student should spend learning.</span></div>
@@ -740,7 +782,7 @@
         <p>Every module carries a credit value, usually expressed in <strong>ECTS</strong> — the European Credit Transfer and Accumulation System. It's a European-wide system designed to make student workload comparable and transferable across institutions and countries.</p>
 
         <div class="callout callout--why">
-          <div class="callout__icon">⚖️</div>
+          <div class="callout__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-scale"></use></svg></div>
           <div class="callout__body">
             <p><strong>The key conversion to remember</strong> 1 ECTS credit ≈ <strong>20–25 hours</strong> of total student effort. The exact figure is set by each institution (commonly 20–25 hours in Irish HE, based on the European Commission's ECTS Users' Guide).</p>
           </div>
@@ -748,11 +790,11 @@
 
         <p>That "total student effort" figure includes everything — not just time in your classroom:</p>
         <div class="deflist">
-          <div class="deflist__row"><div class="deflist__term">🏫 Contact hours</div><div class="deflist__desc">Timetabled lectures, labs, workshops, tutorials</div></div>
-          <div class="deflist__row"><div class="deflist__term">📖 Independent study</div><div class="deflist__desc">Reading and self-directed learning</div></div>
-          <div class="deflist__row"><div class="deflist__term">✏️ Assessment work</div><div class="deflist__desc">Preparation for and completion of assessments</div></div>
-          <div class="deflist__row"><div class="deflist__term">👥 Group work</div><div class="deflist__desc">Collaboration outside class</div></div>
-          <div class="deflist__row"><div class="deflist__term">📝 Exam prep</div><div class="deflist__desc">Revision and the exam itself</div></div>
+          <div class="deflist__row"><div class="deflist__term"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-building"></use></svg> Contact hours</div><div class="deflist__desc">Timetabled lectures, labs, workshops, tutorials</div></div>
+          <div class="deflist__row"><div class="deflist__term"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-book-open"></use></svg> Independent study</div><div class="deflist__desc">Reading and self-directed learning</div></div>
+          <div class="deflist__row"><div class="deflist__term"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-pen"></use></svg> Assessment work</div><div class="deflist__desc">Preparation for and completion of assessments</div></div>
+          <div class="deflist__row"><div class="deflist__term"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-users"></use></svg> Group work</div><div class="deflist__desc">Collaboration outside class</div></div>
+          <div class="deflist__row"><div class="deflist__term"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-file"></use></svg> Exam prep</div><div class="deflist__desc">Revision and the exam itself</div></div>
         </div>
 
         <div class="gate" data-gate></div>
@@ -761,7 +803,7 @@
 
         <!-- Calculator -->
         <div class="calc" data-calc>
-          <div class="kc__tag">🧮 Try it · Workload calculator</div>
+          <div class="kc__tag"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-calculator"></use></svg> Try it · Workload calculator</div>
           <div class="calc__inputs">
             <div class="field">
               <label for="credits">ECTS credits <b id="creditsVal">5</b></label>
@@ -793,23 +835,23 @@
             <div class="split__seg split__seg--contact" id="splitContact"><span>Contact</span></div>
             <div class="split__seg split__seg--indep" id="splitIndep"><span>Independent study</span></div>
           </div>
-          <p class="calc__note" id="calcNote">5 credits × 20 hours = 100 total hours, minus 24 contact hours = 76 hours on their own.</p>
+          <p class="calc__note" id="calcNote" role="status">5 credits × 20 hours = 100 total hours, minus 24 contact hours = 76 hours on their own.</p>
         </div>
 
         <!-- Workload budget — applied exercise -->
         <div class="widget budget" data-budget>
-          <div class="kc__tag">🧩 Try it · Build an assessment plan</div>
+          <div class="kc__tag"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-blocks"></use></svg> Try it · Build an assessment plan</div>
           <p style="color:var(--ink-soft);margin-top:0">You're teaching a <strong>5-credit module</strong> (100 hours total, 24 contact). That leaves an <strong>independent-study budget of 76 hours</strong>. Toggle assessment tasks on and off and watch the budget — keep the total realistic.</p>
           <div class="budget__grid">
-            <button class="budget__item" type="button" data-hours="15">2,000-word essay <b>15h</b></button>
-            <button class="budget__item" type="button" data-hours="12">Weekly quizzes ×12 <b>12h</b></button>
-            <button class="budget__item" type="button" data-hours="20">Group project <b>20h</b></button>
-            <button class="budget__item" type="button" data-hours="25">Set reading &amp; prep <b>25h</b></button>
-            <button class="budget__item" type="button" data-hours="18">Exam revision <b>18h</b></button>
-            <button class="budget__item" type="button" data-hours="10">Reflective journal <b>10h</b></button>
+            <button class="budget__item" type="button" aria-pressed="false" data-hours="15">2,000-word essay <b>15h</b></button>
+            <button class="budget__item" type="button" aria-pressed="false" data-hours="12">Weekly quizzes ×12 <b>12h</b></button>
+            <button class="budget__item" type="button" aria-pressed="false" data-hours="20">Group project <b>20h</b></button>
+            <button class="budget__item" type="button" aria-pressed="false" data-hours="25">Set reading &amp; prep <b>25h</b></button>
+            <button class="budget__item" type="button" aria-pressed="false" data-hours="18">Exam revision <b>18h</b></button>
+            <button class="budget__item" type="button" aria-pressed="false" data-hours="10">Reflective journal <b>10h</b></button>
           </div>
           <div class="budget__bar" aria-hidden="true"><div class="budget__fill" id="budgetFill"></div></div>
-          <div class="budget__readout">
+          <div class="budget__readout" role="status" aria-live="polite">
             <span id="budgetUsed">0 h</span> of <span>76 h</span> used
             <span class="budget__status" id="budgetStatus"></span>
           </div>
@@ -818,13 +860,13 @@
         <div class="gate" data-gate></div>
         <h2>Why this matters for you as a teacher</h2>
         <div class="callout callout--tip">
-          <div class="callout__icon">🧾</div>
+          <div class="callout__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-list-checks"></use></svg></div>
           <div class="callout__body">
             <p><strong>Sanity-check your assignment load.</strong> If you set three 2,000-word essays plus weekly quizzes plus a group project on a 5-credit module, ask whether that realistically fits within the independent study hours available — alongside everything else the student is doing across their other modules that semester.</p>
           </div>
         </div>
         <div class="callout callout--tip">
-          <div class="callout__icon">🎯</div>
+          <div class="callout__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-target"></use></svg></div>
           <div class="callout__body">
             <p><strong>Set realistic expectations, not just easier ones.</strong> The workload figure isn't about making things easy — it's about matching demand to credit value, so students can plan their time sensibly and your module isn't inadvertently over- or under-weighted compared to others.</p>
           </div>
@@ -833,7 +875,7 @@
         <p>There's a well-established line of research on this — including work associated with the European Commission's ECTS Users' Guide, and broader higher-education workload research (including work often associated with Kember on student workload and time-on-task) — which consistently shows that students' <em>perceived</em> workload and <em>actual</em> time spent don't always match what course designers intend. Being deliberate about credit-to-hours mapping is one of the best tools you have to keep this realistic.</p>
 
         <div class="callout callout--tip">
-          <div class="callout__icon">💡</div>
+          <div class="callout__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-bulb"></use></svg></div>
           <div class="callout__body">
             <p><strong>Quick practical tip</strong> When designing an assignment, try timing how long it would reasonably take a competent student to complete it — reading, drafting, and finishing. It's rough, but it catches a lot of over- or under-loaded assessments before they become a problem.</p>
           </div>
@@ -841,9 +883,9 @@
 
         <div class="gate" data-gate></div>
         <div class="reflect" data-reflect="s4">
-          <div class="reflect__tag">✍️ Reflection · not scored</div>
-          <p class="reflect__prompt">Pick one assessment task you currently set. Roughly how many hours would a student need to complete it well? Does that seem proportionate to the credit value of the module?</p>
-          <textarea placeholder="Jot your thoughts here…"></textarea>
+          <div class="reflect__tag"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-pen"></use></svg> Reflection · not scored</div>
+          <p class="reflect__prompt" id="reflect-s4">Pick one assessment task you currently set. Roughly how many hours would a student need to complete it well? Does that seem proportionate to the credit value of the module?</p>
+          <textarea aria-labelledby="reflect-s4" placeholder="Jot your thoughts here…"></textarea>
           <div class="reflect__foot">
             <span class="reflect__note">Just for your own thinking.</span>
             <button class="reflect__save" type="button">Save note</button>
@@ -851,40 +893,40 @@
         </div>
 
         <div class="kc" data-kc="s4" data-type="single">
-          <div class="kc__tag">✓ Knowledge check · Scenario</div>
-          <p class="kc__q">A module is worth 10 ECTS credits, and your institution uses 20 hours per credit. Timetabled contact hours total 40 hours across the semester. Roughly how many hours of independent study should a student expect to do?</p>
-          <div class="kc__options">
+          <div class="kc__tag"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg> Knowledge check · Scenario</div>
+          <p class="kc__q" id="kcq-s4">A module is worth 10 ECTS credits, and your institution uses 20 hours per credit. Timetabled contact hours total 40 hours across the semester. Roughly how many hours of independent study should a student expect to do?</p>
+          <div class="kc__options" role="group" aria-labelledby="kcq-s4">
             <button class="opt" data-opt="A"><span class="opt__mark"><span class="opt__letter">A</span></span> 20 hours</button>
             <button class="opt" data-opt="B"><span class="opt__mark"><span class="opt__letter">B</span></span> 40 hours</button>
             <button class="opt" data-opt="C" data-correct><span class="opt__mark"><span class="opt__letter">C</span></span> 160 hours</button>
             <button class="opt" data-opt="D"><span class="opt__mark"><span class="opt__letter">D</span></span> 200 hours</button>
           </div>
-          <div class="kc__feedback"
+          <div class="kc__feedback" role="status" aria-live="polite"
                data-good="Correct. 10 credits × 20 hours = 200 total hours. Minus 40 contact hours = 160 hours of independent study."
                data-bad="Let's check the maths: 10 credits × 20 hours = 200 total hours of effort. Subtract the 40 contact hours, and that leaves 160 hours of independent study."></div>
-          <div class="kc__footer"><button class="kc__retry" type="button">↺ Try again</button></div>
+          <div class="kc__footer"><button class="kc__retry" type="button"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-rotate"></use></svg> Try again</button></div>
         </div>
 
         <div class="lesson-nav">
-          <button class="btn btn--ghost" data-prev><span aria-hidden="true">←</span> <span class="long">NFQ levels</span></button>
-          <button class="btn btn--primary" data-next><span class="long">Bringing it together</span> <span aria-hidden="true">→</span></button>
+          <button class="btn btn--ghost" data-prev><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-left"></use></svg> <span class="long">NFQ levels</span></button>
+          <button class="btn btn--primary" data-next><span class="long">Bringing it together</span> <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg></button>
         </div>
       </section>
 
       <!-- =================================================================
-           SECTION 5 — BRINGING IT TOGETHER
+           SECTION 6 — BRINGING IT TOGETHER  (data-lesson="5")
       ================================================================== -->
       <section class="lesson" data-lesson="5" data-accent="3">
         <header class="hero">
+          <span class="hero__crest crest-grad" aria-hidden="true"></span>
           <div class="hero__panel u-panel grad-mesh">
-            <span class="eyebrow"><span class="u-mark" aria-hidden="true"></span> Section 5 · 2 min</span>
-            <h1>Bringing it together: reading a descriptor in practice</h1>
+            <span class="eyebrow" data-hero-eyebrow><span class="u-mark" aria-hidden="true"></span> Section 6 of 7</span>
+            <h1 tabindex="-1">Bringing it together: reading a descriptor in practice</h1>
             <p class="hero__meta">~2 min read</p>
           </div>
-          <!-- Photo slot: replace the crest with <img src="assets/…" alt="…"> (theme: Embodied Futures — see docs/design-toolkit.md §6) -->
-          <div class="hero__photo u-panel grad-mesh grad-mesh--light" data-photo-theme="Embodied Futures">
-            <span class="crest-grad" aria-hidden="true"></span>
-          </div>
+          <!-- Progress strip, rendered by js/rise.js. Optional cover photo: add
+               <img class="hero__bg" src="assets/…" alt=""> as the first child of .hero -->
+          <div class="hero__side" data-hero-side></div>
         </header>
 
         <p class="lead">Let's put it all together. When you next open a module descriptor, read it with these four questions in mind. Expand each for a practical tip you can apply when planning a class.</p>
@@ -892,53 +934,53 @@
         <!-- Accordion -->
         <div class="accordion" data-accordion>
           <div class="acc">
-            <button class="acc__head" type="button">
-              <span class="acc__n">1</span>
+            <button class="acc__head" type="button" aria-expanded="false" aria-controls="acc-body-1" id="acc-head-1">
+              <span class="acc__n" aria-hidden="true">1</span>
               <span class="acc__q">What are the learning outcomes asking students to actually <em>do</em>?</span>
-              <span class="acc__chev">▼</span>
+              <span class="acc__chev" aria-hidden="true"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevron-down"></use></svg></span>
             </button>
-            <div class="acc__body"><div class="acc__inner">
+            <div class="acc__body" id="acc-body-1" role="region" aria-labelledby="acc-head-1"><div class="acc__inner">
               <p>Check the verbs against Bloom's Taxonomy to gauge the level of thinking required.</p>
-              <p class="acc__tip">💡 Underline every action verb in the outcomes before you plan a single class — they tell you the cognitive level to aim for.</p>
+              <p class="acc__tip"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-bulb"></use></svg> Underline every action verb in the outcomes before you plan a single class — they tell you the cognitive level to aim for.</p>
             </div></div>
           </div>
           <div class="acc">
-            <button class="acc__head" type="button">
-              <span class="acc__n">2</span>
+            <button class="acc__head" type="button" aria-expanded="false" aria-controls="acc-body-2" id="acc-head-2">
+              <span class="acc__n" aria-hidden="true">2</span>
               <span class="acc__q">Does my planned teaching genuinely build toward those outcomes?</span>
-              <span class="acc__chev">▼</span>
+              <span class="acc__chev" aria-hidden="true"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevron-down"></use></svg></span>
             </button>
-            <div class="acc__body"><div class="acc__inner">
+            <div class="acc__body" id="acc-body-2" role="region" aria-labelledby="acc-head-2"><div class="acc__inner">
               <p>This is constructive alignment in practice.</p>
-              <p class="acc__tip">💡 For each class activity, name the outcome it serves. If you can't, question whether it earns its place.</p>
+              <p class="acc__tip"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-bulb"></use></svg> For each class activity, name the outcome it serves. If you can't, question whether it earns its place.</p>
             </div></div>
           </div>
           <div class="acc">
-            <button class="acc__head" type="button">
-              <span class="acc__n">3</span>
+            <button class="acc__head" type="button" aria-expanded="false" aria-controls="acc-body-3" id="acc-head-3">
+              <span class="acc__n" aria-hidden="true">3</span>
               <span class="acc__q">Is the NFQ level reflected in how independently and critically I expect students to work?</span>
-              <span class="acc__chev">▼</span>
+              <span class="acc__chev" aria-hidden="true"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevron-down"></use></svg></span>
             </button>
-            <div class="acc__body"><div class="acc__inner">
+            <div class="acc__body" id="acc-body-3" role="region" aria-labelledby="acc-head-3"><div class="acc__inner">
               <p>Match your expectations of independence to the level indicators.</p>
-              <p class="acc__tip">💡 Ask: am I doing the thinking for them, or designing tasks that make them do it at the right level?</p>
+              <p class="acc__tip"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-bulb"></use></svg> Ask: am I doing the thinking for them, or designing tasks that make them do it at the right level?</p>
             </div></div>
           </div>
           <div class="acc">
-            <button class="acc__head" type="button">
-              <span class="acc__n">4</span>
+            <button class="acc__head" type="button" aria-expanded="false" aria-controls="acc-body-4" id="acc-head-4">
+              <span class="acc__n" aria-hidden="true">4</span>
               <span class="acc__q">Does the assessment workload realistically fit the ECTS credit hours available?</span>
-              <span class="acc__chev">▼</span>
+              <span class="acc__chev" aria-hidden="true"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevron-down"></use></svg></span>
             </button>
-            <div class="acc__body"><div class="acc__inner">
+            <div class="acc__body" id="acc-body-4" role="region" aria-labelledby="acc-head-4"><div class="acc__inner">
               <p>Do the credit-to-hours maths before finalising your assessment brief.</p>
-              <p class="acc__tip">💡 Time yourself doing a scaled-down version of the task, then multiply — a quick reality check on load.</p>
+              <p class="acc__tip"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-bulb"></use></svg> Time yourself doing a scaled-down version of the task, then multiply — a quick reality check on load.</p>
             </div></div>
           </div>
         </div>
 
         <div class="callout callout--why">
-          <div class="callout__icon">✅</div>
+          <div class="callout__icon"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check-circle"></use></svg></div>
           <div class="callout__body">
             <p>If you can answer all four with confidence, you're not just complying with a quality assurance requirement — you're teaching in a way that gives your students the best chance of success, and makes the most of the deep expertise you bring from industry.</p>
           </div>
@@ -947,7 +989,7 @@
         <div class="gate" data-gate></div>
         <!-- Readiness checklist -->
         <div class="widget readiness" data-readiness>
-          <div class="kc__tag">🎯 Your descriptor-readiness</div>
+          <div class="kc__tag"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-target"></use></svg> Your descriptor-readiness</div>
           <p style="color:var(--ink-soft);margin-top:0">Tick the ones you could confidently do right now for a module you teach.</p>
           <div class="readiness__grid">
             <label class="check"><input type="checkbox"> <span>Read the outcome verbs and name their Bloom's level</span></label>
@@ -957,30 +999,30 @@
           </div>
           <div class="readiness__meter">
             <div class="readiness__ring" id="readyRing"><span id="readyScore">0/4</span></div>
-            <p class="readiness__msg" id="readyMsg">Tick what you're confident about to see your readiness.</p>
+            <p class="readiness__msg" id="readyMsg" role="status">Tick what you're confident about to see your readiness.</p>
           </div>
         </div>
 
         <div class="lesson-nav">
-          <button class="btn btn--ghost" data-prev><span aria-hidden="true">←</span> <span class="long">ECTS credits</span></button>
-          <button class="btn btn--primary" data-next><span class="long">Summary &amp; final quiz</span> <span aria-hidden="true">→</span></button>
+          <button class="btn btn--ghost" data-prev><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-left"></use></svg> <span class="long">ECTS credits</span></button>
+          <button class="btn btn--primary" data-next><span class="long">Summary &amp; final quiz</span> <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-right"></use></svg></button>
         </div>
       </section>
 
       <!-- =================================================================
-           SECTION 6 — SUMMARY & FINAL QUIZ
+           SECTION 7 — SUMMARY & FINAL QUIZ  (data-lesson="6")
       ================================================================== -->
       <section class="lesson" data-lesson="6" data-accent="1">
         <header class="hero">
+          <span class="hero__crest crest-grad" aria-hidden="true"></span>
           <div class="hero__panel u-panel grad-mesh">
-            <span class="eyebrow"><span class="u-mark" aria-hidden="true"></span> Section 6 · Summary &amp; assessment</span>
-            <h1>Summary, final knowledge check &amp; reflection</h1>
+            <span class="eyebrow" data-hero-eyebrow><span class="u-mark" aria-hidden="true"></span> Section 7 of 7</span>
+            <h1 tabindex="-1">Summary, final knowledge check &amp; reflection</h1>
             <p class="hero__meta">~3 min read</p>
           </div>
-          <!-- Photo slot: replace the crest with <img src="assets/…" alt="…"> (theme: Our People — see docs/design-toolkit.md §6) -->
-          <div class="hero__photo u-panel grad-mesh grad-mesh--light" data-photo-theme="Our People">
-            <span class="crest-grad" aria-hidden="true"></span>
-          </div>
+          <!-- Progress strip, rendered by js/rise.js. Optional cover photo: add
+               <img class="hero__bg" src="assets/…" alt=""> as the first child of .hero -->
+          <div class="hero__side" data-hero-side></div>
         </header>
 
         <div class="statement"><span class="u-watermark" aria-hidden="true"></span><span>The module descriptor is your map. Learning outcomes are your destination. NFQ level sets your altitude. ECTS credits tell you how far the journey should take.</span></div>
@@ -996,80 +1038,80 @@
         <!-- Final quiz -->
         <div class="gate" data-gate></div>
         <div class="kc" data-kc="f1" data-type="single" data-final>
-          <div class="kc__tag">📝 Final quiz · Question 1 of 4</div>
-          <p class="kc__q">A learning outcome uses the verb "critically evaluate." Which Bloom's level does this best correspond to?</p>
-          <div class="kc__options">
+          <div class="kc__tag"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-clipboard"></use></svg> Final quiz · Question 1 of 4</div>
+          <p class="kc__q" id="kcq-f1">A learning outcome uses the verb "critically evaluate." Which Bloom's level does this best correspond to?</p>
+          <div class="kc__options" role="group" aria-labelledby="kcq-f1">
             <button class="opt" data-opt="A"><span class="opt__mark"><span class="opt__letter">A</span></span> Remember</button>
             <button class="opt" data-opt="B"><span class="opt__mark"><span class="opt__letter">B</span></span> Apply</button>
             <button class="opt" data-opt="C" data-correct><span class="opt__mark"><span class="opt__letter">C</span></span> Evaluate</button>
             <button class="opt" data-opt="D"><span class="opt__mark"><span class="opt__letter">D</span></span> Understand</button>
           </div>
-          <div class="kc__feedback"
+          <div class="kc__feedback" role="status" aria-live="polite"
                data-good="Correct — &quot;critically evaluate&quot; sits at the Evaluate level: making reasoned judgements."
                data-bad="Not quite — &quot;critically evaluate&quot; asks students to make reasoned judgements, which is the Evaluate level."></div>
-          <div class="kc__footer"><button class="kc__retry" type="button">↺ Try again</button></div>
+          <div class="kc__footer"><button class="kc__retry" type="button"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-rotate"></use></svg> Try again</button></div>
         </div>
 
         <div class="kc" data-kc="f2" data-type="single" data-final>
-          <div class="kc__tag">📝 Final quiz · Question 2 of 4</div>
-          <p class="kc__q">Which document translates general NFQ level indicators into expectations for a specific discipline?</p>
-          <div class="kc__options">
+          <div class="kc__tag"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-clipboard"></use></svg> Final quiz · Question 2 of 4</div>
+          <p class="kc__q" id="kcq-f2">Which document translates general NFQ level indicators into expectations for a specific discipline?</p>
+          <div class="kc__options" role="group" aria-labelledby="kcq-f2">
             <button class="opt" data-opt="A"><span class="opt__mark"><span class="opt__letter">A</span></span> The programme timetable</button>
             <button class="opt" data-opt="B" data-correct><span class="opt__mark"><span class="opt__letter">B</span></span> QQI Awards Standards</button>
             <button class="opt" data-opt="C"><span class="opt__mark"><span class="opt__letter">C</span></span> The student handbook</button>
             <button class="opt" data-opt="D"><span class="opt__mark"><span class="opt__letter">D</span></span> The lecturer's CV</button>
           </div>
-          <div class="kc__feedback"
+          <div class="kc__feedback" role="status" aria-live="polite"
                data-good="Correct — QQI Awards Standards translate the general NFQ indicators into subject-specific expectations."
                data-bad="Not quite — it's the QQI Awards Standards that translate general NFQ indicators into discipline-specific expectations."></div>
-          <div class="kc__footer"><button class="kc__retry" type="button">↺ Try again</button></div>
+          <div class="kc__footer"><button class="kc__retry" type="button"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-rotate"></use></svg> Try again</button></div>
         </div>
 
         <div class="kc" data-kc="f3" data-type="single" data-final>
-          <div class="kc__tag">📝 Final quiz · Question 3 of 4</div>
-          <p class="kc__q">What does 1 ECTS credit approximately represent?</p>
-          <div class="kc__options">
+          <div class="kc__tag"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-clipboard"></use></svg> Final quiz · Question 3 of 4</div>
+          <p class="kc__q" id="kcq-f3">What does 1 ECTS credit approximately represent?</p>
+          <div class="kc__options" role="group" aria-labelledby="kcq-f3">
             <button class="opt" data-opt="A"><span class="opt__mark"><span class="opt__letter">A</span></span> 1 hour of lecture time</button>
             <button class="opt" data-opt="B" data-correct><span class="opt__mark"><span class="opt__letter">B</span></span> 20–25 hours of total student effort</button>
             <button class="opt" data-opt="C"><span class="opt__mark"><span class="opt__letter">C</span></span> 1 week of study</button>
             <button class="opt" data-opt="D"><span class="opt__mark"><span class="opt__letter">D</span></span> 1 assignment</button>
           </div>
-          <div class="kc__feedback"
+          <div class="kc__feedback" role="status" aria-live="polite"
                data-good="Correct — 1 ECTS credit represents roughly 20–25 hours of total student effort."
                data-bad="Not quite — 1 ECTS credit represents approximately 20–25 hours of total student effort, across all activities."></div>
-          <div class="kc__footer"><button class="kc__retry" type="button">↺ Try again</button></div>
+          <div class="kc__footer"><button class="kc__retry" type="button"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-rotate"></use></svg> Try again</button></div>
         </div>
 
         <div class="kc" data-kc="f4" data-type="single" data-final>
-          <div class="kc__tag">📝 Final quiz · Question 4 of 4</div>
-          <p class="kc__q">You're planning a Level 8 module. Which teaching approach best matches the expected level of demand?</p>
-          <div class="kc__options">
+          <div class="kc__tag"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-clipboard"></use></svg> Final quiz · Question 4 of 4</div>
+          <p class="kc__q" id="kcq-f4">You're planning a Level 8 module. Which teaching approach best matches the expected level of demand?</p>
+          <div class="kc__options" role="group" aria-labelledby="kcq-f4">
             <button class="opt" data-opt="A"><span class="opt__mark"><span class="opt__letter">A</span></span> Providing step-by-step instructions for every task, with one correct answer</button>
             <button class="opt" data-opt="B" data-correct><span class="opt__mark"><span class="opt__letter">B</span></span> Designing activities that require independent analysis, evaluation, and some ambiguity</button>
             <button class="opt" data-opt="C"><span class="opt__mark"><span class="opt__letter">C</span></span> Focusing only on memorisation of key facts</button>
             <button class="opt" data-opt="D"><span class="opt__mark"><span class="opt__letter">D</span></span> Avoiding any assessment beyond short quizzes</button>
           </div>
-          <div class="kc__feedback"
+          <div class="kc__feedback" role="status" aria-live="polite"
                data-good="Correct — Level 8 expects independent analysis and evaluation, with room for ambiguity."
                data-bad="Not quite — at Level 8, students should be working independently with analysis, evaluation, and some ambiguity, not just following step-by-step instructions."></div>
-          <div class="kc__footer"><button class="kc__retry" type="button">↺ Try again</button></div>
+          <div class="kc__footer"><button class="kc__retry" type="button"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-rotate"></use></svg> Try again</button></div>
         </div>
 
         <div class="card" style="text-align:center">
-          <span class="kc__score" id="finalScore" style="font-size:16px;margin:0"></span>
+          <span class="kc__score" id="finalScore" role="status" style="font-size:16px;margin:0"></span>
         </div>
 
         <!-- Final reflection -->
         <div class="gate" data-gate></div>
         <div class="reflect" data-reflect="final">
-          <div class="reflect__tag">✍️ Final reflection · not submitted</div>
-          <p class="reflect__prompt">Look at the descriptor for a module you teach (or are about to). Write a short note to yourself covering:</p>
+          <div class="reflect__tag"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-pen"></use></svg> Final reflection · not submitted</div>
+          <p class="reflect__prompt" id="reflect-final">Look at the descriptor for a module you teach (or are about to). Write a short note to yourself covering:</p>
           <ul style="margin:0 0 14px">
             <li>One learning outcome you want to focus on more deliberately</li>
             <li>One thing about the NFQ level that will change how you pitch a class or task</li>
             <li>One assessment you might need to adjust based on the ECTS workload calculation</li>
           </ul>
-          <textarea placeholder="Your planning notes — saved only on this device…" style="min-height:130px"></textarea>
+          <textarea aria-labelledby="reflect-final" placeholder="Your planning notes — saved only on this device…" style="min-height:130px"></textarea>
           <div class="reflect__foot">
             <span class="reflect__note">For your own planning.</span>
             <button class="reflect__save" type="button">Save note</button>
@@ -1090,37 +1132,37 @@
         <div class="gate" data-gate></div>
         <!-- Progress dashboard -->
         <div class="widget dashboard" data-dashboard>
-          <div class="kc__tag">📊 Your progress summary</div>
+          <div class="kc__tag"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chart"></use></svg> Your progress summary</div>
           <div class="dashboard__tiles">
             <div class="dash-tile"><div class="dash-num" id="dashSections">0/7</div><div class="dash-lbl">Sections viewed</div></div>
             <div class="dash-tile"><div class="dash-num" id="dashQuiz">0/4</div><div class="dash-lbl">Final quiz</div></div>
             <div class="dash-tile"><div class="dash-num" id="dashActs">0/8</div><div class="dash-lbl">Activities explored</div></div>
           </div>
-          <div class="dashboard__status" id="dashStatus"></div>
+          <div class="dashboard__status" id="dashStatus" role="status"></div>
           <div class="dashboard__actions">
-            <button class="btn btn--sm" id="exportNotes" type="button">⬇ Export my reflection notes</button>
+            <button class="btn btn--sm" id="exportNotes" type="button"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-download"></use></svg> Export my reflection notes</button>
           </div>
         </div>
 
         <!-- Completion -->
         <div class="complete">
           <span class="u-watermark" aria-hidden="true"></span>
-          <div class="complete__badge">🎓</div>
+          <div class="complete__badge" aria-hidden="true"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-cap"></use></svg></div>
           <h2>That's it — you're done.</h2>
           <p>You now have a working method for reading any module descriptor with confidence. This isn't about ticking a compliance box; it's a genuinely useful planning tool that will save you time and help your students succeed.</p>
           <p>If you want to go deeper, your teaching and learning centre can point you to the specific NFQ level indicators, QQI Awards Standards, and National Forum resources relevant to your discipline.</p>
           <div style="margin-top:20px">
-            <button class="btn btn--primary" id="finishBtn">✓ Mark course complete</button>
+            <button class="btn btn--primary" id="finishBtn" type="button"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg> Mark course complete</button>
           </div>
         </div>
 
         <div class="lesson-nav">
-          <button class="btn btn--ghost" data-prev><span aria-hidden="true">←</span> <span class="long">Bringing it together</span></button>
-          <button class="btn" id="restartBtn">↺ Back to start</button>
+          <button class="btn btn--ghost" data-prev><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-arrow-left"></use></svg> <span class="long">Bringing it together</span></button>
+          <button class="btn" id="restartBtn" type="button"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-rotate"></use></svg> Back to start</button>
         </div>
       </section>
 
-    </div><!-- /content-scroll -->
+    </main><!-- /content-scroll -->
   </div><!-- /main -->
 </div><!-- /app -->
 

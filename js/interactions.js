@@ -34,9 +34,10 @@
       fill.style.width = pct + "%";
       fill.classList.toggle("over", over);
       usedEl.textContent = used + " h";
+      items.forEach(function (it) { it.setAttribute("aria-pressed", it.classList.contains("on") ? "true" : "false"); });
       if (used === 0) { statusEl.textContent = ""; statusEl.className = "budget__status"; }
-      else if (over) { statusEl.textContent = "⚠ " + (used - BUDGET) + " h over budget"; statusEl.className = "budget__status is-over"; }
-      else { statusEl.textContent = "✓ " + (BUDGET - used) + " h to spare"; statusEl.className = "budget__status is-ok"; }
+      else if (over) { statusEl.innerHTML = C.icon("warning") + " " + (used - BUDGET) + " h over budget"; statusEl.className = "budget__status is-over"; }
+      else { statusEl.innerHTML = C.icon("check") + " " + (BUDGET - used) + " h to spare"; statusEl.className = "budget__status is-ok"; }
       state.interactions["workload-budget"] = { on: on, used: used, over: over };
       C.saveSoon();
     }
@@ -64,7 +65,7 @@
       "A good start — one habit in place.",
       "Halfway there — you're building the method.",
       "Nearly there — three of four in hand.",
-      "Descriptor-ready. You've got the full method. 🎓"
+      "Descriptor-ready. You've got the full method."
     ];
     var touched = false;
 
@@ -109,14 +110,32 @@
     var tabs = $$(".anatomy__tab", wrap);
     var detail = $("#anatomyDetail");
     var seen = {};
-    function show(part) {
+    function show(part, focusTab) {
       var d = DETAIL[part];
-      detail.innerHTML = "<h4>" + d[0] + "</h4><p>" + d[1] + "</p>";
-      tabs.forEach(function (t) { t.classList.toggle("is-active", t.getAttribute("data-part") === part); });
+      detail.innerHTML = '<p class="anatomy__title">' + d[0] + "</p><p>" + d[1] + "</p>";
+      tabs.forEach(function (t) {
+        var on = t.getAttribute("data-part") === part;
+        t.classList.toggle("is-active", on);
+        t.setAttribute("aria-selected", on ? "true" : "false");
+        t.setAttribute("tabindex", on ? "0" : "-1");
+        if (on) { detail.setAttribute("aria-labelledby", t.id); if (focusTab) t.focus(); }
+      });
       seen[part] = true;
       emit("interaction.complete", { id: "descriptor-anatomy", value: part, seenCount: Object.keys(seen).length });
     }
-    tabs.forEach(function (t) { t.addEventListener("click", function () { show(t.getAttribute("data-part")); }); });
+    tabs.forEach(function (t, i) {
+      t.addEventListener("click", function () { show(t.getAttribute("data-part")); });
+      t.addEventListener("keydown", function (e) {
+        var j = null;
+        if (e.key === "ArrowDown" || e.key === "ArrowRight") j = (i + 1) % tabs.length;
+        else if (e.key === "ArrowUp" || e.key === "ArrowLeft") j = (i - 1 + tabs.length) % tabs.length;
+        else if (e.key === "Home") j = 0;
+        else if (e.key === "End") j = tabs.length - 1;
+        if (j === null) return;
+        e.preventDefault();
+        show(tabs[j].getAttribute("data-part"), true);
+      });
+    });
     show("title");
   })();
 
@@ -169,12 +188,12 @@
       var min = Math.min.apply(null, vals), max = Math.max.apply(null, vals);
       if (min === max) {
         verdict.className = "align__verdict is-ok";
-        verdict.innerHTML = "✓ <strong>Aligned.</strong> Outcome, teaching and assessment all target <em>" + LEVELS[min] + "</em> — this is constructive alignment.";
+        verdict.innerHTML = C.icon("check-circle") + " <strong>Aligned.</strong> Outcome, teaching and assessment all target <em>" + LEVELS[min] + "</em> — this is constructive alignment.";
       } else {
         var lo = ["outcome", "teaching", "assessment"][vals.indexOf(min)];
         var hi = ["outcome", "teaching", "assessment"][vals.indexOf(max)];
         verdict.className = "align__verdict is-off";
-        verdict.innerHTML = "⚠ <strong>Misaligned.</strong> Your <em>" + lo + "</em> sits at " + LEVELS[min] +
+        verdict.innerHTML = C.icon("warning") + " <strong>Misaligned.</strong> Your <em>" + lo + "</em> sits at " + LEVELS[min] +
           " but your <em>" + hi + "</em> reaches " + LEVELS[max] + ". Students may be tested above what they were taught.";
       }
     }
