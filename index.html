@@ -983,18 +983,19 @@
         <p>The skill this session has aimed to build is <strong>translating that instinct</strong> into outcomes, tasks, and assessments that are pitched, structured, and scoped correctly for a curriculum at the appropriate level.</p>
 
         <!-- Readiness checklist -->
-        <div class="widget readiness" data-readiness>
+        <div class="widget checklist" data-checklist="readiness"
+             data-msgs="Tick what you&rsquo;re confident about to see your readiness.|A good start &mdash; one habit in place.|Halfway there &mdash; you&rsquo;re building the method.|Nearly there &mdash; three of four in hand.|Descriptor-ready. You&rsquo;ve got the full method.">
           <div class="kc__tag"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-target"></use></svg> Your descriptor-readiness</div>
           <p style="color:var(--ink-soft);margin-top:0">Tick the ones you could confidently do right now for a module you teach.</p>
-          <div class="readiness__grid">
+          <div class="checklist__grid">
             <label class="check"><input type="checkbox"> <span>Read the outcome verbs and name the Bloom's level they demand</span></label>
             <label class="check"><input type="checkbox"> <span>Show how my teaching builds toward those outcomes</span></label>
             <label class="check"><input type="checkbox"> <span>Pitch tasks to the module's NFQ level, not to industry norms</span></label>
             <label class="check"><input type="checkbox"> <span>Check the assessment load fits the ECTS hours available</span></label>
           </div>
-          <div class="readiness__meter">
-            <div class="readiness__ring" id="readyRing"><span id="readyScore">0/4</span></div>
-            <p class="readiness__msg" id="readyMsg" role="status">Tick what you're confident about to see your readiness.</p>
+          <div class="checklist__meter">
+            <div class="checklist__ring" data-ring><span data-score>0/4</span></div>
+            <p class="checklist__msg" data-msg role="status">Tick what you&rsquo;re confident about to see your readiness.</p>
           </div>
         </div>
 

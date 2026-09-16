@@ -687,8 +687,9 @@ button { font-family: inherit; }
 .budget__status.is-ok { color: var(--ok-ink); }
 .budget__status.is-over { color: var(--err-ink); }
 
-/* Readiness checklist */
-.readiness__grid { display: grid; gap: 10px; margin: 4px 0 20px; }
+/* Checklist with a progress ring (.checklist__*; .readiness__* kept as an
+   alias so existing course markup keeps working) */
+.checklist__grid, .readiness__grid { display: grid; gap: 10px; margin: 4px 0 20px; }
 .check {
   display: flex; align-items: center; gap: 12px; padding: 12px 15px; cursor: pointer;
   border: 1.5px solid var(--line); border-radius: var(--radius-sm); background: var(--bg);
@@ -697,18 +698,18 @@ button { font-family: inherit; }
 .check:hover { border-color: var(--accent); }
 .check input { width: 20px; height: 20px; accent-color: var(--accent); flex: 0 0 auto; }
 .check:has(input:checked) { border-color: var(--accent); background: var(--accent-tint); }
-.readiness__meter { display: flex; align-items: center; gap: 18px; }
-.readiness__ring {
+.checklist__meter, .readiness__meter { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.checklist__ring, .readiness__ring {
   position: relative;
   flex: 0 0 84px; width: 84px; height: 84px; border-radius: 50%; display: grid; place-items: center;
   background: conic-gradient(var(--accent) var(--pct, 0%), var(--line) 0);
   transition: background .5s cubic-bezier(.4,0,.2,1);
 }
-.readiness__ring::before { content: ""; position: absolute; width: 62px; height: 62px; border-radius: 50%; background: var(--bg-card); }
-.readiness__ring span { position: relative; font-family: var(--font-head); font-weight: 700; font-size: 18px; color: var(--accent-ink); }
-.readiness__ring.full span { color: var(--ok-ink); }
-.readiness__ring.full { background: conic-gradient(var(--ok) 100%, var(--ok) 0); }
-.readiness__msg { margin: 0; font-size: 15.5px; color: var(--ink-soft); font-weight: 500; }
+.checklist__ring::before, .readiness__ring::before { content: ""; position: absolute; width: 62px; height: 62px; border-radius: 50%; background: var(--bg-card); }
+.checklist__ring span, .readiness__ring span { position: relative; font-family: var(--font-head); font-weight: 700; font-size: 18px; color: var(--accent-ink); }
+.checklist__ring.full span, .readiness__ring.full span { color: var(--ok-ink); }
+.checklist__ring.full, .readiness__ring.full { background: conic-gradient(var(--ok) 100%, var(--ok) 0); }
+.checklist__msg, .readiness__msg { margin: 0; font-size: 15.5px; color: var(--ink-soft); font-weight: 500; flex: 1 1 220px; }
 
 /* Anatomy explorer (§1) */
 .anatomy__grid { display: grid; grid-template-columns: 210px 1fr; gap: 18px; }
@@ -1111,3 +1112,73 @@ button { font-family: inherit; }
 /* Slate header buttons keep a visible ring on the dark bar */
 .topbar :focus-visible { outline-color: #fff; }
 
+
+/* ==========================================================================
+   Optional shell components
+   Styles for widgets the shell supports but this course doesn't currently
+   use. They cost nothing when their markup is absent; the markup contract
+   for each is documented at the top of its block in js/interactions.js.
+   ========================================================================== */
+
+/* ---- Side-tab explorer: a vertical tab list beside its panel. Add
+        .tabs--side to a [data-tabs] block and wrap the list and panels in
+        .tabs__grid. Useful when tab labels are too long to sit in a row. ---- */
+.tabs--side .tabs__grid { display: grid; grid-template-columns: 230px 1fr; gap: 18px; }
+.tabs--side .tabs__list { display: grid; gap: 8px; align-content: start; border-bottom: 0; }
+.tabs--side .tabs__btn {
+  display: flex; align-items: center; gap: 10px; text-align: left; width: 100%;
+  border: 1.5px solid var(--line); background: var(--bg); color: var(--ink);
+  padding: 11px 14px; border-radius: var(--radius-sm); font-size: 14.5px; font-weight: 600;
+  border-bottom: 1.5px solid var(--line); margin-bottom: 0;
+}
+.tabs--side .tabs__btn .icon { width: 17px; height: 17px; flex: none; opacity: .75; }
+.tabs--side .tabs__btn:hover { border-color: var(--accent); color: var(--ink); }
+.tabs--side .tabs__btn.is-active {
+  background: var(--accent); border-color: var(--accent); color: #fff;
+}
+.tabs--side .tabs__btn.is-active .icon { opacity: 1; }
+.tabs--side .tabs__panels {
+  background: var(--bg-sub); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 18px 20px;
+}
+.tabs--side .tabs__panel { padding: 0; }
+.tabs__title { font-family: var(--font-head); font-weight: 700; font-size: 17px; color: var(--accent-ink); margin: 0 0 8px; }
+.tabs--side .tabs__panel p { font-size: 15px; }
+.tabs--side .tabs__example { margin-top: 12px; }
+
+/* ---- Scenario chooser: a situation with several approaches, each with its
+        own trade-off feedback. Deliberately unscored — the verdict colours
+        say "strong / workable / high risk", not "right / wrong". ---- */
+.scenario__setup { font-size: 17px; color: var(--ink-strong); margin: 0 0 6px; }
+.scenario__opts { display: grid; gap: 10px; margin: 16px 0 4px; }
+.scenario__opt {
+  display: flex; align-items: flex-start; gap: 13px; padding: 14px 16px; width: 100%;
+  border: 1.5px solid var(--line); border-radius: var(--radius-sm); background: var(--bg);
+  color: var(--ink); font-size: 15.5px; font-family: inherit; line-height: 1.45;
+  text-align: left; cursor: pointer; transition: all .15s;
+}
+.scenario__opt:hover { border-color: var(--accent); background: var(--accent-tint); }
+.scenario__opt-k {
+  flex: 0 0 24px; height: 24px; border-radius: 50%; border: 2px solid var(--line);
+  display: grid; place-items: center; font: 700 12px var(--font-head); color: var(--ink-faint);
+  margin-top: 1px; transition: all .15s;
+}
+.scenario__opt.is-seen .scenario__opt-k { border-color: var(--accent); color: var(--accent-ink); }
+.scenario__opt.is-chosen { border-color: var(--accent); background: var(--accent-tint); }
+.scenario__opt.is-chosen .scenario__opt-k { background: var(--accent); border-color: var(--accent); color: #fff; }
+.scenario__fb {
+  display: none; margin-top: 16px; padding: 15px 18px; border-radius: var(--radius-sm);
+  font-size: 15px; border-left: 4px solid; background: var(--bg-sub); border-color: var(--ink-faint);
+}
+.scenario__fb.show { display: block; animation: fade .3s ease; }
+.scenario__fb p { margin: 0; }
+.scenario__verdict { display: flex; align-items: center; gap: 8px; margin: 0 0 6px !important; font-family: var(--font-head); }
+.scenario__fb.is-good { background: var(--ok-tint); border-color: var(--ok); }
+.scenario__fb.is-good .scenario__verdict { color: var(--ok-ink); }
+.scenario__fb.is-mixed { background: var(--accent-tint); border-color: var(--accent); }
+.scenario__fb.is-mixed .scenario__verdict { color: var(--accent-ink); }
+.scenario__fb.is-poor { background: var(--err-tint); border-color: var(--err); }
+.scenario__fb.is-poor .scenario__verdict { color: var(--err-ink); }
+
+@media (max-width: 760px) {
+  .tabs--side .tabs__grid { grid-template-columns: 1fr; }
+}

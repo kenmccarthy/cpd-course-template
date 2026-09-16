@@ -152,7 +152,7 @@ SCORM bookmark use, so renumbering the display never disturbs saved progress.
 - **Pitch check** (§4) — match tasks to their NFQ level (practice, not scored)
 - **ECTS calculator** (§5) — live sliders with an animated contact-vs-independent split bar
 - **Workload budget** (§5) — toggle assessment tasks against a 76-hour budget; bar turns red when over
-- **Readiness checklist** (§6) — a conic-gradient readiness ring
+- **Readiness checklist** (§6) — a conic-gradient progress ring (an instance of the generic checklist widget below)
 - **Results dashboard** (§7) — live tiles for sections viewed, reflections written and activities explored
 - **Self-building SVG graphics** — annotated descriptor, Bloom's pyramid (with the Level 8 band marked), alignment triangle, and a side-by-side **NFQ–EQF ladder** highlighting NFQ 8 / EQF 6
 
@@ -176,6 +176,55 @@ id to `activities` in `js/course.config.js` and the dashboard counts it.
 Everything else follows the same rule: a widget is a no-op when its markup is
 absent, so removing a section's markup removes the widget with it — just drop
 its id from `activities` too.
+
+### Widgets available to any course
+
+Three components are carried in the shell but only appear when a course
+provides their markup, so they cost nothing here. Each one's markup contract is
+documented at the top of its block in `js/interactions.js`.
+
+**Checklist with a progress ring** — a tickable self-audit. Keyed like the other
+widgets, so a course can have several; the message under the ring is picked by
+score from `data-msgs`, which keeps the copy in the HTML rather than the JS.
+
+```html
+<div class="widget checklist" data-checklist="readiness"
+     data-msgs="none yet|one|two|three|all four">   <!-- emits "readiness-checklist" -->
+  <div class="checklist__grid">
+    <label class="check"><input type="checkbox"> <span>…</span></label>
+  </div>
+  <div class="checklist__meter">
+    <div class="checklist__ring" data-ring><span data-score>0/4</span></div>
+    <p class="checklist__msg" data-msg role="status">none yet</p>
+  </div>
+</div>
+```
+
+**Scenario chooser** — a situation with several approaches, each carrying its own
+trade-off feedback. Deliberately **not scored**: the verdicts read *strong choice*
+/ *workable, with trade-offs* / *high risk* rather than right and wrong, and the
+event reports how many options the learner opened, which rewards comparing rather
+than guessing.
+
+```html
+<div class="widget scenario" data-scenario="planning">   <!-- emits "planning-scenario" -->
+  <p class="scenario__setup">…the situation…</p>
+  <div class="scenario__opts">
+    <button class="scenario__opt" data-verdict="good" data-feedback="what this trades off">
+      <span class="scenario__opt-k" aria-hidden="true">A</span><span>…the approach…</span>
+    </button>
+  </div>
+  <div class="scenario__fb" role="status"></div>
+</div>
+```
+
+**Side-tab explorer** — a `.tabs--side` variant of the tab widget that puts the
+tab list in a column beside its panel, for labels too long to sit in a row. Same
+JS, same keyboard behaviour; add `.tabs--side` and wrap the list and panels in
+`.tabs__grid`. It stacks to one column below 760px.
+
+Remember to add each widget's id to `activities` in `js/course.config.js` if it
+should count toward *activities explored*.
 
 ### Learner experience
 - Left-hand lesson navigation with live **progress bar** and completed ticks
