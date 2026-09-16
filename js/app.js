@@ -310,14 +310,16 @@
   });
 
   /* ==========================================================================
-     Matching (Bloom) — drag & drop, tap-to-place and keyboard
+     Matching — drag & drop, tap-to-place and keyboard
      Each token carries its own id (data-token) and its correct level
      (data-level); a drop accepts a level (data-accept). A level may hold
      several tokens, or none — so the exercise can't be solved by elimination.
+
+     One block per [data-match]; the attribute's value keys the event it emits
+     ("<value>-match"), so a page can carry several matching exercises.
      ========================================================================== */
-  (function () {
-    var wrap = $("[data-match='bloom']");
-    if (!wrap) return;
+  $$("[data-match]").forEach(function (wrap) {
+    var key = wrap.getAttribute("data-match") || "match";
     var tokens = $$(".token", wrap);
     var drops = $$(".drop", wrap);
     var selected = null;
@@ -429,7 +431,7 @@
       scoreEl.textContent = right + " / " + tokens.length + " correct" +
         (perfect ? " — perfect!" : ". The ones marked in red are on the wrong level; select a phrase to move it.");
       C.announce(right + " of " + tokens.length + " placed correctly.");
-      emit("interaction.complete", { id: "bloom-match", score: right, total: tokens.length });
+      emit("interaction.complete", { id: key + "-match", score: right, total: tokens.length });
       if (perfect && window.Confetti) window.Confetti.burst(wrap);
     });
 
@@ -440,12 +442,14 @@
       clearMarks();
       C.announce("Matching activity reset.");
     });
-  })();
+  });
 
   /* ==========================================================================
-     Tabs (NFQ)
+     Tabs — each [data-tabs] block is independent. The attribute's value keys
+     the event it emits ("<value>-tabs"), so a page can carry several explorers.
      ========================================================================== */
   $$("[data-tabs]").forEach(function (tabs) {
+    var key = tabs.getAttribute("data-tabs") || "tabs";
     var btns = $$(".tabs__btn", tabs);
     var panels = $$(".tabs__panel", tabs);
     var scrub = $(".tabs__scrub input", tabs);
@@ -461,7 +465,7 @@
       panels.forEach(function (p) { p.classList.toggle("is-active", p.getAttribute("data-panel") === k); });
       if (scrub) { if (!fromScrub) scrub.value = k; scrub.setAttribute("aria-valuetext", "Level " + k); }
       seen[k] = true;
-      emit("interaction.complete", { id: "nfq-tabs", value: k, seenCount: Object.keys(seen).length });
+      emit("interaction.complete", { id: key + "-tabs", value: k, seenCount: Object.keys(seen).length });
     }
     btns.forEach(function (b, i) {
       b.addEventListener("click", function () { activate(b.getAttribute("data-tab")); });

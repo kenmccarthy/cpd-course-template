@@ -29,7 +29,7 @@ window.Course = (function () {
 
   var courseConfig = window.CourseConfig || {};
   var CONFIG = {
-    storeKey: courseConfig.storeKey || "umd-course-v2",
+    storeKey: courseConfig.storeKey || "cpd-course-v1",
     // Empty = reflection-led course, no graded quiz (see js/course.config.js).
     finalQuiz: courseConfig.finalQuiz || [],
     passMark: (courseConfig.masteryScore != null ? courseConfig.masteryScore : 75) / 100,
@@ -39,6 +39,8 @@ window.Course = (function () {
     courseTitle: courseConfig.courseTitle || document.title,
     courseSlug: courseConfig.courseSlug || "course",
     courseSubtitle: courseConfig.courseSubtitle || "",
+    // Activity ids the results dashboard counts as "explored".
+    activities: courseConfig.activities || [],
     tagline: courseConfig.showTagline === false ? "" : (courseConfig.tagline || ""),
     institution: courseConfig.institution || ""
   };

@@ -9,10 +9,9 @@
   var $ = C.$, $$ = C.$$;
   var state = C.state;
 
-  var KNOWN_ACTIVITIES = [
-    "descriptor-anatomy", "outcome-builder", "alignment-check", "bloom-match",
-    "nfq-tabs", "ects-calc", "workload-budget", "readiness"
-  ];
+  // Which interactive activities count toward "explored" — see `activities`
+  // in js/course.config.js.
+  var KNOWN_ACTIVITIES = C.CONFIG.activities;
 
   state.activities = state.activities || {};
 

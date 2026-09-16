@@ -17,7 +17,7 @@
   C.on("*", function (d) {
     if (!api.endpoint) return;
     try {
-      var body = JSON.stringify({ course: "understanding-module-descriptors", event: d });
+      var body = JSON.stringify({ course: C.CONFIG.courseSlug, event: d });
       if (navigator.sendBeacon) navigator.sendBeacon(api.endpoint, body);
       else fetch(api.endpoint, { method: "POST", body: body, keepalive: true, headers: { "Content-Type": "application/json" } });
     } catch (e) { /* never let analytics break the course */ }
