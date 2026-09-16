@@ -18,23 +18,26 @@ window.Course = (function () {
 
   /* ---------- Course model ---------- */
   var SECTIONS = [
-    { id: 0, label: "Welcome & orientation",      mins: 1.5 },
-    { id: 1, label: "What is a module descriptor", mins: 5 },
+    { id: 0, label: "Welcome & orientation",       mins: 1.5 },
+    { id: 1, label: "What is a module descriptor", mins: 4.5 },
     { id: 2, label: "Learning outcomes",           mins: 7 },
-    { id: 3, label: "NFQ levels",                  mins: 7 },
-    { id: 4, label: "ECTS credits & workload",     mins: 6.5 },
+    { id: 3, label: "NFQ levels",                  mins: 6.5 },
+    { id: 4, label: "ECTS, EQF & workload",        mins: 7 },
     { id: 5, label: "Bringing it together",        mins: 2 },
-    { id: 6, label: "Summary & final quiz",        mins: 3 }
+    { id: 6, label: "Summary & reflection",        mins: 1.5 }
   ];
 
   var courseConfig = window.CourseConfig || {};
   var CONFIG = {
     storeKey: courseConfig.storeKey || "umd-course-v2",
-    finalQuiz: ["f1", "f2", "f3", "f4"],
+    // Empty = reflection-led course, no graded quiz (see js/course.config.js).
+    finalQuiz: courseConfig.finalQuiz || [],
     passMark: (courseConfig.masteryScore != null ? courseConfig.masteryScore : 75) / 100,
+    pitchLevel: courseConfig.pitchLevel || "",
     sectionCount: SECTIONS.length,
     programmeYear: courseConfig.programmeYear || "2026/27",
     courseTitle: courseConfig.courseTitle || document.title,
+    courseSlug: courseConfig.courseSlug || "course",
     courseSubtitle: courseConfig.courseSubtitle || "",
     tagline: courseConfig.showTagline === false ? "" : (courseConfig.tagline || ""),
     institution: courseConfig.institution || ""
@@ -90,12 +93,19 @@ window.Course = (function () {
   }
 
   /* ---------- Derived helpers ---------- */
+  /* Final-quiz result. A course with no graded quiz (CONFIG.finalQuiz empty)
+     reports hasQuiz:false and never "complete"/"passed" — callers use that to
+     fall back to plain completion rather than a pass/fail score. */
   function quizResult() {
     var q = CONFIG.finalQuiz, answered = 0, correct = 0;
     q.forEach(function (id) {
       if (state.answers[id]) { answered++; if (state.answers[id].correct) correct++; }
     });
+    if (!q.length) {
+      return { hasQuiz: false, answered: 0, total: 0, correct: 0, complete: false, ratio: 0, passed: false };
+    }
     return {
+      hasQuiz: true,
       answered: answered,
       total: q.length,
       correct: correct,
@@ -103,6 +113,14 @@ window.Course = (function () {
       ratio: correct / q.length,
       passed: (correct / q.length) >= CONFIG.passMark
     };
+  }
+
+  /* Reflection prompts answered (non-empty), out of however many the page has.
+     Used by the dashboard in place of a quiz score on reflection-led courses. */
+  function reflectionResult() {
+    var ids = $$("[data-reflect]").map(function (r) { return r.getAttribute("data-reflect"); });
+    var written = ids.filter(function (id) { return (state.reflections[id] || "").trim().length > 0; }).length;
+    return { written: written, total: ids.length };
   }
   function allSectionsVisited() {
     return SECTIONS.every(function (s) { return state.visited[s.id]; });
@@ -152,6 +170,7 @@ window.Course = (function () {
     save: save, saveSoon: saveSoon,
     on: on, off: off, emit: emit, eventLog: eventLog,
     quizResult: quizResult,
+    reflectionResult: reflectionResult,
     allSectionsVisited: allSectionsVisited,
     reduceMotion: reduceMotion,
     icon: icon,

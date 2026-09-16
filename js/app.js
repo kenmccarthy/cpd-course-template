@@ -271,7 +271,7 @@
   function updateFinalScore() {
     var r = C.quizResult();
     var el = $("#finalScore");
-    if (!el) return;
+    if (!el || !r.hasQuiz) return;        // reflection-led course: no graded quiz to score
     if (r.answered === 0) {
       el.textContent = "Answer the four questions above to see your score.";
     } else {
@@ -310,7 +310,10 @@
   });
 
   /* ==========================================================================
-     Matching (Bloom) — drag & drop with tap fallback
+     Matching (Bloom) — drag & drop, tap-to-place and keyboard
+     Each token carries its own id (data-token) and its correct level
+     (data-level); a drop accepts a level (data-accept). A level may hold
+     several tokens, or none — so the exercise can't be solved by elimination.
      ========================================================================== */
   (function () {
     var wrap = $("[data-match='bloom']");
@@ -319,37 +322,49 @@
     var drops = $$(".drop", wrap);
     var selected = null;
 
+    function levelName(drop) { return $(".drop__target", drop).textContent.trim(); }
+    function tokenById(id) {
+      return tokens.filter(function (t) { return t.getAttribute("data-token") === id; })[0];
+    }
+    function releaseToken(token) {
+      token.classList.remove("placed");
+      token.setAttribute("aria-pressed", "false");
+    }
+
     function placeToken(token, drop) {
+      // A token can only sit in one bucket: pull it out of wherever it is now.
+      var existing = wrap.querySelector('.drop__chip[data-token="' + token.getAttribute("data-token") + '"]');
+      if (existing) existing.parentNode.removeChild(existing);
+
       var slot = $(".drop__slot", drop);
-      var existing = $(".drop__chip", slot);
-      if (existing) {
-        var freed = tokens.filter(function (t) { return t.getAttribute("data-token") === existing.getAttribute("data-token"); })[0];
-        if (freed) freed.classList.remove("placed");
-      }
-      slot.innerHTML = "";
-      var levelName = $(".drop__target", drop).textContent.trim();
       var chip = document.createElement("button");
       chip.type = "button";
       chip.className = "drop__chip";
       chip.setAttribute("data-token", token.getAttribute("data-token"));
       chip.innerHTML = token.textContent + " " + C.icon("x");
-      chip.setAttribute("aria-label", "Remove " + token.textContent + " from " + levelName);
-      chip.addEventListener("click", function () {
-        token.classList.remove("placed");
-        slot.innerHTML = "";
-        drop.classList.remove("correct", "incorrect");
-        clearScore();
-        C.announce(token.textContent + " returned to the verb list");
+      chip.setAttribute("aria-label", "Remove " + token.textContent + " from " + levelName(drop));
+      chip.addEventListener("click", function (e) {
+        e.stopPropagation();
+        chip.parentNode.removeChild(chip);
+        releaseToken(token);
+        clearMarks();
+        C.announce(token.textContent + " returned to the phrase list");
         token.focus();
       });
       slot.appendChild(chip);
       token.classList.add("placed");
-      drop.classList.remove("correct", "incorrect");
-      clearScore();
-      C.announce(token.textContent + " placed on " + levelName);
+      clearMarks();
+      C.announce(token.textContent + " placed on " + levelName(drop));
+    }
+
+    function clearMarks() {
+      drops.forEach(function (d) { d.classList.remove("correct", "incorrect"); });
+      $$(".drop__chip", wrap).forEach(function (c) { c.classList.remove("is-right", "is-wrong"); });
+      scoreEl.textContent = "";
     }
 
     tokens.forEach(function (t) {
+      t.setAttribute("aria-pressed", "false");
       t.addEventListener("dragstart", function (e) {
         t.classList.add("dragging");
         e.dataTransfer.setData("text/plain", t.getAttribute("data-token"));
@@ -362,53 +377,68 @@
         selected = t; t.classList.add("selected"); t.setAttribute("aria-pressed", "true");
         C.announce(t.textContent + " selected. Choose a Bloom's level to place it.");
       }
-      t.setAttribute("aria-pressed", "false");
       t.addEventListener("click", toggleSelect);
       t.addEventListener("keydown", function (e) {
         if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSelect(); }
       });
     });
+
     drops.forEach(function (d) {
       d.addEventListener("dragover", function (e) { e.preventDefault(); d.classList.add("over"); });
       d.addEventListener("dragleave", function () { d.classList.remove("over"); });
       d.addEventListener("drop", function (e) {
         e.preventDefault(); d.classList.remove("over");
-        var key = e.dataTransfer.getData("text/plain");
-        var token = tokens.filter(function (t) { return t.getAttribute("data-token") === key; })[0];
+        var token = tokenById(e.dataTransfer.getData("text/plain"));
         if (token) placeToken(token, d);
       });
       d.addEventListener("click", function (e) {
         if (e.target.closest && e.target.closest(".drop__chip")) return;   // chip handles its own click
-        if (selected) { var tok = selected; placeToken(tok, d); tok.classList.remove("selected"); tok.setAttribute("aria-pressed", "false"); selected = null; }
-        else if (e.target.closest && e.target.closest(".drop__target")) C.announce("Select a verb first, then choose a level.");
+        if (selected) {
+          var tok = selected;
+          tok.classList.remove("selected");
+          selected = null;
+          placeToken(tok, d);
+        } else if (e.target.closest && e.target.closest(".drop__target")) {
+          C.announce("Select a phrase first, then choose a level.");
+        }
       });
     });
 
     var scoreEl = $("[data-matchscore]", wrap);
-    function clearScore() { scoreEl.textContent = ""; }
 
     $("[data-check]", wrap).addEventListener("click", function () {
-      var right = 0, total = drops.length, filled = 0;
-      drops.forEach(function (d) {
-        var chip = $(".drop__chip", d);
-        d.classList.remove("correct", "incorrect");
-        if (!chip) return;
-        filled++;
-        if (chip.getAttribute("data-token") === d.getAttribute("data-accept")) { d.classList.add("correct"); right++; }
-        else d.classList.add("incorrect");
-      });
-      if (filled < total) {
-        scoreEl.textContent = "Place all six verbs first (" + filled + "/" + total + ")";
+      var placed = tokens.filter(function (t) { return t.classList.contains("placed"); }).length;
+      if (placed < tokens.length) {
+        scoreEl.textContent = "Place all " + tokens.length + " phrases first (" + placed + "/" + tokens.length + ")";
         return;
       }
-      scoreEl.textContent = right + " / " + total + " correct" + (right === total ? " — perfect!" : ". Incorrect ones are outlined in red; remove and try again.");
-      emit("interaction.complete", { id: "bloom-match", score: right, total: total });
-      if (right === total && window.Confetti) window.Confetti.burst(wrap);
+      var right = 0;
+      drops.forEach(function (d) {
+        var accept = d.getAttribute("data-accept");
+        var chips = $$(".drop__chip", d);
+        var allRight = chips.length > 0;
+        chips.forEach(function (chip) {
+          var token = tokenById(chip.getAttribute("data-token"));
+          var ok = token && token.getAttribute("data-level") === accept;
+          chip.classList.add(ok ? "is-right" : "is-wrong");
+          if (ok) right++; else allRight = false;
+        });
+        if (chips.length) d.classList.add(allRight ? "correct" : "incorrect");
+      });
+      var perfect = right === tokens.length;
+      scoreEl.textContent = right + " / " + tokens.length + " correct" +
+        (perfect ? " — perfect!" : ". The ones marked in red are on the wrong level; select a phrase to move it.");
+      C.announce(right + " of " + tokens.length + " placed correctly.");
+      emit("interaction.complete", { id: "bloom-match", score: right, total: tokens.length });
+      if (perfect && window.Confetti) window.Confetti.burst(wrap);
     });
+
     $("[data-reset]", wrap).addEventListener("click", function () {
-      drops.forEach(function (d) { $(".drop__slot", d).innerHTML = ""; d.classList.remove("correct", "incorrect"); });
-      tokens.forEach(function (t) { t.classList.remove("placed", "selected"); });
-      selected = null; clearScore();
+      drops.forEach(function (d) { $(".drop__slot", d).innerHTML = ""; });
+      tokens.forEach(function (t) { releaseToken(t); t.classList.remove("selected"); });
+      selected = null;
+      clearMarks();
+      C.announce("Matching activity reset.");
     });
   })();
 

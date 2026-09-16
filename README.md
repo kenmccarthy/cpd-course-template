@@ -68,7 +68,34 @@ self-hosted).
 
 **Audience:** Industry-based part-time lecturers with high subject expertise but
 limited HE/quality-assurance background.
+**Pitch level:** NFQ Level 8 (honours bachelor degree standard) — language,
+concepts and tasks are calibrated accordingly.
 **Runtime:** ~30 minutes, 7 sections.
+
+**Built from:** *Understanding Module Descriptors — Full Narration & Build Script
+for Articulate Rise On-Demand Session* (Script 1, V2).
+
+### Reflection-led, not quiz-led
+
+The script is deliberately **reflection-led**. Knowledge checks appear only where a
+factual or conceptual check genuinely adds value — there is exactly **one** in the
+course (Section 3, a scenario question on constructive alignment). Every other
+section instead asks learners to apply the concept to their own **industry
+background**, through an ungraded reflection prompt.
+
+That design decision drives the completion model, so it is worth stating plainly:
+
+- `finalQuiz` in `js/course.config.js` is **empty**, so there is no graded quiz.
+- The course therefore reports SCORM **`completed`**, never `passed`/`failed`, and
+  **sends no score**. `<adlcp:masteryscore>` is omitted from `imsmanifest.xml`.
+- Knowledge-check and pitch-check answers are still written as
+  `cmi.interactions.n` entries, so per-question analytics survive.
+- The results dashboard reports *sections viewed*, *reflections written* and
+  *activities explored* instead of a quiz score.
+
+To turn a future course back into a graded one, list the question ids in
+`finalQuiz`, mark those knowledge checks with `data-final`, and restore
+`<adlcp:masteryscore>` in the manifest. Everything else adapts automatically.
 
 ## SETU branding applied
 
@@ -92,15 +119,15 @@ limited HE/quality-assurance background.
 
 ## What's included
 
-| Section | Topic |
-|--------:|-------|
-| 1 | Welcome & orientation (objectives) |
-| 2 | What a module descriptor is and why it matters |
-| 3 | Learning outcomes, Bloom's Taxonomy & constructive alignment |
-| 4 | NFQ levels |
-| 5 | ECTS credits & student workload |
-| 6 | Bringing it together (four-question checklist) |
-| 7 | Summary, final quiz & reflection |
+| Section | Topic | Time |
+|--------:|-------|-----:|
+| 1 | Welcome & orientation (objectives, Level 8 framing) | 1.5 min |
+| 2 | What a module descriptor is and why it matters | 4.5 min |
+| 3 | Learning outcomes, Bloom's Taxonomy & constructive alignment | 7 min |
+| 4 | NFQ levels and their alignment with the EQF | 6.5 min |
+| 5 | ECTS credits, EQF & student workload | 7 min |
+| 6 | Bringing it together (four-question checklist) | 2 min |
+| 7 | Summary, references & reflective activity | 1.5 min |
 
 Sections are numbered **1–7** everywhere the learner sees them (navigation,
 lesson cards, hero eyebrows). Internally each `<section class="lesson">` keeps a
@@ -108,19 +135,19 @@ lesson cards, hero eyebrows). Internally each `<section class="lesson">` keeps a
 SCORM bookmark use, so renumbering the display never disturbs saved progress.
 
 ### Interactions (all native, no libraries)
-- **Knowledge checks** — MCQ and true/false with instant feedback, retry, shake-on-wrong / tick-on-correct
-- **Reflections** — open text prompts (saved locally, never submitted) with an **export-to-file** option
+- **Knowledge check** (§3) — one scenario MCQ with instant feedback, retry, shake-on-wrong / tick-on-correct
+- **Reflections** (§2–§5, §7) — five ungraded *industry-link* prompts that ask learners to map the concept onto their own professional experience (saved locally, never submitted) with an **export-to-file** option
 - **Descriptor explorer** (§2) — a keyboard-operable tab list; pick each part to reveal what it tells you
 - **Build a learning outcome** (§3) — verb + object + standard → a sample outcome with its Bloom's level
 - **Alignment checker** (§3) — set outcome/teaching/assessment levels for a live aligned/misaligned verdict
-- **Bloom's matching** (§3) — drag-and-drop, tap-to-place *and* keyboard (select a verb, choose a level), with confetti on a perfect score
+- **Bloom's matching** (§3) — five outcome phrases onto six Bloom's levels, where one level takes two phrases and two levels stay empty (so it can't be solved by elimination). Drag-and-drop, tap-to-place *and* keyboard, with confetti on a perfect score
 - **NFQ tabs + scrubber** (§4) — Levels 6–9 via arrow-key tabs or a slider
-- **Pitch check** (§4) — match tasks to their NFQ level
+- **Pitch check** (§4) — match tasks to their NFQ level (practice, not scored)
 - **ECTS calculator** (§5) — live sliders with an animated contact-vs-independent split bar
 - **Workload budget** (§5) — toggle assessment tasks against a 76-hour budget; bar turns red when over
 - **Readiness checklist** (§6) — a conic-gradient readiness ring
-- **Results dashboard** (§7) — live tiles for sections, quiz score and activities explored
-- **Self-building SVG graphics** — annotated descriptor, Bloom's pyramid, alignment triangle, NFQ ladder
+- **Results dashboard** (§7) — live tiles for sections viewed, reflections written and activities explored
+- **Self-building SVG graphics** — annotated descriptor, Bloom's pyramid (with the Level 8 band marked), alignment triangle, and a side-by-side **NFQ–EQF ladder** highlighting NFQ 8 / EQF 6
 
 ### Learner experience
 - Left-hand lesson navigation with live **progress bar** and completed ticks
@@ -248,10 +275,10 @@ Upload that zip to your LMS, or to <https://cloud.scorm.com> to validate.
 
 | SCORM (CMI) field | Meaning |
 |---|---|
-| `cmi.core.lesson_status` | `passed` (final quiz ≥ 75%), `failed` (below), or `completed` (finished, quiz not fully attempted) |
-| `cmi.core.score.raw` | Final-quiz percentage (min 0, max 100; mastery score 75) |
+| `cmi.core.lesson_status` | **`completed`** for this course (reflection-led, no graded quiz). With a `finalQuiz` configured it reports `passed` / `failed` instead |
+| `cmi.core.score.raw` | Not sent for this course. With a graded quiz: final-quiz percentage (min 0, max 100) |
 | `cmi.core.lesson_location` | Bookmark — the section the learner was on |
-| `cmi.suspend_data` | Compact resume state (visited sections, answers, activities). Kept **well under the SCORM 1.2 ~4 KB cap**; reflections are **excluded** (private, and local only) |
+| `cmi.suspend_data` | Compact resume state (visited sections, Continue-gate progress, answers, activities). Kept **well under the SCORM 1.2 ~4 KB cap**; reflections are **excluded** (private, and local only) |
 | `cmi.core.session_time` | Time on task |
 | `cmi.interactions.n` | One entry per knowledge-check answer — see *Analytics* |
 
@@ -261,9 +288,11 @@ LMS that logs every SCORM call to an in-memory store (used by the automated test
 ## Analytics
 
 Per the chosen design, the **LMS is the analytics store**: every knowledge-check
-answer is written as a `cmi.interactions.n` entry, so completion, scores and
-per-question results appear in the LMS's own reporting — no third-party scripts,
-no external calls, and nothing that breaks the standalone/offline property.
+and pitch-check answer is written as a `cmi.interactions.n` entry, so completion
+and per-question results appear in the LMS's own reporting — no third-party
+scripts, no external calls, and nothing that breaks the standalone/offline
+property. Reflection prompts report only that a note was saved and how long it
+was, never its text.
 
 - **Event bus** — all interactions emit typed events through `js/core.js`
   (`section.view`, `knowledge_check.answer`, `interaction.complete`,
@@ -347,8 +376,12 @@ Marked in-course with a *[Placeholder …]* note:
 
 - **Hero photos** — the overview and section heroes use the gradient crest; add
   approved SETU photography via `<img class="hero__bg">` if preferred.
-- **Further-reading links** — the reference list in Section 7 is plain text;
-  add live hyperlinks to SETU/QQI/National Forum/ECTS documents.
+- **Further-reading links** — the *Further reading* list in Section 7 is plain
+  text; add live hyperlinks to SETU/QQI/National Forum/ECTS documents. (The
+  four **References** below it already carry live DOI/JSTOR links from the script.)
+- **NFQ–EQF alignment** — the ladder graphic in Section 4 uses the commonly
+  published Irish mapping. Confirm it level-by-level against QQI's current
+  comparison chart before publishing; the course carries an in-page note saying so.
 - **Hours-per-credit default** — set to 20 (common Irish HE figure); the
   calculator slider allows 20–25.
 

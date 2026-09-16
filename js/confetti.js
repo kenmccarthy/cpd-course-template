@@ -18,6 +18,8 @@
     var oy = rect.top + rect.height / 2;
 
     var canvas = document.createElement("canvas");
+    canvas.setAttribute("aria-hidden", "true");
+    canvas.setAttribute("role", "presentation");
     canvas.style.cssText = "position:fixed;inset:0;pointer-events:none;z-index:9999";
     canvas.width = innerWidth; canvas.height = innerHeight;
     document.body.appendChild(canvas);

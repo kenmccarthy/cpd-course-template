@@ -305,6 +305,8 @@ button { font-family: inherit; }
 }
 .card--objectives { border-left: 4px solid var(--accent); }
 .card h3 { margin-top: 0; }
+/* A card heading is an <h2> so heading levels never skip, but it reads as a card title. */
+.card > h2 { font-size: 19px; margin: 0 0 10px; line-height: 1.3; }
 .obj-list li { padding-left: 34px; margin-bottom: 13px; color: var(--ink); }
 .obj-list li::before {
   content: "→"; color: var(--accent-ink); background: none; width: auto; height: auto;
@@ -444,26 +446,31 @@ button { font-family: inherit; }
 .token.dragging { opacity: .4; }
 .token.placed { display: none; }
 .drop {
-  padding: 12px 14px; border-radius: var(--radius-sm); border: 1.5px dashed var(--line);
-  min-height: 52px; background: var(--bg-sub); display: flex; align-items: center; gap: 12px; transition: all .15s;
+  padding: 10px 14px 12px; border-radius: var(--radius-sm); border: 1.5px dashed var(--line);
+  min-height: 66px; background: var(--bg-sub); display: flex; flex-direction: column;
+  align-items: stretch; gap: 8px; transition: all .15s;
 }
 .drop.over { border-color: var(--accent); background: var(--accent-tint); }
 .drop__target {
-  font-family: var(--font-head); font-size: 14px; color: var(--ink-muted); font-weight: 700; flex: 1;
-  background: none; border: 0; padding: 6px 0; text-align: left; cursor: pointer; border-radius: 6px;
+  font-family: var(--font-head); font-size: 14px; color: var(--ink-muted); font-weight: 700;
+  background: none; border: 0; padding: 4px 0; text-align: left; cursor: pointer; border-radius: 6px;
 }
 .drop__target:hover { color: var(--accent-ink); }
-.drop__slot { flex: 0 0 auto; min-width: 128px; }
+/* A level can hold several phrases, or none — chips wrap inside the slot. */
+.drop__slot { display: flex; flex-wrap: wrap; gap: 6px; min-height: 22px; }
+.drop__slot:empty::before {
+  content: "Drop or place a phrase here"; font-size: 12.5px; font-style: italic; color: var(--ink-faint);
+}
 .drop__chip {
   display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 8px;
   font-size: 14px; font-weight: 600; background: var(--accent-tint); color: var(--accent-ink); cursor: pointer;
   border: 0; font-family: inherit; text-align: left;
 }
 .drop__chip .icon { width: 13px; height: 13px; opacity: .8; }
+.drop__chip.is-right { background: var(--ok); color: #fff; }
+.drop__chip.is-wrong { background: var(--err); color: #fff; }
 .drop.correct { border-style: solid; border-color: var(--ok); background: var(--ok-tint); }
-.drop.correct .drop__chip { background: var(--ok); color: #fff; }
 .drop.incorrect { border-style: solid; border-color: var(--err); background: var(--err-tint); }
-.drop.incorrect .drop__chip { background: var(--err); color: #fff; }
 .match__actions { display: flex; gap: 12px; align-items: center; margin-top: 18px; }
 
 /* ==========================================================================
@@ -598,7 +605,18 @@ button { font-family: inherit; }
 
 .reflist { margin: 20px 0; }
 .reflist li { padding-left: 26px; }
-.reflist li::before { content: "▸"; color: var(--accent-ink); background: none; width: auto; height: auto; left: 4px; top: 0; }
+.reflist li::before {
+  content: ""; position: absolute; left: 7px; top: 10px; width: 6px; height: 6px;
+  border-radius: 1px; background: var(--accent-ink); transform: rotate(45deg);
+}
+
+/* Full citations (References block) */
+.refcite { margin: 18px 0 8px; }
+.refcite li { font-size: 14.5px; line-height: 1.55; color: var(--ink-soft); }
+
+/* Links in course copy */
+.lesson a { color: var(--accent-ink); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
+.lesson a:hover { text-decoration-thickness: 2px; }
 
 /* ==========================================================================
    Responsive
@@ -845,6 +863,19 @@ button { font-family: inherit; }
 .fig-formula.is-in rect:nth-of-type(2){animation-delay:.20s}
 .fig-formula.is-in rect:nth-of-type(3){animation-delay:.35s}
 .fig-formula.is-in .plus { animation: fig-fade .4s both .45s; }
+
+/* The NFQ/EQF ladder carries too much text to shrink below ~520px — give it its
+   own horizontal scroll on narrow screens rather than illegible type. */
+@media (max-width: 640px) {
+  .fig-eqf { overflow-x: auto; }
+  .fig-eqf svg { min-width: 520px; }
+}
+
+/* NFQ / EQF ladder — rungs grow from the floor, then the mapping bands fade in */
+.fig-eqf .lad-rung { transform-box: fill-box; transform-origin: bottom; }
+.fig-eqf.is-in .lad-rung { animation: fig-grow .45s both var(--d, 0s); }
+.fig-eqf.is-in .lad-band path { animation: fig-fade .55s both .62s; }
+.fig-eqf.is-in text { animation: fig-fade .5s both .66s; }
 
 /* Annotated descriptor — callout lines and labels fade in after the doc */
 .fig-descriptor.is-in .call, .fig-descriptor.is-in .call-a,
