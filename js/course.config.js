@@ -64,6 +64,6 @@ window.CourseConfig = {
     "nfq-tabs",            // NFQ/EQF level explorer (Section 4)
     "ects-calc",           // ECTS workload calculator (Section 5)
     "workload-budget",     // assessment workload budget (Section 5)
-    "readiness"            // descriptor readiness checklist (Section 6)
+    "readiness-checklist"  // descriptor readiness checklist (Section 6)
   ]
 };
