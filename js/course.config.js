@@ -4,7 +4,7 @@
    reusing this repo as a template for a new course.
 
    Consumed by:
-     - js/core.js         (storeKey, masteryScore)
+     - js/core.js         (storeKey, finalQuiz, masteryScore, activities)
      - imsmanifest.xml     (kept in sync by scripts/init_course.py, not read
                             at runtime — SCORM manifests are static XML)
      - scripts/build_scorm.py (courseSlug -> dist/<slug>-scorm12.zip)
@@ -50,5 +50,20 @@ window.CourseConfig = {
 
   // Final-quiz pass mark, as a percentage (0-100). Only used when finalQuiz is
   // non-empty. Mirrors <adlcp:masteryscore> in imsmanifest.xml — keep in sync.
-  masteryScore: 75
+  masteryScore: 75,
+
+  // Interactive activities the results dashboard counts as "explored", by the
+  // id each widget emits on interaction.complete. Keep in step with the widgets
+  // present in index.html — a course that drops or adds one edits this list,
+  // and nothing else needs to change.
+  activities: [
+    "descriptor-anatomy",  // parts of a descriptor (Section 2)
+    "outcome-builder",     // build a learning outcome (Section 3)
+    "alignment-check",     // constructive alignment (Section 3)
+    "bloom-match",         // match phrases to Bloom levels (Section 3)
+    "nfq-tabs",            // NFQ/EQF level explorer (Section 4)
+    "ects-calc",           // ECTS workload calculator (Section 5)
+    "workload-budget",     // assessment workload budget (Section 5)
+    "readiness"            // descriptor readiness checklist (Section 6)
+  ]
 };

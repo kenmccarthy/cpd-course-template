@@ -31,20 +31,50 @@ def prompt(label, default):
     return raw or default
 
 
+def read_activities():
+    """Return the `activities` array from the current config, verbatim.
+
+    The dashboard counts these ids as "explored", so re-running this script
+    must not silently empty the list -- the course author edits it by hand as
+    they swap widgets in index.html.
+    """
+    try:
+        with open(CONFIG_FILE, encoding="utf-8") as f:
+            src = f.read()
+    except IOError:
+        return "[]"
+    i = src.find("activities:")
+    if i == -1:
+        return "[]"
+    start = src.find("[", i)
+    if start == -1:
+        return "[]"
+    depth = 0
+    for j in range(start, len(src)):
+        if src[j] == "[":
+            depth += 1
+        elif src[j] == "]":
+            depth -= 1
+            if depth == 0:
+                return src[start:j + 1]
+    return "[]"
+
+
 def write_config(course_title, course_slug, institution, store_key, mastery_score,
                  programme_year="2026/27", course_subtitle="", pitch_level="",
-                 final_quiz=None):
+                 final_quiz=None, activities=None):
     # final_quiz: list of knowledge-check ids making up a graded final quiz.
     # Empty/None = reflection-led course -> SCORM reports "completed", no score.
     final_quiz = final_quiz or []
     quiz_js = "[" + ", ".join('"%s"' % q for q in final_quiz) + "]"
+    activities_js = activities if activities is not None else read_activities()
     content = '''/* ==========================================================================
    Course config -- single source of truth for per-course/per-institution
    identity. Edit this file (or re-run `python3 scripts/init_course.py`)
    when reusing this repo as a template for a new course.
 
    Consumed by:
-     - js/core.js         (storeKey, masteryScore)
+     - js/core.js         (storeKey, finalQuiz, masteryScore, activities)
      - imsmanifest.xml     (kept in sync by scripts/init_course.py, not read
                             at runtime -- SCORM manifests are static XML)
      - scripts/build_scorm.py (courseSlug -> dist/<slug>-scorm12.zip)
@@ -89,7 +119,14 @@ window.CourseConfig = {{
 
   // Final-quiz pass mark, as a percentage (0-100). Only used when finalQuiz is
   // non-empty. Mirrors <adlcp:masteryscore> in imsmanifest.xml -- keep in sync.
-  masteryScore: {mastery_score}
+  masteryScore: {mastery_score},
+
+  // Interactive activities the results dashboard counts as "explored", by the
+  // id each widget emits on interaction.complete. Keep this in step with the
+  // widgets actually present in index.html: drop the ids of widgets you remove
+  // and add the ids of any you introduce. Carried over unchanged when this
+  // script is re-run.
+  activities: {activities}
 }};
 '''.format(
         title=course_title.replace('"', '\\"'),
@@ -101,6 +138,7 @@ window.CourseConfig = {{
         course_subtitle=course_subtitle.replace('"', '\\"'),
         pitch_level=pitch_level.replace('"', '\\"'),
         final_quiz=quiz_js,
+        activities=activities_js,
     )
     with open(CONFIG_FILE, "w", encoding="utf-8") as f:
         f.write(content)
@@ -177,6 +215,8 @@ def main():
               % ", ".join(final_quiz))
     else:
         print("\nReflection-led course: SCORM will report \"completed\" with no score.")
+    print("\nActivity ids in `activities` were carried over unchanged. Edit that")
+    print("list in js/course.config.js as you swap widgets in index.html.")
     print("\nNext: edit index.html for section copy/branding, then run")
     print("  python3 scripts/build_scorm.py")
 

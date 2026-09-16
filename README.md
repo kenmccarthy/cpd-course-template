@@ -19,9 +19,11 @@ finished state before adapting it.
    ```
    or edit `js/course.config.js` by hand. This is the single source of
    truth for course title, slug, institution name, the `localStorage` key,
-   and the SCORM pass mark — it drives `js/core.js`, `imsmanifest.xml`
-   (kept in sync by the script), and the output zip filename from
-   `scripts/build_scorm.py`.
+   the SCORM pass mark, and the list of interactive `activities` the results
+   dashboard counts — it drives `js/core.js`, `js/dashboard.js`,
+   `js/analytics.js`, `imsmanifest.xml` (kept in sync by the script), and the
+   output zip filename from `scripts/build_scorm.py`. Re-running the script
+   carries your `activities` list over unchanged.
 3. **Replace branding.** Swap the logo files in `assets/` (`MONO_WHITE.png`,
    `MONO_BLACK.png`, `RGB.png`, `favicon.png`) for your own, and update the
    color tokens under `/* SETU primary */` / `/* SETU secondary (accents) */`
@@ -46,11 +48,16 @@ finished state before adapting it.
    # -> dist/<your-course-slug>-scorm12.zip
    ```
 
+No shell file needs editing to add a second matching exercise, a second tab
+explorer, or a different set of activities — `[data-match]` and `[data-tabs]`
+are keyed by their attribute value, and the dashboard reads `activities` from
+config. See **Adding a second instance of a widget** below.
+
 **What's reusable vs. what you edit per course**
 
 | Reusable (structural) | Edit per course |
 |---|---|
-| `js/core.js`, `js/scorm.js`, `js/analytics.js`, `js/animations.js`, `js/confetti.js`, `js/dashboard.js`, `js/app.js` | `js/course.config.js` (identity/config) |
+| `js/core.js`, `js/scorm.js`, `js/analytics.js`, `js/animations.js`, `js/confetti.js`, `js/dashboard.js`, `js/app.js` | `js/course.config.js` (identity, `finalQuiz`, `activities`) |
 | `css/styles.css` layout, components, animation rules | `css/styles.css` color tokens (~lines 26-41), `assets/` logos/fonts |
 | `scripts/build_scorm.py`, `scripts/init_course.py` | `index.html` section content, `js/interactions.js` widget data |
 | SCORM 1.2 plumbing (`imsmanifest.xml` structure, `js/scorm.js` adapter) | `imsmanifest.xml` identity fields (kept in sync by `init_course.py`) |
@@ -148,6 +155,27 @@ SCORM bookmark use, so renumbering the display never disturbs saved progress.
 - **Readiness checklist** (§6) — a conic-gradient readiness ring
 - **Results dashboard** (§7) — live tiles for sections viewed, reflections written and activities explored
 - **Self-building SVG graphics** — annotated descriptor, Bloom's pyramid (with the Level 8 band marked), alignment triangle, and a side-by-side **NFQ–EQF ladder** highlighting NFQ 8 / EQF 6
+
+### Adding a second instance of a widget
+
+The matching exercise and the tab explorer are keyed by their own data
+attribute, so a course can carry several of each without touching the shell:
+
+```html
+<div class="widget match" data-match="bloom">   <!-- emits "bloom-match" -->
+<div class="widget match" data-match="rubric">  <!-- emits "rubric-match" -->
+
+<div class="tabs" data-tabs="nfq">              <!-- emits "nfq-tabs" -->
+<div class="tabs" data-tabs="levels">           <!-- emits "levels-tabs" -->
+```
+
+The attribute value becomes the `interaction.complete` id, which is what the
+results dashboard, SCORM `suspend_data` and analytics all key on. Add the new
+id to `activities` in `js/course.config.js` and the dashboard counts it.
+
+Everything else follows the same rule: a widget is a no-op when its markup is
+absent, so removing a section's markup removes the widget with it — just drop
+its id from `activities` too.
 
 ### Learner experience
 - Left-hand lesson navigation with live **progress bar** and completed ticks
@@ -327,7 +355,7 @@ an LMS file area, a shared drive, etc.).
 ├── imsmanifest.xml            # SCORM 1.2 package manifest (single SCO)
 ├── css/styles.css             # SETU design tokens, layout, components, animations
 ├── js/
-│   ├── course.config.js       # per-course identity (title, slug, institution, storeKey, pass mark)
+│   ├── course.config.js       # per-course identity (title, slug, institution, storeKey, pass mark, activities)
 │   ├── core.js                # state store and the event bus (foundation)
 │   ├── scorm.js               # SCORM 1.2 adapter (+ ?scorm=mock test harness)
 │   ├── analytics.js           # dev event inspector + optional endpoint sink
