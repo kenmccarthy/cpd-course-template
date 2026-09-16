@@ -5,8 +5,11 @@
    runs standalone from file:// or any static host.
 
    Completion rule (agreed):
-     - completed  : all sections viewed and the course finished
-     - passed     : final quiz >= 75%   (failed if quiz complete but below)
+     - completed  : the course was finished (the only outcome for a
+                    reflection-led course with no graded quiz)
+     - passed     : final quiz >= mastery score  (failed if below)
+   Whether a course has a graded quiz is decided by finalQuiz in
+   js/course.config.js — empty means "completed" only, and no score is sent.
 
    Analytics (agreed): each knowledge-check answer is written as a
    cmi.interactions.n entry — the LMS is the analytics store.
@@ -72,11 +75,14 @@
       c: Object.keys(state.completedSec || {}).filter(function (k) { return state.completedSec[k]; }).join(""),
       a: {},
       x: Object.keys(state.activities || {}).filter(function (k) { return state.activities[k]; }),
+      r: Object.keys(state.reveal || {}).filter(function (k) { return state.reveal[k]; })
+           .map(function (k) { return k + ":" + state.reveal[k]; }).join(","),
       d: !!state.completed,
       cur: state.current || 0
     };
-    C.CONFIG.finalQuiz.concat(["s1", "s2", "s3", "s4"]).forEach(function (id) {
-      if (state.answers[id]) payload.a[id] = (state.answers[id].correct ? "1" : "0") + state.answers[id].chosen;
+    // Every knowledge check the learner has answered, whatever its id.
+    Object.keys(state.answers || {}).forEach(function (id) {
+      payload.a[id] = (state.answers[id].correct ? "1" : "0") + state.answers[id].chosen;
     });
     var str = JSON.stringify(payload);
     if (str.length > 4000) str = str.slice(0, 4000);   // SCORM 1.2 safety cap (~4096)
@@ -90,6 +96,11 @@
       (p.v || "").split("").forEach(function (i) { if (i !== "") state.visited[i] = true; });
       (p.c || "").split("").forEach(function (i) { if (i !== "") state.completedSec[i] = true; });
       (p.x || []).forEach(function (a) { state.activities[a] = true; });
+      state.reveal = state.reveal || {};
+      (p.r || "").split(",").forEach(function (pair) {
+        var kv = pair.split(":");
+        if (kv.length === 2) state.reveal[kv[0]] = parseInt(kv[1], 10) || 0;
+      });
       if (p.a) Object.keys(p.a).forEach(function (id) {
         var v = p.a[id]; state.answers[id] = { correct: v.charAt(0) === "1", chosen: v.slice(1) };
       });
@@ -128,8 +139,10 @@
       var status = get("cmi.core.lesson_status");
       if (!status || status === "not attempted" || status === "") set("cmi.core.lesson_status", "incomplete");
       interactionIndex = parseInt(get("cmi.interactions._count"), 10) || 0;
-      set("cmi.core.score.min", "0");
-      set("cmi.core.score.max", "100");
+      if (C.CONFIG.finalQuiz.length) {           // only meaningful with a graded quiz
+        set("cmi.core.score.min", "0");
+        set("cmi.core.score.max", "100");
+      }
       commitSoon();
     }
   }
@@ -149,19 +162,22 @@
       set("cmi.suspend_data", buildSuspend());
     });
 
+    C.on("reflection.save", function () { set("cmi.suspend_data", buildSuspend()); commitSoon(); });
+
     C.on("quiz.complete", function (d) {
       set("cmi.core.score.raw", String(Math.round(d.ratio * 100)));
       commitSoon();
     });
 
     C.on("course.complete", function () {
-      var q = C.quizResult();               // authoritative: has complete/passed/ratio
+      var q = C.quizResult();               // authoritative: has hasQuiz/complete/passed/ratio
       var newStatus;
-      if (q.complete) {
+      if (q.hasQuiz && q.complete) {
         set("cmi.core.score.raw", String(Math.round(q.ratio * 100)));
         newStatus = q.passed ? "passed" : "failed";
       } else {
-        newStatus = "completed";            // finished but quiz not fully attempted
+        // No graded quiz, or the quiz wasn't fully attempted: report completion only.
+        newStatus = "completed";
       }
       set("cmi.core.lesson_status", newStatus);
       set("cmi.suspend_data", buildSuspend());

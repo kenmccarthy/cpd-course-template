@@ -17,8 +17,11 @@
       <title>Understanding Module Descriptors</title>
       <item identifier="ITEM_1" identifierref="RES_1" isvisible="true">
         <title>Understanding Module Descriptors</title>
-        <!-- Pass mark: keep in sync with masteryScore in js/course.config.js -->
-        <adlcp:masteryscore>75</adlcp:masteryscore>
+        <!-- No <adlcp:masteryscore>: this course is reflection-led and reports
+             completion, not a score (finalQuiz is empty in js/course.config.js).
+             If you add a graded final quiz, restore it here and keep it in sync
+             with masteryScore in js/course.config.js:
+             <adlcp:masteryscore>75</adlcp:masteryscore> -->
       </item>
     </organization>
   </organizations>

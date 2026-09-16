@@ -28,11 +28,27 @@ window.CourseConfig = {
   // Shown under the course title on the overview page.
   courseSubtitle: "A practical guide for part-time and industry-based lecturers",
 
+  // Shown on the overview and in the opening section. Free text.
+  pitchLevel: "NFQ Level 8",
+
   // Lifelong Learning at SETU campaign tagline. Set showTagline: false to hide.
   tagline: "LEARN MORE. GO FURTHER.",
   showTagline: true,
 
-  // Final-quiz pass mark, as a percentage (0-100). Mirrors
-  // <adlcp:masteryscore> in imsmanifest.xml — keep both in sync.
+  // Final-quiz question ids, in order. These are the data-kc values of the
+  // knowledge checks that make up the graded quiz.
+  //
+  // LEAVE THIS EMPTY for a reflection-led course with no graded quiz (as this
+  // one is). With no final quiz the course reports SCORM "completed" rather
+  // than "passed"/"failed", no score is sent, and <adlcp:masteryscore> should
+  // be omitted from imsmanifest.xml.
+  //
+  // To add a graded quiz: list the ids here (e.g. ["f1","f2","f3","f4"]), mark
+  // each of those knowledge checks with data-final in index.html, and restore
+  // <adlcp:masteryscore> in the manifest.
+  finalQuiz: [],
+
+  // Final-quiz pass mark, as a percentage (0-100). Only used when finalQuiz is
+  // non-empty. Mirrors <adlcp:masteryscore> in imsmanifest.xml — keep in sync.
   masteryScore: 75
 };
