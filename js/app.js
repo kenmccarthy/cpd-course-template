@@ -414,7 +414,9 @@
      a catch-all drop (e.g. data-accept="weak") for the learner to put it in.
      Optional data-perfect="…" on the wrapper replaces the default "perfect!"
      message shown when every item is placed correctly. Optional data-feedback="…"
-     on the wrapper, with a [data-matchnote] element, shows a note after every check.
+     on the wrapper, with a [data-matchnote] element, shows a note after every check,
+     and an optional [data-matchreveal] block (hidden in the markup) is revealed after
+     every check and hidden again on reset — for an explanation of each answer.
      ========================================================================== */
   $$("[data-match]").forEach(function (wrap) {
     var key = wrap.getAttribute("data-match") || "match";
@@ -462,6 +464,7 @@
       $$(".drop__chip", wrap).forEach(function (c) { c.classList.remove("is-right", "is-wrong"); });
       scoreEl.textContent = "";
       if (noteEl) noteEl.textContent = "";
+      if (whyEl) whyEl.hidden = true;
     }
 
     tokens.forEach(function (t) {
@@ -507,6 +510,7 @@
 
     var scoreEl = $("[data-matchscore]", wrap);
     var noteEl = $("[data-matchnote]", wrap);       // optional: wrapper's data-feedback, shown after every check
+    var whyEl = $("[data-matchreveal]", wrap);      // optional: a block (e.g. "why each belongs") revealed after every check
 
     $("[data-check]", wrap).addEventListener("click", function () {
       var placed = tokens.filter(function (t) { return t.classList.contains("placed"); }).length;
@@ -532,6 +536,7 @@
         (perfect ? " — " + (wrap.getAttribute("data-perfect") || "perfect!") : ". The ones marked in red are in the wrong place; select an item to move it.");
       C.announce(right + " of " + tokens.length + " placed correctly.");
       if (noteEl) noteEl.textContent = wrap.getAttribute("data-feedback") || "";
+      if (whyEl) whyEl.hidden = false;
       emit("interaction.complete", { id: key + "-match", score: right, total: tokens.length });
       if (perfect && window.Confetti) window.Confetti.burst(wrap);
     });

@@ -14,7 +14,7 @@
   var REVEAL_SELECTOR = [
     ".cover", ".statement", ".card", ".callout", ".figure", ".kc",
     ".reflect", ".match", ".tabs", ".calc", ".accordion", ".deflist", ".compare",
-    ".flipgrid", ".matrix", ".echo", ".hotspots", ".mapper",
+    ".flipgrid", ".matrix", ".echo", ".hotspots", ".mapper", ".highlight", ".layers", ".scenario",
     ".complete", ".widget", ".lesson > h2"
   ].join(",");
 
