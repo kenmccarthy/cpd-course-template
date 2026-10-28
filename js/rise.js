@@ -97,13 +97,17 @@
       b.type = "button";
       b.className = "lcard" + (st.done ? " is-done" : st.started ? " is-started" : "");
       b.setAttribute("data-accent", String((s.id % 3) + 1));
-      b.setAttribute("aria-label", "Section " + num + " of " + n + ": " + s.label + ", about " + s.mins + " minutes, " + statusText.toLowerCase() +
-        (st.done || !st.started ? "" : ", " + st.pct + "% revealed"));
+      // The button's name comes from its visible content, so a voice-control user can say what
+      // they see (WCAG 2.5.3, Label in Name). Visible text stays contiguous and in order:
+      // number, title, then "~N min · status". The only additions are screen-reader-only:
+      // a "Section" prefix, the number when a tick replaces it, and the revealed percentage after.
       b.innerHTML =
-        '<span class="lcard__num" aria-hidden="true">' + (st.done ? C.icon("check") : num) + "</span>" +
-        '<span class="lcard__body" aria-hidden="true"><span class="lcard__title">' + s.label + "</span>" +
-        '<span class="lcard__meta">~' + s.mins + ' min · <span class="lcard__status">' + statusText + "</span></span>" +
-        '<span class="lcard__bar"><span style="width:' + st.pct + '%"></span></span></span>' +
+        '<span class="sr-only">Section </span>' +
+        '<span class="lcard__num">' + (st.done ? C.icon("check") + '<span class="sr-only">' + num + "</span>" : num) + "</span> " +
+        '<span class="lcard__body"><span class="lcard__title">' + s.label + "</span> " +
+        '<span class="lcard__meta"><span aria-hidden="true">~</span>' + s.mins + ' min · <span class="lcard__status">' + statusText + "</span></span>" +
+        (st.started && !st.done ? '<span class="sr-only">, ' + st.pct + "% revealed</span>" : "") +
+        '<span class="lcard__bar" aria-hidden="true"><span style="width:' + st.pct + '%"></span></span></span>' +
         '<span class="lcard__arrow" aria-hidden="true">' + C.icon("arrow-right") + "</span>";
       b.addEventListener("click", function () { C.goTo(s.id); });
       li.appendChild(b);
