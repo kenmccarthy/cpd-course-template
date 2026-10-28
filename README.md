@@ -230,8 +230,25 @@ an `<h2>`.
 **Matching and accordions** gained options along the way: a token whose
 `data-level` matches no drop is a distractor (give the exercise a catch-all box);
 `data-perfect="…"` replaces the default "perfect!"; and `data-feedback="…"` on the
-wrapper, with a `[data-matchnote]` element, shows a note after every check. Accordion
-panels may be as long as they like.
+wrapper, with a `[data-matchnote]` element, shows a note after every check. A
+`[data-matchreveal]` block inside the wrapper (give it `hidden`) is revealed after every
+check and hidden again on reset — use it for a "why each one belongs" explanation
+(style it with `.match__why`). Accordion panels may be as long as they like.
+
+**Highlight the text** (`[data-highlight="KEY"]`) — a short passage split into sentence
+buttons, plus a group of marking tools (for example *Critical analysis* and
+*Description*). Clicking a sentence applies the chosen tool; clicking it again with the
+same tool clears it. *Reveal* locks the passage, tags every sentence in words (right,
+wrong or missed, so the result never rests on colour), says how many matched, lists a
+reason per sentence from each button's `data-why`, and shows an optional
+`[data-hl-expert]` panel. Unscored in the LMS; progress is saved; emits
+`<KEY>-highlight`. The markup contract is at the top of its block in
+`js/interactions.js`.
+
+**Layout components** in `css/styles.css`: `.steps` (an `<ol>` of numbered cards, also
+good for a recap list), `.rubric` (a data table), `.clause` (a small reference chip, for
+example a regulation clause number), and `.layers` (a stepped diagram, one layer per
+row, each indented further than the last).
 
 **Checklist with a progress ring** — a tickable self-audit. Keyed like the other
 widgets, so a course can have several; the message under the ring is picked by

@@ -1332,3 +1332,111 @@ button { font-family: inherit; }
   .matrix .flip { padding: 12px; min-height: 150px; }
   .flipgrid--4 { grid-template-columns: 1fr; }
 }
+/* ==========================================================================
+   Further shell components
+   Numbered steps · data table · reference chips · stepped layers · "why each one
+   fits" after a match · highlight the text
+   ========================================================================== */
+
+/* ---- Numbered steps (also used for the recap list) ---- */
+.lesson ol.steps { counter-reset: step; margin: 14px 0 20px; padding: 0; display: grid; gap: 10px; }
+.lesson ol.steps > li {
+  counter-increment: step; padding: 13px 16px 13px 54px; margin: 0;
+  background: var(--bg-sub); border-radius: var(--radius-sm); font-size: 15.5px; color: var(--ink);
+}
+.lesson ol.steps > li::before {
+  content: counter(step); left: 15px; top: 12px; width: 26px; height: 26px;
+  background: var(--accent); color: #fff; font-size: 12.5px;
+}
+.lesson ol.steps > li strong { color: var(--ink-strong); }
+
+/* ---- Rubric table ---- */
+.rubric-wrap { overflow-x: auto; margin: 16px 0 24px; border: 1px solid var(--line); border-radius: var(--radius); }
+.rubric-wrap:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.rubric { width: 100%; min-width: 660px; border-collapse: collapse; font-size: 14.5px; }
+.rubric thead th {
+  background: var(--slate); color: #fff; text-align: left; vertical-align: bottom;
+  font-family: var(--font-head); font-weight: 700; font-size: 13.5px; padding: 12px 14px;
+}
+.rubric thead th span { display: block; font-weight: 500; font-size: 12px; opacity: .85; }
+.rubric tbody th, .rubric td { padding: 13px 14px; border-top: 1px solid var(--line); vertical-align: top; text-align: left; }
+.rubric tbody th { background: var(--bg-sub); font-family: var(--font-head); font-weight: 700; color: var(--ink-strong); width: 20%; }
+.rubric td { color: var(--ink-soft); border-left: 1px solid var(--line); }
+.rubric td:nth-child(2) { background: var(--accent-tint); color: var(--ink); }
+
+/* ---- Clause reference chips: the Regulations section a statement comes from ---- */
+.clause {
+  display: inline-block; padding: 0 7px; margin: 0 1px; border-radius: 6px; line-height: 1.55;
+  background: var(--bg-sub); border: 1px solid var(--line); color: var(--ink-strong);
+  font: 600 .86em var(--font-head); white-space: nowrap; letter-spacing: .01em;
+}
+.acc__q .clause, .tabs__level .clause { font-size: .8em; }
+
+/* ---- Layers of quality assurance, stepping down from Europe to you ---- */
+.lesson ol.layers { margin: 14px 0 22px; padding: 0; display: grid; gap: 8px; }
+.lesson .layers__row {
+  margin: 0; padding: 12px 16px; display: grid; grid-template-columns: 104px 1fr; gap: 2px 14px; align-items: baseline;
+  background: var(--bg-card); border: 1px solid var(--line); border-left: 4px solid var(--slate); border-radius: var(--radius-sm);
+}
+.lesson .layers__row::before { content: none; }
+.lesson .layers__row:nth-child(2) { margin-left: 16px; }
+.lesson .layers__row:nth-child(3) { margin-left: 32px; }
+.lesson .layers__row:nth-child(4) { margin-left: 48px; }
+.lesson .layers__row:nth-child(5) { margin-left: 64px; }
+.layers__tier { grid-row: span 2; font: 700 11px var(--font-head); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-muted); }
+.layers__row strong { font: 700 15.5px var(--font-head); color: var(--ink-strong); }
+.layers__row > span:last-child { grid-column: 2; font-size: 14px; color: var(--ink-soft); }
+.lesson .layers__row--you { border-left-color: var(--accent); background: var(--accent-tint); }
+.layers__row--you .layers__tier { color: var(--accent-ink); }
+
+/* ---- "Why each one fits": revealed after a matching check ---- */
+.match__why { margin-top: 18px; padding: 16px 20px; background: var(--bg-sub); border-left: 4px solid var(--slate); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; animation: fade .3s ease; }
+.match__why[hidden] { display: none; }
+.match__why h3 { font: 700 16px var(--font-head); color: var(--ink-strong); margin: 0 0 10px; }
+.match__why p { margin: 8px 0 0; font-size: 14px; }
+.why { margin: 0; display: grid; gap: 10px; }
+.why dt { font-weight: 700; color: var(--ink-strong); font-size: 14.5px; }
+.why dd { margin: 2px 0 0; font-size: 14.5px; color: var(--ink-soft); }
+
+/* ---- Highlight the text ---- */
+.highlight__tools { display: flex; gap: 8px; flex-wrap: wrap; margin: 4px 0 14px; }
+.hl-tool {
+  padding: 9px 16px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--bg); color: var(--ink);
+  font: 600 14px var(--font-head); cursor: pointer; transition: all .15s;
+}
+.hl-tool:hover { border-color: var(--accent); }
+.hl-tool.is-active { background: var(--slate); border-color: var(--slate); color: #fff; }
+.hl-tool:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.highlight__text {
+  margin: 0 0 14px !important; padding: 16px 18px; line-height: 2.05; font-size: 16px; color: var(--ink);
+  background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius-sm);
+}
+.seg {
+  display: inline; font: inherit; color: inherit; text-align: left; background: none; border: 0;
+  border-bottom: 2px solid transparent; border-radius: 4px; padding: 1px 2px; cursor: pointer;
+}
+.seg:hover:not(:disabled) { background: var(--bg-sub); }
+.seg:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.seg[data-mark="analysis"]    { background: var(--accent-tint); border-bottom-color: var(--accent); }
+.seg[data-mark="description"] { background: var(--bg-sub); border-bottom: 2px dashed var(--ink-muted); }
+.seg:disabled { cursor: default; color: var(--ink); }
+.seg.is-right  { background: var(--ok-tint);  border-bottom: 2px solid var(--ok); }
+.seg.is-wrong  { background: var(--err-tint); border-bottom: 2px solid var(--err); }
+.seg.is-missed { background: var(--bg-sub);   border-bottom: 2px dotted var(--ink-muted); }
+.seg__tag { font: 700 12px var(--font-head); color: var(--ink-soft); }
+.highlight__actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.highlight__expert { margin-top: 16px; padding: 16px 20px; background: var(--bg-sub); border-left: 4px solid var(--slate); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; animation: fade .3s ease; }
+.highlight__expert[hidden] { display: none; }
+.highlight__expert h3 { font: 700 16px var(--font-head); color: var(--ink-strong); margin: 0 0 10px; }
+.highlight__expert li { font-size: 14.5px; }
+.highlight__expert p { font-size: 14.5px; margin-bottom: 0; }
+
+@media (max-width: 640px) {
+  .lesson .layers__row { grid-template-columns: 1fr; gap: 2px; }
+  .layers__tier { grid-row: auto; }
+  .layers__row > span:last-child { grid-column: 1; }
+  .lesson .layers__row:nth-child(n) { margin-left: 0; }
+  .lesson .layers__row:nth-child(3) { margin-left: 8px; }
+  .lesson .layers__row:nth-child(4) { margin-left: 16px; }
+  .lesson .layers__row:nth-child(5) { margin-left: 24px; }
+}

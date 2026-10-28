@@ -7,8 +7,8 @@
    Generic, reusable widgets (knowledge checks, reflections, matching, tabs,
    accordion, multiple-response checks) live in js/app.js. This file holds the ones
    a course adds, then the generic optional widgets that only act when a course
-   provides their markup: reveal cards, echo, hotspots, the interaction map, the
-   checklist and the scenario chooser.
+   provides their markup: reveal cards, echo, hotspots, the interaction map, highlight
+   the text, the checklist and the scenario chooser.
    ========================================================================== */
 (function () {
   "use strict";
@@ -420,6 +420,115 @@
     compare.setAttribute("aria-expanded", "false");
     compare.addEventListener("click", function () { if (ready()) reveal(false); });
     if (saved.shown && ready()) reveal(true);
+  });
+
+  /* ==========================================================================
+     Highlight the text — tag each sentence of a short passage as one of two kinds
+     (here: critical analysis or description), then reveal an expert's tagging with
+     the reason for each. Generic: one block per [data-highlight], keyed by the
+     attribute's value, emitting "<value>-highlight". Unscored in the LMS; the learner
+     sees how many of their tags matched.
+
+     Each sentence is a real <button class="seg" data-kind="KIND" data-why="…"> so the
+     exercise works by keyboard and screen reader; a tool group chooses which kind a
+     click applies, and clicking a tagged sentence with the same tool clears it. Once
+     revealed, every sentence says what it was in words, not just colour, and an
+     unmarked sentence counts as missed. Progress is saved.
+
+     Markup: <div class="widget highlight" data-highlight="KEY">
+               <div role="group" aria-label="…"> <button class="hl-tool" data-tool="analysis">…</button> …
+               <p class="highlight__text"><button class="seg" data-kind="analysis" data-why="…">Sentence.</button> …</p>
+               <button data-hl-reveal>…</button> <button data-hl-reset>…</button> <span data-hl-score role="status">
+               <div data-hl-expert hidden> <ol data-hl-list></ol> …rationale… </div>
+     ========================================================================== */
+  $$("[data-highlight]").forEach(function (wrap) {
+    var key = wrap.getAttribute("data-highlight") || "highlight";
+    var segs = $$(".seg", wrap), tools = $$(".hl-tool", wrap);
+    var reveal = $("[data-hl-reveal]", wrap), reset = $("[data-hl-reset]", wrap);
+    var score = $("[data-hl-score]", wrap), expert = $("[data-hl-expert]", wrap), list = $("[data-hl-list]", wrap);
+    if (!segs.length || !tools.length || !reveal) return;
+
+    var LABEL = {};
+    tools.forEach(function (t) { LABEL[t.getAttribute("data-tool")] = t.textContent.trim(); });
+    var saved = state.interactions[key + "-highlight"] || {};
+    var marks = saved.marks || {}, shown = false, tool = tools[0].getAttribute("data-tool");
+
+    function persist() { state.interactions[key + "-highlight"] = { marks: marks, shown: shown }; C.saveSoon(); }
+    function paint(seg, i) {
+      var m = marks[i] || "";
+      seg.setAttribute("data-mark", m);
+      var sr = $(".sr-only", seg);
+      if (!sr) { sr = document.createElement("span"); sr.className = "sr-only"; seg.appendChild(sr); }
+      sr.textContent = m ? " (marked as " + LABEL[m].toLowerCase() + ")" : "";
+    }
+    function selectTool(t) {
+      tool = t.getAttribute("data-tool");
+      tools.forEach(function (x) { x.setAttribute("aria-pressed", x === t ? "true" : "false"); x.classList.toggle("is-active", x === t); });
+    }
+    tools.forEach(function (t, i) {
+      t.setAttribute("type", "button");
+      t.setAttribute("aria-pressed", i === 0 ? "true" : "false");
+      t.classList.toggle("is-active", i === 0);
+      t.addEventListener("click", function () { selectTool(t); });
+    });
+
+    function show(replay) {
+      shown = true;
+      var right = 0;
+      segs.forEach(function (seg, i) {
+        var kind = seg.getAttribute("data-kind"), m = marks[i];
+        seg.disabled = true;
+        seg.classList.add(!m ? "is-missed" : m === kind ? "is-right" : "is-wrong");
+        if (m === kind) right++;
+        var tag = document.createElement("span");
+        tag.className = "seg__tag";
+        tag.textContent = " — " + LABEL[kind] + (!m ? " (not marked)" : m === kind ? "" : " (you marked " + LABEL[m].toLowerCase() + ")");
+        seg.appendChild(tag);
+      });
+      if (list) {
+        list.innerHTML = "";
+        segs.forEach(function (seg) {
+          var li = document.createElement("li");
+          var b = document.createElement("strong"); b.textContent = LABEL[seg.getAttribute("data-kind")] + ". ";
+          li.appendChild(b); li.appendChild(document.createTextNode(seg.getAttribute("data-why") || ""));
+          list.appendChild(li);
+        });
+      }
+      if (expert) expert.hidden = false;
+      if (score) score.textContent = "You matched " + right + " of " + segs.length + " sentences. Sentences you didn’t mark count as missed.";
+      reveal.disabled = true;
+      persist();
+      if (!replay) {
+        C.announce("Expert annotation shown. You matched " + right + " of " + segs.length + ".");
+        emit("interaction.complete", { id: key + "-highlight", right: right, of: segs.length });
+      }
+    }
+    function clear() {
+      shown = false; marks = {};
+      segs.forEach(function (seg, i) {
+        seg.disabled = false; seg.classList.remove("is-right", "is-wrong", "is-missed");
+        var tag = $(".seg__tag", seg); if (tag) seg.removeChild(tag);
+        paint(seg, i);
+      });
+      if (expert) expert.hidden = true;
+      if (score) score.textContent = "";
+      reveal.disabled = false;
+      persist();
+      C.announce("Marking reset.");
+    }
+
+    segs.forEach(function (seg, i) {
+      seg.setAttribute("type", "button");
+      paint(seg, i);
+      seg.addEventListener("click", function () {
+        if (shown) return;
+        if (marks[i] === tool) delete marks[i]; else marks[i] = tool;
+        paint(seg, i); persist();
+      });
+    });
+    reveal.addEventListener("click", function () { if (!shown) show(false); });
+    if (reset) reset.addEventListener("click", clear);
+    if (saved.shown) show(true);
   });
 
   /* ==========================================================================
