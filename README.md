@@ -158,8 +158,8 @@ SCORM bookmark use, so renumbering the display never disturbs saved progress.
 
 ### Adding a second instance of a widget
 
-The matching exercise and the tab explorer are keyed by their own data
-attribute, so a course can carry several of each without touching the shell:
+The matching exercise, the tab explorer and the accordion are keyed by their own
+data attribute, so a course can carry several of each without touching the shell:
 
 ```html
 <div class="widget match" data-match="bloom">   <!-- emits "bloom-match" -->
@@ -167,6 +167,9 @@ attribute, so a course can carry several of each without touching the shell:
 
 <div class="tabs" data-tabs="nfq">              <!-- emits "nfq-tabs" -->
 <div class="tabs" data-tabs="levels">           <!-- emits "levels-tabs" -->
+
+<div class="accordion" data-accordion="setup">  <!-- emits "setup-accordion" -->
+<div class="accordion" data-accordion>          <!-- no key: emits "reading-accordion" -->
 ```
 
 The attribute value becomes the `interaction.complete` id, which is what the
@@ -179,9 +182,56 @@ its id from `activities` too.
 
 ### Widgets available to any course
 
-Three components are carried in the shell but only appear when a course
-provides their markup, so they cost nothing here. Each one's markup contract is
-documented at the top of its block in `js/interactions.js`.
+These components are carried in the shell but only appear when a course provides
+their markup, so they cost nothing here. Each one's markup contract is documented
+at the top of its block in `js/app.js` or `js/interactions.js`.
+
+**Multiple-response knowledge check** — select every option that applies, then
+check. Correct only when the selected set is exact. After checking, every option
+says what it was, so the result never rests on colour alone. The chosen letters are
+recorded comma-separated (`A,C,D`), which is how a SCORM 1.2 `choice` interaction
+expresses several responses.
+
+```html
+<div class="kc kc--multi" data-kc="kc2" data-type="multi">
+  <p class="kc__q" id="kcq-kc2">Which of these are good practice?</p>
+  <div class="kc__options" role="group" aria-labelledby="kcq-kc2">
+    <button class="opt" type="button" role="checkbox" aria-checked="false" data-opt="A" data-correct>
+      <span class="opt__mark"><span class="opt__letter">A</span></span><span class="opt__text">…</span></button>
+  </div>
+  <div class="kc__footer">
+    <button class="btn btn--primary btn--sm kc__check" type="button" disabled>Check my answers</button>
+    <button class="kc__retry" type="button">Try again</button>
+  </div>
+  <div class="kc__feedback" role="status" data-good="…" data-bad="…"></div>
+</div>
+```
+
+**Reveal cards** (`[data-flip]`) — select a card to reveal its back. A row of cards,
+or, inside a `.matrix`, a 2×2 grid whose quadrants start unlabelled. Real buttons
+with `aria-expanded`; what the learner has opened is saved and restored.
+
+**Echo** (`[data-echo="REFLECT_ID"]`) — shows the learner something they wrote
+earlier, read live from saved state and written with `textContent` only. Set
+`data-empty="…"` for the text shown when nothing was written.
+
+**Hotspots** (`[data-hotspots]`) — a mock-up with problems hidden in it. Each target
+is a real `<button class="hot">` wrapping the part of the mock-up it marks, carrying
+`data-problem`, `data-title` and `data-explain`. Finds are announced and collected
+into a list, and "show me the rest" is there for anyone who would rather read than
+hunt. The mock-up itself is course content: build it from phrasing content only,
+since a `<button>` may not contain `<p>`, `<ul>` or `<div>`.
+
+**Interaction map** (`[data-mapper]`) — pick one option in each of several columns,
+get reasoned feedback on each pick (`data-verdict="good|ok|weak"`), then compare with
+a suggested answer. Unscored. Its model-answer heading is an `<h3>`, so place it after
+an `<h2>`.
+
+**Matching and accordions** gained options along the way: a token whose
+`data-level` matches no drop is a distractor (give the exercise a catch-all box);
+`data-perfect="…"` replaces the default "perfect!"; and `data-feedback="…"` on the
+wrapper, with a `[data-matchnote]` element, shows a note after every check. Accordion
+panels may be as long as they like.
 
 **Checklist with a progress ring** — a tickable self-audit. Keyed like the other
 widgets, so a course can have several; the message under the ring is picked by

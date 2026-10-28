@@ -533,9 +533,12 @@ button { font-family: inherit; }
 .acc__chev .icon { width: 18px; height: 18px; }
 .acc.open .acc__chev { transform: rotate(180deg); }
 .acc__body { max-height: 0; overflow: hidden; visibility: hidden; transition: max-height .3s ease, visibility 0s linear .3s; }
-.acc.open .acc__body { max-height: 320px; visibility: visible; transition-delay: 0s; }
+.acc.open .acc__body { max-height: 1600px; visibility: visible; transition-delay: 0s; }   /* was 320px, which clipped long panels */
 .acc__inner { padding: 0 20px 20px 65px; }
-.acc__inner p { margin: 0; font-size: 15px; }
+.acc__inner p { margin: 0 0 12px; font-size: 15px; }
+.acc__inner p:last-child, .acc__inner ul:last-child { margin-bottom: 0; }
+.acc__inner ul { margin: 0 0 12px; }
+.acc__inner li { font-size: 15px; margin-bottom: 7px; }
 .acc__tip { display: inline-flex; gap: 8px; align-items: flex-start; line-height: 1.5; margin-top: 8px; font-size: 14.5px; color: var(--accent-ink); background: var(--accent-tint); padding: 10px 13px; border-radius: 8px; }
 
 /* ==========================================================================
@@ -618,6 +621,9 @@ button { font-family: inherit; }
 /* Links in course copy */
 .lesson a { color: var(--accent-ink); text-decoration: underline; text-underline-offset: 2px; text-decoration-thickness: 1px; }
 .lesson a:hover { text-decoration-thickness: 2px; }
+/* A link styled as a button keeps the button's text colour, not the generic link colour above. */
+.lesson a.btn { text-decoration: none; }
+.lesson a.btn--primary, .lesson a.btn--primary:hover { color: #fff; }
 
 /* ==========================================================================
    Responsive
@@ -1182,4 +1188,147 @@ button { font-family: inherit; }
 
 @media (max-width: 760px) {
   .tabs--side .tabs__grid { grid-template-columns: 1fr; }
+}
+
+/* ==========================================================================
+   Optional shell components, part 2
+   Styles for widgets the shell supports but this course doesn't currently use.
+   They cost nothing when their markup is absent; the markup contract for each is
+   documented at the top of its block in js/app.js or js/interactions.js.
+   ========================================================================== */
+
+/* ---- Reveal cards ---- */
+.flipgrid { display: grid; gap: 12px; margin: 18px 0 24px; }
+.flipgrid--3 { grid-template-columns: repeat(3, 1fr); }
+.flipgrid--4 { grid-template-columns: repeat(4, 1fr); }
+.flip {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 8px; text-align: left; width: 100%;
+  min-height: 118px; padding: 18px; border: 1.5px solid var(--line); border-top: 4px solid var(--accent);
+  border-radius: var(--radius); background: var(--bg-card); color: var(--ink);
+  font-family: inherit; cursor: pointer; transition: border-color .15s, background .15s, box-shadow .15s;
+}
+.flip:hover { border-color: var(--accent); box-shadow: var(--shadow-md); }
+.flip__front { font-family: var(--font-head); font-weight: 700; font-size: 17px; color: var(--ink-strong); line-height: 1.25; }
+.flip__hint { font-size: 13px; color: var(--ink-soft); }
+.flip__back { font-size: 15px; color: var(--ink); line-height: 1.5; }
+.flip__back strong { font-family: var(--font-head); color: var(--accent-ink); }
+.matrix .flip__back strong { display: block; margin-bottom: 3px; }
+.flip__back[hidden], .flip__hint[hidden] { display: none; }
+.flip.is-open { background: var(--accent-tint); border-color: var(--accent); }
+.flip.is-open .flip__front { color: var(--accent-ink); }
+
+/* ---- Purpose x stakes matrix ---- */
+.matrix { display: grid; grid-template-columns: 112px 1fr 1fr; gap: 10px; margin: 18px 0 26px; align-items: stretch; }
+.matrix__col {
+  text-align: center; font-family: var(--font-head); font-weight: 700; font-size: 15px; color: var(--ink-strong);
+  padding: 4px 0 2px;
+}
+.matrix__col span { display: block; font-weight: 500; font-size: 12.5px; color: var(--ink-soft); margin-top: 1px; }
+.matrix__row {
+  align-self: center; text-align: right; font-family: var(--font-head); font-weight: 700; font-size: 13.5px;
+  color: var(--ink-soft); padding-right: 4px;
+}
+.matrix .flip { min-height: 138px; justify-content: center; }
+.matrix .flip:not(.is-open) { align-items: center; text-align: center; }
+.matrix .flip:not(.is-open) .flip__front { font-size: 38px; color: var(--accent-ink); line-height: 1; }
+.matrix .flip.is-open .flip__front { display: none; }
+
+/* ---- Echo of an earlier answer ---- */
+.echo { margin: 14px 0 18px; padding: 14px 18px; border-left: 4px solid var(--accent); background: var(--accent-tint); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+.echo__k { display: block; font: 700 10.5px var(--font-head); letter-spacing: .09em; text-transform: uppercase; color: var(--accent-ink); margin-bottom: 4px; }
+.echo__text { margin: 0; font-style: italic; white-space: pre-wrap; color: var(--ink); }
+.echo.is-empty .echo__text { color: var(--ink-soft); font-style: normal; }
+
+/* ---- Hotspots (the mock-up they sit on is course content; see the README) ---- */
+.hot {
+  display: block; width: 100%; text-align: left; font: inherit; color: inherit; background: transparent; cursor: pointer;
+  border: 1.5px dashed transparent; border-radius: var(--radius-sm); padding: 6px 8px; position: relative;
+  transition: border-color .15s, background .15s;
+}
+.hot:hover { border-color: var(--accent); background: var(--accent-tint); }
+.hot--inline { display: inline; width: auto; padding: 0 3px; color: var(--accent-ink); text-decoration: underline; border-radius: 4px; }
+.hot.is-found { border-style: solid; border-color: var(--ok); background: var(--ok-tint); }
+.hot--inline.is-found { text-decoration: none; }
+.hotspots__status { margin: 14px 0 6px; font-family: var(--font-head); font-weight: 700; font-size: 14.5px; color: var(--ink-strong); }
+.lesson ul.hotspots__list { margin: 0 0 12px; padding: 0; }
+.lesson ul.hotspots__list > li { padding: 11px 14px; margin: 0 0 8px; background: var(--ok-tint); border-left: 4px solid var(--ok); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; font-size: 14.5px; color: var(--ink); animation: fade .3s ease; }
+.lesson ul.hotspots__list > li::before { content: none; }
+.hotspots__list strong { color: var(--ink-strong); font-family: var(--font-head); }
+
+/* ---- Matching: an optional note shown after every check ---- */
+.match__note { margin: 12px 0 0; font-size: 14.5px; color: var(--ink); }
+.match__note:empty { display: none; }
+
+/* ---- Multiple-response knowledge checks ---- */
+.kc--multi .opt { align-items: flex-start; }
+.kc--multi .opt__mark { border-radius: 6px; }
+.kc--multi .opt[aria-checked="true"]:not(:disabled) { border-color: var(--accent); background: var(--accent-tint); }
+.kc--multi .opt[aria-checked="true"]:not(:disabled) .opt__mark { background: var(--accent); border-color: var(--accent); color: #fff; }
+.kc--multi .opt[aria-checked="true"]:not(:disabled) .opt__letter { color: #fff; }
+.kc--multi .opt:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.kc--multi .opt.is-missed { border-style: dashed; border-color: var(--ok); }
+.kc--multi .opt.is-missed .opt__mark { border-color: var(--ok); }
+.opt__text { display: block; text-align: left; }
+.opt__note { display: block; margin-top: 4px; font: 700 12.5px var(--font-head); color: var(--ink-soft); }
+.opt.is-correct .opt__note { color: var(--ok-ink); }
+.opt.is-wrong .opt__note { color: var(--err-ink); }
+.opt.is-missed .opt__note { color: var(--ok-ink); }
+.kc--multi .kc__footer { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 14px; }
+.kc--multi .kc__feedback { margin-top: 14px; }
+
+/* ---- Two-column comparison (Moodle | Blackboard) ---- */
+.compare { margin: 16px 0 14px; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.compare__head, .compare__row { display: grid; grid-template-columns: 1fr 1fr; }
+.compare__head { background: var(--slate); color: #fff; font-family: var(--font-head); font-weight: 700; font-size: 14px; }
+.compare__head span { padding: 11px 18px; }
+.compare__head span + span { border-left: 1px solid rgba(255,255,255,.18); }
+.compare__row > div { padding: 13px 18px; font-size: 15px; color: var(--ink-soft); border-top: 1px solid var(--line); }
+.compare__row > div + div { border-left: 1px solid var(--line); background: var(--accent-tint); color: var(--ink); }
+.compare__row:first-of-type > div { border-top: 0; }
+
+/* ---- Interaction-map builder ---- */
+.mapper__case { background: var(--slate); color: #fff; border-radius: var(--radius-sm); padding: 14px 18px; margin-bottom: 18px; }
+.mapper__case-k { display: block; font: 700 10.5px var(--font-head); letter-spacing: .09em; text-transform: uppercase; color: #dff1ef; margin-bottom: 6px; }
+.lesson .mapper__case ul { margin: 0; padding: 0; }
+.lesson .mapper__case li { color: #fff; margin: 0 0 4px; padding-left: 22px; font-size: 15px; }
+.lesson .mapper__case li::before { background: #dff1ef; }
+.mapper__cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 16px; }
+.mapper__col { display: flex; flex-direction: column; gap: 10px; }
+.mapper__label { font-family: var(--font-head); font-weight: 700; font-size: 14.5px; color: var(--ink-strong); }
+.mapper__col select {
+  width: 100%; padding: 11px 12px; font: 500 14.5px/1.35 inherit; font-family: inherit; color: var(--ink);
+  background: var(--bg); border: 1.5px solid var(--line); border-radius: var(--radius-sm);
+}
+.mapper__col select:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.mapper__fb { display: none; margin: 0 !important; padding: 12px 14px; border-radius: var(--radius-sm); font-size: 14px; border-left: 4px solid var(--ink-faint); background: var(--bg-sub); color: var(--ink); }
+.mapper__fb.show { display: block; animation: fade .3s ease; }
+.mapper__verdict { display: flex; align-items: center; gap: 7px; margin-bottom: 4px; font-family: var(--font-head); }
+.mapper__fb.is-good { background: var(--ok-tint); border-color: var(--ok); }
+.mapper__fb.is-good .mapper__verdict { color: var(--ok-ink); }
+.mapper__fb.is-ok { background: var(--bg-sub); border-color: var(--ink-muted); }   /* neutral: "partial" must not read as an error in a red-accent section */
+.mapper__fb.is-ok .mapper__verdict { color: var(--ink-strong); }
+.mapper__fb.is-weak { background: var(--err-tint); border-color: var(--err); }
+.mapper__fb.is-weak .mapper__verdict { color: var(--err-ink); }
+.mapper__model { margin-top: 18px; padding: 18px 20px; background: var(--bg-sub); border: 1px solid var(--line); border-left: 4px solid var(--slate); border-radius: var(--radius); animation: fade .35s ease; }
+.mapper__model[hidden] { display: none; }
+.mapper__model-h { font-family: var(--font-head); font-size: 17px; color: var(--ink-strong); margin: 0 0 10px; }
+.mapper__model-row { display: grid; grid-template-columns: 160px 1fr; gap: 14px; padding: 9px 0; border-top: 1px solid var(--line); font-size: 15px; }
+.mapper__model-row strong { font-family: var(--font-head); color: var(--ink-strong); }
+.mapper__model-p { margin: 12px 0 0 !important; font-size: 15px; color: var(--ink); }
+
+@media (max-width: 860px) {
+  .flipgrid--4 { grid-template-columns: 1fr 1fr; }
+  .mapper__cols { grid-template-columns: 1fr; }
+}
+@media (max-width: 700px) {
+  .compare__head, .compare__row { grid-template-columns: 1fr; }
+  .compare__head span + span, .compare__row > div + div { border-left: 0; border-top: 1px solid var(--line); }
+  .flipgrid--3 { grid-template-columns: 1fr; }
+  .mapper__model-row { grid-template-columns: 1fr; gap: 3px; }
+}
+@media (max-width: 560px) {
+  .matrix { grid-template-columns: 62px 1fr 1fr; gap: 8px; }
+  .matrix__row { font-size: 12px; }
+  .matrix .flip { padding: 12px; min-height: 150px; }
+  .flipgrid--4 { grid-template-columns: 1fr; }
 }

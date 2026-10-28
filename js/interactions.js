@@ -5,9 +5,10 @@
    analytics pick them up without any extra wiring.
 
    Generic, reusable widgets (knowledge checks, reflections, matching, tabs,
-   accordion) live in js/app.js. This file holds the ones a course adds — and,
-   at the end, two that are generic but only used when a course provides their
-   markup: the scenario chooser and the checklist.
+   accordion, multiple-response checks) live in js/app.js. This file holds the ones
+   a course adds, then the generic optional widgets that only act when a course
+   provides their markup: reveal cards, echo, hotspots, the interaction map, the
+   checklist and the scenario chooser.
    ========================================================================== */
 (function () {
   "use strict";
@@ -206,6 +207,221 @@
       });
     });
   })();
+  /* ==========================================================================
+     Reveal cards — select a card to reveal what is on its back. Used both for
+     a row of cards and, with the .matrix wrapper, for a 2x2 grid whose four
+     quadrants start unlabelled. Generic: one block per [data-flip], keyed by the
+     attribute's value, emitting "<value>-flip".
+
+     Cards stay readable without a mouse: each is a real <button> with
+     aria-expanded, and the hidden face is genuinely hidden until it opens, so a
+     screen reader hears the front first and the back once it is revealed.
+     "Seen" is sticky — closing a card again doesn't un-see it — and is saved, so
+     returning to the page restores what the learner had already opened.
+
+     Markup: <div class="flipgrid flipgrid--3" data-flip="KEY" role="group" aria-label="…">
+               <button class="flip" type="button" aria-expanded="false">
+                 <span class="flip__front">…</span>
+                 <span class="flip__hint">Select to reveal</span>
+                 <span class="flip__back" hidden>…</span>
+               </button>
+     ========================================================================== */
+  $$("[data-flip]").forEach(function (wrap) {
+    var key = wrap.getAttribute("data-flip") || "flip";
+    var cards = $$(".flip", wrap);
+    if (!cards.length) return;
+
+    var seen = ((state.interactions[key + "-flip"] || {}).seen) || {};
+
+    function setOpen(card, on) {
+      card.setAttribute("aria-expanded", on ? "true" : "false");
+      card.classList.toggle("is-open", on);
+      var back = $(".flip__back", card), hint = $(".flip__hint", card);
+      if (back) back.hidden = !on;
+      if (hint) hint.hidden = on;
+    }
+
+    // Restore what was already opened, without re-firing the event.
+    cards.forEach(function (card, i) { if (seen[i]) setOpen(card, true); });
+
+    cards.forEach(function (card, i) {
+      card.addEventListener("click", function () {
+        var on = card.getAttribute("aria-expanded") !== "true";
+        setOpen(card, on);
+        if (!on) return;
+        seen[i] = true;
+        state.interactions[key + "-flip"] = { seen: seen };
+        C.saveSoon();
+        emit("interaction.complete", {
+          id: key + "-flip", card: i, seenCount: Object.keys(seen).length, of: cards.length
+        });
+      });
+    });
+  });
+
+  /* ==========================================================================
+     Echo — show the learner something they wrote earlier. Generic: one block per
+     [data-echo], whose value is the data-reflect id to read back. Written with
+     textContent, never innerHTML, so nothing a learner types can inject markup.
+     Reads live state, so it works even if "Save note" was never pressed.
+
+     Markup: <div class="echo" data-echo="REFLECT_ID" data-empty="shown when nothing was written">
+               <span class="echo__k">…</span><p class="echo__text"></p></div>
+     ========================================================================== */
+  $$("[data-echo]").forEach(function (box) {
+    var id = box.getAttribute("data-echo");
+    var out = $(".echo__text", box);
+    if (!id || !out) return;
+    function render() {
+      var text = (state.reflections[id] || "").trim();
+      box.classList.toggle("is-empty", !text);
+      out.textContent = text ||
+        box.getAttribute("data-empty") ||
+        "You didn\u2019t write anything here earlier \u2014 that\u2019s fine. You can still use the prompts below.";
+    }
+    render();
+    C.on("reflection.save", render);
+    C.on("section.view", render);
+  });
+
+  /* ==========================================================================
+     Hotspots — a mock-up with problems hidden in it; select what you think is
+     wrong and the explanation is revealed. Generic: one block per [data-hotspots],
+     keyed by the attribute's value, emitting "<value>-hotspots".
+
+     Each target is a real <button> wrapping the part of the mock-up it marks, so
+     the whole exercise works by keyboard and screen reader. Found problems are
+     collected into a list that is announced as it grows, and "show me the rest"
+     is there for anyone who would rather read than hunt. Progress is saved.
+
+     Markup: <div class="widget hotspots" data-hotspots="KEY">
+               <button class="hot" type="button" aria-pressed="false" data-problem="ID"
+                       data-title="Short name" data-explain="What is wrong and what to do">…the mock-up…</button>
+               <p data-found-status role="status"></p> <ul data-found-list></ul>
+               <button data-reveal-all>…</button>
+     ========================================================================== */
+  $$("[data-hotspots]").forEach(function (wrap) {
+    var key = wrap.getAttribute("data-hotspots") || "hotspots";
+    var hots = $$(".hot", wrap);
+    var list = $("[data-found-list]", wrap), status = $("[data-found-status]", wrap), all = $("[data-reveal-all]", wrap);
+    if (!hots.length || !list) return;
+
+    var saved = (state.interactions[key + "-hotspots"] || {}).found || {};
+    var found = {};
+
+    function render(h) {
+      var id = h.getAttribute("data-problem");
+      h.classList.add("is-found");
+      h.setAttribute("aria-pressed", "true");
+      if ($('[data-problem-item="' + id + '"]', list)) return;
+      var li = document.createElement("li");
+      li.setAttribute("data-problem-item", id);
+      var t = document.createElement("strong"); t.textContent = h.getAttribute("data-title");
+      li.appendChild(t);
+      li.appendChild(document.createTextNode(" " + h.getAttribute("data-explain")));
+      list.appendChild(li);
+    }
+    function refresh() {
+      var n = Object.keys(found).length;
+      if (status) status.textContent = n === 0 ? "No problems found yet — there are " + hots.length + " to spot."
+        : n + " of " + hots.length + " found." + (n === hots.length ? " That’s all of them." : "");
+      if (all) all.hidden = n === hots.length;
+    }
+    function mark(h, announce) {
+      var id = h.getAttribute("data-problem");
+      if (found[id]) return;
+      found[id] = true;
+      render(h);
+      state.interactions[key + "-hotspots"] = { found: found };
+      C.saveSoon();
+      refresh();
+      if (announce) C.announce("Problem found: " + h.getAttribute("data-title") + ". " + h.getAttribute("data-explain"));
+      emit("interaction.complete", { id: key + "-hotspots", problem: id, found: Object.keys(found).length, of: hots.length });
+    }
+
+    hots.forEach(function (h) {
+      h.setAttribute("aria-pressed", "false");
+      if (saved[h.getAttribute("data-problem")]) { found[h.getAttribute("data-problem")] = true; render(h); }
+      h.addEventListener("click", function () { mark(h, true); });
+    });
+    if (all) all.addEventListener("click", function () {
+      hots.forEach(function (h) { mark(h, false); });
+      C.announce("All " + hots.length + " problems are now listed.");
+    });
+    refresh();
+  });
+
+  /* ==========================================================================
+     Interaction map — pick one tool for each of three kinds of interaction for a
+     case module, get reasoned feedback on each pick, then compare with a suggested
+     answer. Deliberately unscored: "there's no single right answer; the test is
+     whether each choice supports a stated outcome", so every option carries
+     feedback and several are defensible. Generic: one block per [data-mapper],
+     emitting "<value>-mapper" once the learner has compared.
+
+     Markup: <div class="widget mapper" data-mapper="KEY">
+               <select data-col="content"> <option value="" >Choose…</option>
+                 <option value="a" data-verdict="good|ok|weak" data-feedback="…">…</option>
+               <p class="mapper__fb" data-fb="content" role="status"></p>   (one pair per column)
+               <button data-compare disabled>…</button>
+               <div class="mapper__model" data-model hidden>…</div>
+     ========================================================================== */
+  $$("[data-mapper]").forEach(function (wrap) {
+    var key = wrap.getAttribute("data-mapper") || "mapper";
+    var selects = $$("select[data-col]", wrap);
+    var compare = $("[data-compare]", wrap), model = $("[data-model]", wrap);
+    if (!selects.length || !compare || !model) return;
+
+    var VERDICT = {
+      good: { icon: "check-circle", label: "Strong fit" },
+      ok:   { icon: "scale",        label: "Partial fit" },
+      weak: { icon: "warning",      label: "Weak fit" }
+    };
+    var saved = state.interactions[key + "-mapper"] || {};
+    var choices = saved.choices || {};
+
+    function showFb(sel) {
+      var col = sel.getAttribute("data-col");
+      var fb = $('[data-fb="' + col + '"]', wrap);
+      var opt = sel.options[sel.selectedIndex];
+      if (!fb) return;
+      if (!opt || !opt.value) { fb.className = "mapper__fb"; fb.innerHTML = ""; return; }
+      var v = VERDICT[opt.getAttribute("data-verdict")] || VERDICT.ok;
+      fb.className = "mapper__fb show is-" + (opt.getAttribute("data-verdict") || "ok");
+      fb.innerHTML = '<span class="mapper__verdict">' + C.icon(v.icon) + " <strong>" + v.label + "</strong></span> " +
+        opt.getAttribute("data-feedback");
+    }
+    function ready() { return selects.every(function (s) { return s.value; }); }
+    function sync() { compare.disabled = !ready(); }
+
+    selects.forEach(function (sel) {
+      var col = sel.getAttribute("data-col");
+      if (choices[col]) { sel.value = choices[col]; showFb(sel); }
+      sel.addEventListener("change", function () {
+        choices[col] = sel.value;
+        showFb(sel);
+        sync();
+        state.interactions[key + "-mapper"] = { choices: choices, shown: !model.hidden };
+        C.saveSoon();
+      });
+    });
+    sync();
+
+    function reveal(replay) {
+      model.hidden = false;
+      compare.setAttribute("aria-expanded", "true");
+      state.interactions[key + "-mapper"] = { choices: choices, shown: true };
+      C.saveSoon();
+      if (!replay) {
+        C.announce("Suggested answer shown below.");
+        emit("interaction.complete", { id: key + "-mapper", picks: choices });
+      }
+    }
+    compare.setAttribute("aria-expanded", "false");
+    compare.addEventListener("click", function () { if (ready()) reveal(false); });
+    if (saved.shown && ready()) reveal(true);
+  });
+
   /* ==========================================================================
      Checklist — a tickable self-audit with a progress ring. Generic: one block
      per [data-checklist], keyed by the attribute's value, emitting
