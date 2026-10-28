@@ -266,6 +266,99 @@
     }
   });
 
+  /* ==========================================================================
+     Knowledge checks (multiple response) — select every option that applies,
+     then check. Correct only when the selected set matches the right set exactly.
+     After checking, every option says what it was (so the result never rests on
+     colour alone): a correct choice, a choice that wasn't good practice, or a
+     correct answer that was missed.
+
+     Markup: <div class="kc kc--multi" data-kc="ID" data-type="multi">
+               <div class="kc__options" role="group" aria-labelledby="…">
+                 <button class="opt" role="checkbox" aria-checked="false" data-opt="A" [data-correct]>
+                   <span class="opt__mark"><span class="opt__letter">A</span></span>
+                   <span class="opt__text">…</span></button>
+               <button class="btn btn--primary btn--sm kc__check" disabled>Check my answers</button>
+               <div class="kc__feedback" data-good="…" data-bad="…"> · <button class="kc__retry">
+     Records the chosen letters comma-separated ("A,C,D"), which is how a SCORM 1.2
+     choice interaction expresses several responses.
+     ========================================================================== */
+  $$(".kc[data-type='multi']").forEach(function (kc) {
+    var id = kc.getAttribute("data-kc");
+    var opts = $$(".opt", kc);
+    var feedback = $(".kc__feedback", kc);
+    var check = $(".kc__check", kc);
+    var retry = $(".kc__retry", kc);
+    var locked = false;
+
+    function isOn(o) { return o.getAttribute("aria-checked") === "true"; }
+    function letter(o) { return o.getAttribute("data-opt"); }
+    function setOn(o, on) { o.setAttribute("aria-checked", on ? "true" : "false"); o.classList.toggle("is-selected", on); }
+    function refreshCheck() { check.disabled = !opts.some(isOn); }
+
+    function mark(replay) {
+      locked = true;
+      var right = 0, wrong = 0, missed = 0;
+      opts.forEach(function (o) {
+        var sel = isOn(o), good = o.hasAttribute("data-correct"), note = document.createElement("span");
+        note.className = "opt__note";
+        o.disabled = true;
+        if (sel && good)       { o.classList.add("is-correct"); note.textContent = "Good practice \u2014 correct choice"; right++; }
+        else if (sel && !good) { o.classList.add("is-wrong");   note.textContent = "Not good practice"; wrong++; }
+        else if (!sel && good) { o.classList.add("is-missed");  note.textContent = "Good practice \u2014 you missed this one"; missed++; }
+        else                   { o.classList.add("is-dim"); }
+        var host = $(".opt__text", o) || o;
+        if (note.textContent) host.appendChild(note);
+      });
+      var allRight = wrong === 0 && missed === 0;
+      var detail = allRight ? "" : " You selected " + (right + wrong) + (right + wrong === 1 ? " option" : " options") + ": " +
+        right + " right" + (wrong ? ", " + wrong + " that " + (wrong === 1 ? "isn\u2019t" : "aren\u2019t") + " good practice" : "") +
+        (missed ? ", and missed " + missed : "") + ".";
+      feedback.className = "kc__feedback show " + (allRight ? "good" : "bad");
+      feedback.innerHTML = "<strong>" + (allRight ? "Correct" : "Not quite") + "</strong>" +
+        (allRight ? feedback.getAttribute("data-good") : feedback.getAttribute("data-bad")) + (detail ? "<br>" + detail : "");
+      check.disabled = true;
+      retry.classList.toggle("show", !allRight);
+      var chosen = opts.filter(isOn).map(letter).join(",");
+      state.answers[id] = { chosen: chosen, correct: allRight };
+      save();
+      if (!replay) {
+        if (!allRight) retry.focus({ preventScroll: true });
+        emit("knowledge_check.answer", { id: id, final: false, choice: chosen, correct: allRight });
+      }
+    }
+
+    opts.forEach(function (o) {
+      o.addEventListener("click", function () {
+        if (locked) return;
+        setOn(o, !isOn(o));
+        refreshCheck();
+      });
+    });
+    check.addEventListener("click", function () { if (!locked && opts.some(isOn)) mark(false); });
+    retry.addEventListener("click", function () {
+      locked = false;
+      opts.forEach(function (o) {
+        o.disabled = false; setOn(o, false);
+        o.classList.remove("is-correct", "is-wrong", "is-missed", "is-dim");
+        var n = $(".opt__note", o); if (n) n.parentNode.removeChild(n);
+      });
+      feedback.className = "kc__feedback";
+      retry.classList.remove("show");
+      refreshCheck();
+      delete state.answers[id];
+      save();
+      emit("knowledge_check.retry", { id: id, final: false });
+    });
+
+    var saved = state.answers[id];
+    if (saved && saved.chosen) {
+      var picked = saved.chosen.split(",");
+      opts.forEach(function (o) { setOn(o, picked.indexOf(letter(o)) > -1); });
+      mark(true);
+    }
+  });
+
   /* ---------- final quiz score ---------- */
   var quizAlreadyComplete = false;
   function updateFinalScore() {
@@ -320,7 +413,8 @@
      A token whose data-level matches no drop is a distractor: give the exercise
      a catch-all drop (e.g. data-accept="weak") for the learner to put it in.
      Optional data-perfect="…" on the wrapper replaces the default "perfect!"
-     message shown when every item is placed correctly.
+     message shown when every item is placed correctly. Optional data-feedback="…"
+     on the wrapper, with a [data-matchnote] element, shows a note after every check.
      ========================================================================== */
   $$("[data-match]").forEach(function (wrap) {
     var key = wrap.getAttribute("data-match") || "match";
@@ -367,6 +461,7 @@
       drops.forEach(function (d) { d.classList.remove("correct", "incorrect"); });
       $$(".drop__chip", wrap).forEach(function (c) { c.classList.remove("is-right", "is-wrong"); });
       scoreEl.textContent = "";
+      if (noteEl) noteEl.textContent = "";
     }
 
     tokens.forEach(function (t) {
@@ -411,6 +506,7 @@
     });
 
     var scoreEl = $("[data-matchscore]", wrap);
+    var noteEl = $("[data-matchnote]", wrap);       // optional: wrapper's data-feedback, shown after every check
 
     $("[data-check]", wrap).addEventListener("click", function () {
       var placed = tokens.filter(function (t) { return t.classList.contains("placed"); }).length;
@@ -435,6 +531,7 @@
       scoreEl.textContent = right + " / " + tokens.length + " correct" +
         (perfect ? " — " + (wrap.getAttribute("data-perfect") || "perfect!") : ". The ones marked in red are in the wrong place; select an item to move it.");
       C.announce(right + " of " + tokens.length + " placed correctly.");
+      if (noteEl) noteEl.textContent = wrap.getAttribute("data-feedback") || "";
       emit("interaction.complete", { id: key + "-match", score: right, total: tokens.length });
       if (perfect && window.Confetti) window.Confetti.burst(wrap);
     });
@@ -492,10 +589,12 @@
      ========================================================================== */
   $$("[data-accordion] .acc").forEach(function (acc, idx) {
     var head = $(".acc__head", acc);
+    // Keyed like the other widgets: data-accordion="KEY" emits "<KEY>-accordion" (empty = "reading").
+    var key = acc.closest("[data-accordion]").getAttribute("data-accordion") || "reading";
     head.addEventListener("click", function () {
       var open = acc.classList.toggle("open");
       head.setAttribute("aria-expanded", open ? "true" : "false");
-      if (open) emit("interaction.complete", { id: "reading-accordion", value: idx + 1 });
+      if (open) emit("interaction.complete", { id: key + "-accordion", value: idx + 1 });
     });
   });
 

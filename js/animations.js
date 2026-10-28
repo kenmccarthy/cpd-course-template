@@ -13,7 +13,8 @@
   /* Blocks that get a staggered entrance as they scroll into view. */
   var REVEAL_SELECTOR = [
     ".cover", ".statement", ".card", ".callout", ".figure", ".kc",
-    ".reflect", ".match", ".tabs", ".calc", ".accordion", ".deflist",
+    ".reflect", ".match", ".tabs", ".calc", ".accordion", ".deflist", ".compare",
+    ".flipgrid", ".matrix", ".echo", ".hotspots", ".mapper",
     ".complete", ".widget", ".lesson > h2"
   ].join(",");
 
